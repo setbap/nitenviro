@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:nitenviro/index.dart';
 import 'package:nitenviro/logic/new_request_cubit.dart';
-
-import 'package:nitenviro/pages/new_request/new_request.dart';
 import 'package:nitenviro/utils/utils.dart';
 
 void main() {
@@ -48,7 +47,7 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
-        home: const NewRequest(),
+        home: const Index(),
       ),
     );
   }
