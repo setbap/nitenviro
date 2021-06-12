@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 import 'package:nitenviro/utils/colors.dart';
@@ -33,12 +34,25 @@ class NEBottomNavigation extends StatelessWidget {
       onTap: onTap,
       items: const [
         BottomNavigationBarItem(
-            icon: Icon(Icons.notifications), label: 'tickets'),
-        BottomNavigationBarItem(icon: Icon(Icons.call), label: 'calendar'),
-        BottomNavigationBarItem(icon: Icon(Icons.add_circle_outline), label: 'home'),
+          icon: Icon(Icons.notifications),
+          label: 'tickets',
+        ),
         BottomNavigationBarItem(
-            icon: Icon(Icons.podcasts), label: 'microphone'),
-        BottomNavigationBarItem(icon: Icon(Icons.search), label: 'search')
+          icon: Icon(CupertinoIcons.arrow_3_trianglepath),
+          label: 'شناسایی پسماند بازیافتی',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.add_circle_outline),
+          label: 'اضافه کردن درخواست جدید',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.language),
+          label: 'آموزش',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(CupertinoIcons.profile_circled),
+          label: 'پروفایل',
+        )
       ],
     );
   }

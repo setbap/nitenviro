@@ -2,6 +2,7 @@ import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nitenviro/pages/new_request/new_request.dart';
+import 'package:nitenviro/pages/profile/profile.dart';
 import 'package:nitenviro/shared_widget/bottom_nav.dart';
 import 'package:nitenviro/utils/colors.dart';
 import 'package:tuple/tuple.dart';
@@ -44,7 +45,7 @@ class _IndexState extends State<Index> {
     ),
     Tuple2<String, Widget>(
       "Page 5",
-      Center(child: Text("page1")),
+      Profile(),
     ),
   ];
 
