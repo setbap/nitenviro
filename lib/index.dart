@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nitenviro/pages/new_request/new_request.dart';
 import 'package:nitenviro/pages/profile/profile.dart';
+import 'package:nitenviro/pages/recycle_finder/recycle_finder.dart';
 import 'package:nitenviro/shared_widget/bottom_nav.dart';
 import 'package:nitenviro/utils/colors.dart';
 import 'package:tuple/tuple.dart';
@@ -32,11 +33,11 @@ class _IndexState extends State<Index> {
       Center(child: Text("page1")),
     ),
     Tuple2<String, Widget>(
-      "Page 1",
-      Center(child: Text("page1")),
+      "شناسایی پسماند بازیافتی",
+      RecycleFinder(),
     ),
     Tuple2<String, Widget>(
-      "ثبت درخواست جمع آوری ",
+      "درخواست جمع آوری",
       NewRequest(),
     ),
     Tuple2<String, Widget>(
@@ -74,14 +75,23 @@ class _IndexState extends State<Index> {
             },
             child: Center(
               key: ValueKey(pageIndex),
-              child: Text(
-                pageList[pageIndex].item1,
-                style: Theme.of(context).textTheme.headline6!.copyWith(
-                      color: Colors.white,
-                    ),
+              child: FittedBox(
+                child: Text(
+                  pageList[pageIndex].item1,
+                  style: Theme.of(context).textTheme.headline6!.copyWith(
+                        color: Colors.white,
+                      ),
+                ),
               ),
             ),
           ),
+        ),
+        leading: IconButton(
+          onPressed: () {},
+          icon: const Icon(
+            Icons.settings,
+          ),
+          color: Colors.white,
         ),
       ),
       body: PageView.builder(

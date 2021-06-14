@@ -48,6 +48,10 @@ dependencies:
   freezed: ^0.14.2
   animations: ^2.0.0
 
+
+  public_nitenviro:
+    path: ./packages/public_nitenviro
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

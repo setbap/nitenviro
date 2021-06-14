@@ -16,7 +16,7 @@ class NEBottomNavigation extends StatelessWidget {
   Widget build(BuildContext context) {
     return SnakeNavigationBar.color(
       behaviour: SnakeBarBehaviour.floating,
-      backgroundColor: lightYellow.withOpacity(0.8),
+      backgroundColor: lightYellow.withOpacity(0.9),
       snakeViewColor: yellowDarken,
       selectedItemColor: Colors.white,
       unselectedItemColor: Colors.blueGrey,

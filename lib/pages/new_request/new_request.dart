@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:nitenviro/logic/new_request_cubit.dart';
+import 'package:nitenviro/logic/new_request_form/new_request_cubit.dart';
 import 'package:nitenviro/pages/new_request/widgets/home_item.dart';
 import 'package:nitenviro/pages/new_request/widgets/n_e_request_title.dart';
 import 'package:nitenviro/pages/new_request/widgets/reminder_time.dart';
