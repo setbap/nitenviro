@@ -44,7 +44,7 @@ class _IndexState extends State<Index> {
       Center(child: Text("page1")),
     ),
     Tuple2<String, Widget>(
-      "Page 5",
+      "پروفایل",
       Profile(),
     ),
   ];

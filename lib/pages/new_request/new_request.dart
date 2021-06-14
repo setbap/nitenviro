@@ -100,6 +100,7 @@ class _NewRequestState extends State<NewRequest>
             ),
             const SizedBox(height: 32),
             NESendButton(
+              title: "ثبت درخواست",
               onTap: () {
                 debugPrint(commentController.text);
                 commentController.text = "";

@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
         locale: const Locale("fa", "IR"),
         title: 'Flutter Demo',
         theme: ThemeData(
+          fontFamily: "vazir",
           primarySwatch: Colors.orange,
           inputDecorationTheme: InputDecorationTheme(
             contentPadding: const EdgeInsets.all(8),

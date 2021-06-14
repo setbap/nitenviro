@@ -21,7 +21,7 @@ class NEBottomNavigation extends StatelessWidget {
       selectedItemColor: Colors.white,
       unselectedItemColor: Colors.blueGrey,
       snakeShape: SnakeShape.rectangle,
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       shape: const BeveledRectangleBorder(
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(16),

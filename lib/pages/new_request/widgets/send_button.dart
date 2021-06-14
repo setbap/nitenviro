@@ -3,9 +3,11 @@ import 'package:nitenviro/utils/colors.dart';
 
 class NESendButton extends StatelessWidget {
   final VoidCallback onTap;
+  final String title;
   const NESendButton({
     Key? key,
     required this.onTap,
+    required this.title,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,7 @@ class NESendButton extends StatelessWidget {
           onTap: onTap,
           child: Center(
             child: Text(
-              "ثبت درخواست",
+              title,
               style: textTheme.headline6!.copyWith(color: Colors.white),
             ),
           ),
