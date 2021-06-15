@@ -1,0 +1,213 @@
+import 'package:animations/animations.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:nitenviro/pages/recycle_finder/widgets/widgets.dart';
+import 'package:nitenviro/utils/colors.dart';
+import 'package:public_nitenviro/public_nitenviro.dart';
+
+class RecycleDataShow extends StatefulWidget {
+  final List<RecyclableItems> data;
+  const RecycleDataShow({
+    Key? key,
+    required this.data,
+  }) : super(key: key);
+
+  @override
+  State<RecycleDataShow> createState() => _RecycleDataShowState();
+}
+
+class _RecycleDataShowState extends State<RecycleDataShow> {
+  @override
+  Widget build(BuildContext context) {
+    final data = widget.data;
+    return Container(
+      color: lightBorder,
+      child: CustomScrollView(
+        physics: const BouncingScrollPhysics(),
+        slivers: [
+          const SliverAppBar(
+            title: TextField(
+              decoration: InputDecoration(
+                suffixIcon: Icon(
+                  Icons.search,
+                ),
+              ),
+            ),
+            pinned: true,
+          ),
+          SliverToBoxAdapter(
+            child: SizedBox(
+              height: 96,
+              child: ListView.builder(
+                padding: const EdgeInsets.all(8),
+                physics: const BouncingScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(left: 8),
+                    child: Column(
+                      children: [
+                        Container(
+                          child: Center(
+                            child: Text(mapCategory.values.elementAt(index)),
+                          ),
+                          width: 56,
+                          decoration: BoxDecoration(
+                            color: Colors.amber,
+                            borderRadius: BorderRadius.circular(56),
+                          ),
+                          height: 56,
+                        )
+                      ],
+                    ),
+                  );
+                },
+                itemCount: mapCategory.length,
+                scrollDirection: Axis.horizontal,
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Container(
+              height: 40,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text("لیست پسماند ها"),
+                    const Text("تعداد 100 تا"),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                final item = data[index];
+                return OpenContainer(
+                    transitionType: ContainerTransitionType.fade,
+                    closedColor: Colors.transparent,
+                    openColor: lightBorder,
+                    closedElevation: 0,
+                    openBuilder: (context, action) {
+                      return OpenItemDetail(
+                        recyclableItems: item,
+                      );
+                    },
+                    closedBuilder: (context, action) {
+                      return Container(
+                        margin: const EdgeInsets.symmetric(
+                          vertical: 8,
+                          horizontal: 8,
+                        ),
+                        // padding:
+                        //     const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: recyclableColor(item.recyclable, 0.2),
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(
+                            16,
+                          ),
+                          color: lightBorder,
+                        ),
+                        child: Material(
+                          clipBehavior: Clip.antiAlias,
+                          color: Colors.white,
+                          elevation: 0,
+                          borderRadius: BorderRadius.circular(16),
+                          child: InkWell(
+                            onTap: () {
+                              action();
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 4,
+                                vertical: 8,
+                              ),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    width: 48,
+                                    height: 48,
+                                    clipBehavior: Clip.antiAlias,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(16),
+                                      color: mainYellow.withOpacity(0.1),
+                                    ),
+                                    child: Image.network(
+                                      "https://geonitenviro.nit.ac.ir/api" +
+                                          item.image[0].formats.thumbnail.url,
+                                    ),
+                                    margin: const EdgeInsets.all(8),
+                                  ),
+                                  const SizedBox(
+                                    width: 8,
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        FittedBox(
+                                          child: Text(
+                                            item.name,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1!
+                                                .copyWith(
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 6),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              mapCategory[item.category] ?? "",
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .caption!
+                                                  .copyWith(
+                                                    fontWeight: FontWeight.w300,
+                                                  ),
+                                            ),
+                                            CustomChip(
+                                              item: item.recyclable,
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 32,
+                                    child: Center(
+                                      child: Icon(
+                                        Icons.arrow_forward_ios_rounded,
+                                        size: 16,
+                                        color:
+                                            recyclableColor(item.recyclable, 1),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    });
+              },
+              childCount: data.length,
+            ),
+          ),
+          const SliverPadding(padding: EdgeInsets.all(40))
+        ],
+      ),
+    );
+  }
+}
