@@ -32,7 +32,8 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider<RecyclableDetectorCubit>(
             create: (context) => RecyclableDetectorCubit(
-                publicNitEnviroApi: context.read<PublicNitEnviroApi>()),
+              publicNitEnviroApi: context.read<PublicNitEnviroApi>()
+            )..getAllItems(),
           ),
         ],
         child: MaterialApp(

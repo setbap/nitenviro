@@ -70,12 +70,12 @@ class RecyclableItems {
   });
 
   factory RecyclableItems.fromJson(Map<String, dynamic> jsonRes) {
-    final List<Image>? image = jsonRes['Image'] is List ? <Image>[] : null;
+    final List<ApiImage>? image = jsonRes['Image'] is List ? <ApiImage>[] : null;
     if (image != null) {
       for (final dynamic item in jsonRes['Image']!) {
         if (item != null) {
           tryCatch(() {
-            image.add(Image.fromJson(asT<Map<String, dynamic>>(item)!));
+            image.add(ApiImage.fromJson(asT<Map<String, dynamic>>(item)!));
           });
         }
       }
@@ -110,7 +110,7 @@ class RecyclableItems {
   final double? carbonFootprint;
   final String? carbonFootprintUnit;
   final String? waterFootprintUnit;
-  final List<Image> image;
+  final List<ApiImage> image;
 
   @override
   String toString() {
@@ -138,8 +138,8 @@ class RecyclableItems {
       asT<Map<String, dynamic>>(jsonDecode(jsonEncode(this)))!);
 }
 
-class Image {
-  Image({
+class ApiImage {
+  ApiImage({
     required this.id,
     required this.name,
     required this.width,
@@ -150,7 +150,7 @@ class Image {
     this.previewUrl,
   });
 
-  factory Image.fromJson(Map<String, dynamic> jsonRes) => Image(
+  factory ApiImage.fromJson(Map<String, dynamic> jsonRes) => ApiImage(
         id: asT<int>(jsonRes['id'])!,
         name: asT<String>(jsonRes['name'])!,
         width: asT<int>(jsonRes['width'])!,
@@ -188,8 +188,8 @@ class Image {
         'previewUrl': previewUrl,
       };
 
-  Image clone() =>
-      Image.fromJson(asT<Map<String, dynamic>>(jsonDecode(jsonEncode(this)))!);
+  ApiImage clone() =>
+      ApiImage.fromJson(asT<Map<String, dynamic>>(jsonDecode(jsonEncode(this)))!);
 }
 
 class Formats {
