@@ -16,7 +16,6 @@ class RecyclableDetectorCubit
         );
 
   getAllItems() async {
-    print("start");
     emit(
       state.copyWith(
         isLoading: true,
@@ -25,12 +24,10 @@ class RecyclableDetectorCubit
       ),
     );
     _publicNitEnviroApi.getAllItems().then((value) {
-      print("downloaded");
       emit(state.copyWith(data: value));
     }).catchError((err) {
       emit(state.copyWith(isError: true, error: "new error"));
     }).whenComplete(() {
-      print("show");
       emit(state.copyWith(isLoading: false));
     });
   }

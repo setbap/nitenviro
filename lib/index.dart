@@ -56,7 +56,7 @@ class _IndexState extends State<Index> {
       appBar: AppBar(
         backgroundColor: yellowDarken,
         centerTitle: true,
-        elevation: 1,
+        elevation: 0,
         title: SizedBox(
           width: 200,
           height: 35,

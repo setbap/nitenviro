@@ -64,6 +64,14 @@ class OpenItemDetail extends StatelessWidget {
           ),
           SliverToBoxAdapter(
             child: RecycleItemInfo(
+              name: "نوع زباله",
+              value: recyclableItems.dry ? "زباله تر" : "زباله خشک",
+              unit: "",
+              borderColor: _recycleColor,
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: RecycleItemInfo(
               name: "رد پا آب",
               value: recyclableItems.waterFootprint,
               unit: recyclableItems.waterFootprintUnit,
@@ -90,7 +98,7 @@ class OpenItemDetail extends StatelessWidget {
                     isRecyclable(recyclableState)
                         ? const Text("موارد مصرف:")
                         : const Text("موارد امحا:"),
-                    ...((recyclableItems.useCases! + recyclableItems.useCases!)
+                    ...(recyclableItems.useCases!
                         .split("\n")
                         .where((element) => element.trim().isNotEmpty)
                         .map(
@@ -125,7 +133,7 @@ class OpenItemDetail extends StatelessWidget {
 
 class RecycleItemInfo extends StatelessWidget {
   final String name;
-  final double? value;
+  final Object? value;
   final String? unit;
   final Color borderColor;
   const RecycleItemInfo({
@@ -152,7 +160,9 @@ class RecycleItemInfo extends StatelessWidget {
           ),
           Text(
             "$value ${unit ?? ""}",
-            style: Theme.of(context).textTheme.subtitle1,
+            style: Theme.of(context).textTheme.subtitle1?.copyWith(
+                  fontWeight: FontWeight.w800,
+                ),
           ),
         ],
       ),
