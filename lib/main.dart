@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:nitenviro/index.dart';
 import 'package:nitenviro/logic/new_request_form/new_request_cubit.dart';
 import 'package:nitenviro/logic/recyclable_detector/recyclable_detector_cubit.dart';
+import 'package:nitenviro/logic/video_tutorial/video_tutorials_cubit.dart';
 import 'package:nitenviro/repo/public_enviro_repo.dart';
 import 'package:nitenviro/utils/utils.dart';
 import 'package:public_nitenviro/public_nitenviro.dart';
@@ -32,8 +33,14 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider<RecyclableDetectorCubit>(
             create: (context) => RecyclableDetectorCubit(
-              publicNitEnviroApi: context.read<PublicNitEnviroApi>()
-            )..getAllItems(),
+                publicNitEnviroApi: context.read<PublicNitEnviroApi>())
+              ..getAllItems(),
+            lazy: false,
+          ),
+          BlocProvider<VideoTutorialsCubit>(
+            create: (context) => VideoTutorialsCubit(
+              publicNitEnviroApi: context.read<PublicNitEnviroApi>(),
+            )..getAllTutorials(),
           ),
         ],
         child: MaterialApp(

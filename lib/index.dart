@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:nitenviro/pages/new_request/new_request.dart';
 import 'package:nitenviro/pages/profile/profile.dart';
 import 'package:nitenviro/pages/recycle_finder/recycle_finder.dart';
+import 'package:nitenviro/pages/tutorial/tutorials.dart';
 import 'package:nitenviro/shared_widget/bottom_nav.dart';
 import 'package:nitenviro/utils/colors.dart';
 import 'package:tuple/tuple.dart';
@@ -29,8 +30,8 @@ class _IndexState extends State<Index> {
 
   List<Tuple2<String, Widget>> pageList = const <Tuple2<String, Widget>>[
     Tuple2<String, Widget>(
-      "Page 1",
-      Center(child: Text("page1")),
+      "آموزش",
+      Tutorials(),
     ),
     Tuple2<String, Widget>(
       "شناسایی پسماند بازیافتی",

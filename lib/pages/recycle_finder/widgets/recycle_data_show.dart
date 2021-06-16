@@ -38,7 +38,7 @@ class _RecycleDataShowState extends State<RecycleDataShow> {
           SliverAppBar(
             centerTitle: true,
             title: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(4.0),
               child: TextField(
                 onChanged: (value) {
                   setState(() {
@@ -46,6 +46,8 @@ class _RecycleDataShowState extends State<RecycleDataShow> {
                   });
                 },
                 decoration: const InputDecoration(
+                  isDense: true,
+                  hintText: "نام پسماند خود را وارد کنید. (مثلا قوطی رب)",
                   suffixIcon: Icon(
                     Icons.search,
                   ),
@@ -76,15 +78,20 @@ class _RecycleDataShowState extends State<RecycleDataShow> {
                       padding: const EdgeInsets.only(left: 8),
                       child: Column(
                         children: [
-                          Container(
+                          AnimatedContainer(
+                            duration: const Duration(milliseconds: 200),
                             child: Center(
-                              child: Text(
-                                category.item1,
+                              child: FittedBox(
+                                child: Text(
+                                  category.item1,
+                                ),
                               ),
                             ),
-                            width: 56,
+
                             decoration: BoxDecoration(
-                              color: Colors.amber,
+                              color: category.item2
+                                  ? yellowDarken
+                                  : yellowDarken.withOpacity(0.3),
                               borderRadius: BorderRadius.circular(56),
                               border: Border.all(
                                 width: 3,
@@ -93,7 +100,8 @@ class _RecycleDataShowState extends State<RecycleDataShow> {
                                     : Colors.transparent,
                               ),
                             ),
-                            height: 56,
+                            width: 64,
+                            height: 64,
                           )
                         ],
                       ),
@@ -110,24 +118,40 @@ class _RecycleDataShowState extends State<RecycleDataShow> {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Wrap(
                 spacing: 8,
-                children: selectedCategories
-                    .map(
-                      (e) => Chip(
-                        label: Text(e.item1),
-                        deleteButtonTooltipMessage: "حذف ${e.item1}",
-                        deleteIconColor: Colors.red.withOpacity(0.5),
-                        visualDensity: VisualDensity.compact,
-                        onDeleted: () {
-                          categories[e.item3] = Tuple3(
-                            e.item1,
-                            !e.item2,
-                            e.item3,
-                          );
-                          setState(() {});
-                        },
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  Container(
+                    child: Text(
+                      "دسته های انتخاب شده:",
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  if (selectedCategories.isEmpty)
+                    Text(
+                      "شما هیج دسته ای را انتخاب نکردید",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
                       ),
-                    )
-                    .toList(),
+                    ),
+                  ...(selectedCategories
+                      .map(
+                        (e) => Chip(
+                          label: Text(e.item1),
+                          deleteButtonTooltipMessage: "حذف ${e.item1}",
+                          deleteIconColor: Colors.red.withOpacity(0.5),
+                          visualDensity: VisualDensity.compact,
+                          onDeleted: () {
+                            categories[e.item3] = Tuple3(
+                              e.item1,
+                              !e.item2,
+                              e.item3,
+                            );
+                            setState(() {});
+                          },
+                        ),
+                      )
+                      .toList())
+                ],
               ),
             ),
           ),
@@ -164,128 +188,137 @@ class _RecycleDataShowState extends State<RecycleDataShow> {
               (context, index) {
                 final item = data[index];
                 return OpenContainer(
-                    transitionType: ContainerTransitionType.fade,
-                    closedColor: Colors.transparent,
-                    openColor: lightBorder,
-                    closedElevation: 0,
-                    openBuilder: (context, action) {
-                      return OpenItemDetail(
-                        recyclableItems: item,
-                      );
-                    },
-                    closedBuilder: (context, action) {
-                      return Container(
-                        margin: const EdgeInsets.symmetric(
-                          vertical: 8,
-                          horizontal: 8,
-                        ),
-                        // padding:
-                        //     const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: recyclableColor(item.recyclable, 0.2),
-                            width: 2,
-                          ),
-                          borderRadius: BorderRadius.circular(
-                            16,
-                          ),
-                          color: lightBorder,
-                        ),
-                        child: Material(
-                          clipBehavior: Clip.antiAlias,
-                          color: Colors.white,
-                          elevation: 0,
-                          borderRadius: BorderRadius.circular(16),
-                          child: InkWell(
-                            onTap: () {
-                              action();
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 4,
-                                vertical: 8,
-                              ),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    width: 48,
-                                    height: 48,
-                                    clipBehavior: Clip.antiAlias,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(16),
-                                      color: mainYellow.withOpacity(0.1),
-                                    ),
-                                    child: Image.network(
-                                      "https://geonitenviro.nit.ac.ir/api" +
-                                          item.image[0].formats.thumbnail.url,
-                                    ),
-                                    margin: const EdgeInsets.all(8),
-                                  ),
-                                  const SizedBox(
-                                    width: 8,
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        FittedBox(
-                                          child: Text(
-                                            item.name,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1!
-                                                .copyWith(
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                          ),
-                                        ),
-                                        const SizedBox(width: 6),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              mapCategory[item.category]
-                                                      ?.item1 ??
-                                                  "",
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .caption!
-                                                  .copyWith(
-                                                    fontWeight: FontWeight.w300,
-                                                  ),
-                                            ),
-                                            CustomChip(
-                                              item: item.recyclable,
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 32,
-                                    child: Center(
-                                      child: Icon(
-                                        Icons.arrow_forward_ios_rounded,
-                                        size: 16,
-                                        color:
-                                            recyclableColor(item.recyclable, 1),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    });
+                  transitionType: ContainerTransitionType.fade,
+                  closedColor: Colors.transparent,
+                  openColor: lightBorder,
+                  closedElevation: 0,
+                  openBuilder: (context, action) {
+                    return OpenItemDetail(
+                      recyclableItems: item,
+                    );
+                  },
+                  closedBuilder: (context, action) {
+                    return CloseRecycleContainer(
+                      onPressed: action,
+                      recyclableItems: item,
+                    );
+                  },
+                );
               },
               childCount: data.length,
             ),
           ),
           const SliverPadding(padding: EdgeInsets.all(40))
         ],
+      ),
+    );
+  }
+}
+
+class CloseRecycleContainer extends StatelessWidget {
+  final VoidCallback onPressed;
+  final RecyclableItems recyclableItems;
+  const CloseRecycleContainer({
+    Key? key,
+    required this.onPressed,
+    required this.recyclableItems,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(
+        vertical: 8,
+        horizontal: 8,
+      ),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: recyclableColor(recyclableItems.recyclable, 0.2),
+          width: 2,
+        ),
+        borderRadius: BorderRadius.circular(
+          16,
+        ),
+        color: lightBorder,
+      ),
+      child: Material(
+        clipBehavior: Clip.antiAlias,
+        color: Colors.white,
+        elevation: 0,
+        borderRadius: BorderRadius.circular(16),
+        child: InkWell(
+          onTap: () {
+            onPressed();
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 4,
+              vertical: 8,
+            ),
+            child: Row(
+              children: [
+                Container(
+                  width: 48,
+                  height: 48,
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    color: mainYellow.withOpacity(0.1),
+                  ),
+                  child: Image.network(
+                    "https://geonitenviro.nit.ac.ir/api" +
+                        recyclableItems.image[0].formats.thumbnail.url,
+                  ),
+                  margin: const EdgeInsets.all(8),
+                ),
+                const SizedBox(
+                  width: 8,
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      FittedBox(
+                        child: Text(
+                          recyclableItems.name,
+                          style:
+                              Theme.of(context).textTheme.bodyText1!.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                      Row(
+                        children: [
+                          Text(
+                            mapCategory[recyclableItems.category]?.item1 ?? "",
+                            style:
+                                Theme.of(context).textTheme.caption!.copyWith(
+                                      fontWeight: FontWeight.w300,
+                                    ),
+                          ),
+                          CustomChip(
+                            item: recyclableItems.recyclable,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  width: 32,
+                  child: Center(
+                    child: Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      size: 16,
+                      color: recyclableColor(recyclableItems.recyclable, 1),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

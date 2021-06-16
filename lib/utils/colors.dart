@@ -10,3 +10,7 @@ const Color yellowSemiDarken = Color(0xFFFECC4B);
 const Color yellowDarken = Color(0xFFFFB800);
 
 
+const Color blueGradient = Color(0xFF3CDBFF);
+const Color greenGradient = Color(0xFF9CFF99);
+
+
