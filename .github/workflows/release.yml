@@ -1,4 +1,4 @@
-name: conic release action
+name: nitenviro release action
 
 on:
   push:
