@@ -36,6 +36,7 @@ class _RecycleDataShowState extends State<RecycleDataShow> {
         physics: const BouncingScrollPhysics(),
         slivers: [
           SliverAppBar(
+            automaticallyImplyLeading: false,
             centerTitle: true,
             title: Padding(
               padding: const EdgeInsets.all(4.0),
