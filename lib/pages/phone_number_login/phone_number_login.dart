@@ -2,10 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:nitenviro/pages/phone_number_validate_login/phone_number_validate_login.dart';
 import 'package:nitenviro/shared_widget/background_circle_painter.dart';
 import 'package:nitenviro/utils/colors.dart';
 
 class LoginPhoneNumber extends StatefulWidget {
+  static const String path="/auth";
   const LoginPhoneNumber({Key? key}) : super(key: key);
 
   @override
@@ -24,6 +26,7 @@ class _LoginPhoneNumberState extends State<LoginPhoneNumber> {
     _formKey.currentState?.save();
     if (_formKey.currentState?.validate() ?? false) {
       debugPrint(phoneNumber);
+      Navigator.pushNamed(context, LoginPhoneNumberValidate.path);
     } else {
       debugPrint("phoneNumber");
     }
@@ -140,29 +143,29 @@ class _LoginPhoneNumberState extends State<LoginPhoneNumber> {
               ],
             ),
           ),
-          persistentFooterButtons: [
-            Center(
-              child: Text.rich(
-                TextSpan(
-                  text: 'حساب ندارید؟  ',
-                  style: const TextStyle(fontSize: 18),
-                  children: <TextSpan>[
-                    TextSpan(
-                        text: 'ایجاد حساب',
-                        style: const TextStyle(
-                          decoration: TextDecoration.underline,
-                          color: Colors.lightBlue,
-                        ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            // TODO: go ijad hesab
-                          }),
-                    // can add more TextSpans here...
-                  ],
-                ),
-              ),
-            ),
-          ],
+          // persistentFooterButtons: [
+          //   Center(
+          //     child: Text.rich(
+          //       TextSpan(
+          //         text: 'حساب ندارید؟  ',
+          //         style: const TextStyle(fontSize: 18),
+          //         children: <TextSpan>[
+          //           TextSpan(
+          //               text: 'ایجاد حساب',
+          //               style: const TextStyle(
+          //                 decoration: TextDecoration.underline,
+          //                 color: Colors.lightBlue,
+          //               ),
+          //               recognizer: TapGestureRecognizer()
+          //                 ..onTap = () {
+          //                   // TODO: go ijad hesab
+          //                 }),
+          //           // can add more TextSpans here...
+          //         ],
+          //       ),
+          //     ),
+          //   ),
+          // ],
         ),
       ),
     );

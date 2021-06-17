@@ -5,6 +5,9 @@ import 'package:nitenviro/index.dart';
 import 'package:nitenviro/logic/new_request_form/new_request_cubit.dart';
 import 'package:nitenviro/logic/recyclable_detector/recyclable_detector_cubit.dart';
 import 'package:nitenviro/logic/video_tutorial/video_tutorials_cubit.dart';
+import 'package:nitenviro/pages/intro.dart';
+import 'package:nitenviro/pages/phone_number_login/phone_number_login.dart';
+import 'package:nitenviro/pages/phone_number_validate_login/phone_number_validate_login.dart';
 import 'package:nitenviro/repo/public_enviro_repo.dart';
 import 'package:nitenviro/utils/utils.dart';
 import 'package:public_nitenviro/public_nitenviro.dart';
@@ -53,7 +56,7 @@ class MyApp extends StatelessWidget {
             Locale("fa", "IR"),
           ],
           locale: const Locale("fa", "IR"),
-          title: 'Flutter Demo',
+          title: 'Nit Enviro',
           theme: ThemeData(
             fontFamily: "vazir",
             primarySwatch: Colors.orange,
@@ -71,6 +74,27 @@ class MyApp extends StatelessWidget {
               ),
             ),
           ),
+          initialRoute: IntroPage.path,
+          onGenerateRoute: (settings) {
+            switch (settings.name) {
+              case Index.path:
+                return MaterialPageRoute(
+                  builder: (context) => Index(),
+                );
+              case LoginPhoneNumber.path:
+                return MaterialPageRoute(
+                  builder: (context) => LoginPhoneNumber(),
+                );
+              case LoginPhoneNumberValidate.path:
+                return MaterialPageRoute(
+                  builder: (context) => LoginPhoneNumberValidate(),
+                );
+              case IntroPage.path:
+                return MaterialPageRoute(
+                  builder: (context) => IntroPage(),
+                );
+            }
+          },
           home: const Index(),
         ),
       ),

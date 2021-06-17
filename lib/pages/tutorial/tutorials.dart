@@ -6,6 +6,8 @@ import 'package:nitenviro/logic/generic_api_state.dart';
 import 'package:nitenviro/logic/video_tutorial/video_tutorials_cubit.dart';
 import 'package:nitenviro/repo/public_enviro_repo.dart';
 import 'package:nitenviro/utils/colors.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class Tutorials extends StatelessWidget {
   const Tutorials({Key? key}) : super(key: key);
@@ -172,6 +174,9 @@ class OpenTutorialInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String html = '''
+   <div class="aspect-w-16 aspect-h-9  rounded-lg shadow-lg"><iframe src="" class="rounded-lg" allowfullscreen="true"></iframe></div>
+     ''';
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -181,6 +186,33 @@ class OpenTutorialInfo extends StatelessWidget {
               ),
         ),
         backgroundColor: yellowDarken,
+      ),
+      body: ListView(
+        children: [
+          AspectRatio(
+            aspectRatio: 16 / 9,
+            child: WebView(
+              key: ValueKey(tutorialItem.name),
+              initialUrl: tutorialItem.videoLink,
+              allowsInlineMediaPlayback: true,
+              initialMediaPlaybackPolicy: AutoMediaPlaybackPolicy.always_allow,
+              javascriptMode: JavascriptMode.unrestricted,
+            ),
+          ),
+          SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              tutorialItem.name,
+              style: Theme.of(context).textTheme.headline6,
+            ),
+          ),
+          SizedBox(height: 16),
+          Text(
+            tutorialItem.description,
+            style: Theme.of(context).textTheme.subtitle2,
+          ),
+        ],
       ),
     );
   }

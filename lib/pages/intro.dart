@@ -3,8 +3,10 @@ import 'dart:math';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:nitenviro/pages/phone_number_login/phone_number_login.dart';
 
 class IntroPage extends StatefulWidget {
+  static const String path="/intro";
   const IntroPage({Key? key}) : super(key: key);
 
   @override
@@ -38,14 +40,14 @@ List<IntroPageData> intropageData = [
     backgroundColor: Colors.white,
     fillColor: const Color(0xFFFFD300),
     textColor: Colors.black,
-    text: "Make Better World ",
+    text: "ساختن جهانی بهتر",
     path: "assets/2.png",
   ),
   IntroPageData(
     backgroundColor: const Color(0xFFFBF4D2),
     fillColor: const Color(0xFFFFD300),
     textColor: Colors.white,
-    text: "For The Future",
+    text: "برای آینده",
     path: "assets/3.png",
   ),
 ];
@@ -167,17 +169,14 @@ class _IntroPageState extends State<IntroPage>
                   const Spacer(flex: 70),
                   GestureDetector(
                     onTap: () {
-                      // if (currentIndex == intropageData.length - 1) {
-                      //   Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute<void>(
-                      //       builder: (BuildContext context) =>
-                      //           const SecondPage(),
-                      //     ),
-                      //   );
-                      // } else {
+                      if (currentIndex == intropageData.length - 1) {
+                        Navigator.pushReplacementNamed(
+                          context,
+                          LoginPhoneNumber.path
+                        );
+                      } else {
                       _animationController.forward(from: 0.0);
-                      // }
+                      }
                     },
                     child: Container(
                       color: Colors.amber.withOpacity(0),

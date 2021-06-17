@@ -14,7 +14,7 @@ class PublicNitEnviroApi {
   Future<List<TutorialItem>> getAllTutorials() async {
     final items = await _nitenviroClient.items();
     final tuts = items.map((e) => TutorialItem(
-          name: "آموزش بازیافت" + e.name,
+          name: "آموزش بازیافت " + e.name,
           image: e.image[0].url,
           videoLink:
               "https://www.aparat.com/video/video/embed/videohash/BtvlS/vt/frame",

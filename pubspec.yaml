@@ -47,6 +47,7 @@ dependencies:
   flutter_snake_navigationbar: ^0.5.0
   freezed: ^0.14.2
   animations: ^2.0.0
+  flutter_html: ^2.1.0
 
 
   public_nitenviro:

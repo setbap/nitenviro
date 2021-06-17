@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:nitenviro/index.dart';
 
 import 'package:pinput/pin_put/pin_put.dart';
 import 'package:nitenviro/shared_widget/background_circle_painter.dart';
 import 'package:nitenviro/utils/colors.dart';
 
 class LoginPhoneNumberValidate extends StatefulWidget {
+  static const String path = "/login";
   const LoginPhoneNumberValidate({Key? key}) : super(key: key);
 
   @override
@@ -31,6 +33,7 @@ class _LoginPhoneNumberStateValidate extends State<LoginPhoneNumberValidate> {
     _formKey.currentState?.save();
     if (_formKey.currentState?.validate() ?? false) {
       debugPrint(phoneNumber);
+      Navigator.pushNamedAndRemoveUntil(context, Index.path, (route) => true);
     } else {
       debugPrint("phoneNumber");
     }
@@ -108,8 +111,11 @@ class _LoginPhoneNumberStateValidate extends State<LoginPhoneNumberValidate> {
                               eachFieldWidth: 50,
                               eachFieldHeight: 50,
                               fieldsCount: 5,
-                              onSubmit: (String pin) =>
-                                  _showSnackBar(pin, context),
+                              onSubmit: (String pin) {
+                                Navigator.pushNamedAndRemoveUntil(
+                                    context, Index.path, (route) => true);
+                                _showSnackBar(pin, context);
+                              },
                               focusNode: _pinPutFocusNode,
                               controller: _pinPutController,
                               inputDecoration: const InputDecoration(
@@ -175,11 +181,13 @@ class _LoginPhoneNumberStateValidate extends State<LoginPhoneNumberValidate> {
     final snackBar = SnackBar(
       duration: const Duration(seconds: 3),
       content: SizedBox(
-        height: 80.0,
+        height: 40.0,
         child: Center(
           child: Text(
-            'Pin Submitted. Value: $pin',
-            style: const TextStyle(fontSize: 25.0),
+            'با موفقیت وارد شدید.',
+            style: const TextStyle(
+              fontSize: 22,
+            ),
           ),
         ),
       ),

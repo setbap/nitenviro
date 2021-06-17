@@ -10,6 +10,7 @@ import 'package:nitenviro/utils/colors.dart';
 import 'package:tuple/tuple.dart';
 
 class Index extends StatefulWidget {
+  static const String path="/index";
   const Index({Key? key}) : super(key: key);
 
   @override
