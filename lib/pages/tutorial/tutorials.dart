@@ -6,7 +6,6 @@ import 'package:nitenviro/logic/generic_api_state.dart';
 import 'package:nitenviro/logic/video_tutorial/video_tutorials_cubit.dart';
 import 'package:nitenviro/repo/public_enviro_repo.dart';
 import 'package:nitenviro/utils/colors.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class Tutorials extends StatelessWidget {
