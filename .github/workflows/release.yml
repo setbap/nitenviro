@@ -1,4 +1,4 @@
-name: Demo Conic Release
+name: conic release action
 
 on:
   push:
