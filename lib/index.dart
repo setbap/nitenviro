@@ -1,6 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:nitenviro/pages/add_building/add_building.dart';
 import 'package:nitenviro/pages/new_request/new_request.dart';
 import 'package:nitenviro/pages/profile/profile.dart';
 import 'package:nitenviro/pages/recycle_finder/recycle_finder.dart';
@@ -10,7 +11,7 @@ import 'package:nitenviro/utils/colors.dart';
 import 'package:tuple/tuple.dart';
 
 class Index extends StatefulWidget {
-  static const String path="/index";
+  static const String path = "/index";
   const Index({Key? key}) : super(key: key);
 
   @override
@@ -44,7 +45,7 @@ class _IndexState extends State<Index> {
     ),
     Tuple2<String, Widget>(
       "Page 4",
-      Center(child: Text("page1")),
+      AddLocation(),
     ),
     Tuple2<String, Widget>(
       "پروفایل",

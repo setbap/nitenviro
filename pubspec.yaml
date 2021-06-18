@@ -48,6 +48,8 @@ dependencies:
   freezed: ^0.14.2
   animations: ^2.0.0
   webview_flutter: ^2.0.8
+  location: ^4.3.0
+  flutter_map_location_marker:
 
   public_nitenviro:
     path: ./packages/public_nitenviro

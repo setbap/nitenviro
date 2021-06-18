@@ -173,9 +173,6 @@ class OpenTutorialInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String html = '''
-   <div class="aspect-w-16 aspect-h-9  rounded-lg shadow-lg"><iframe src="" class="rounded-lg" allowfullscreen="true"></iframe></div>
-     ''';
     return Scaffold(
       appBar: AppBar(
         title: Text(

@@ -23,7 +23,7 @@ class GenericApiState<T> {
     return GenericApiState<T>(
       data: data ?? this.data,
       isLoading: isLoading ?? this.isLoading,
-      isError: isError ?? this.isError,
+      isError: (isError ?? this.isError) || (error ?? this.error).isNotEmpty,
       error: error ?? this.error,
     );
   }
@@ -42,9 +42,9 @@ class GenericApiState<T> {
   @override
   int get hashCode {
     return data.hashCode ^
-    isLoading.hashCode ^
-    isError.hashCode ^
-    error.hashCode;
+        isLoading.hashCode ^
+        isError.hashCode ^
+        error.hashCode;
   }
 
   @override

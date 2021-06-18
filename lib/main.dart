@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:location/location.dart';
 import 'package:nitenviro/index.dart';
+import 'package:nitenviro/logic/location/location_request_cubit.dart';
 import 'package:nitenviro/logic/new_request_form/new_request_cubit.dart';
 import 'package:nitenviro/logic/recyclable_detector/recyclable_detector_cubit.dart';
 import 'package:nitenviro/logic/video_tutorial/video_tutorials_cubit.dart';
-import 'package:nitenviro/pages/intro.dart';
+import 'package:nitenviro/pages/intro/intro.dart';
 import 'package:nitenviro/pages/phone_number_login/phone_number_login.dart';
 import 'package:nitenviro/pages/phone_number_validate_login/phone_number_validate_login.dart';
 import 'package:nitenviro/repo/public_enviro_repo.dart';
@@ -45,6 +47,11 @@ class MyApp extends StatelessWidget {
               publicNitEnviroApi: context.read<PublicNitEnviroApi>(),
             )..getAllTutorials(),
           ),
+          BlocProvider<LocationRequestCubit>(
+            create: (context) => LocationRequestCubit(
+              location: Location(),
+            ),
+          ),
         ],
         child: MaterialApp(
           localizationsDelegates: const [
@@ -52,12 +59,15 @@ class MyApp extends StatelessWidget {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
+
           supportedLocales: const [
+            Locale("en", "US"),
             Locale("fa", "IR"),
           ],
           locale: const Locale("fa", "IR"),
           title: 'Nit Enviro',
           theme: ThemeData(
+            visualDensity: VisualDensity.adaptivePlatformDensity,
             fontFamily: "vazir",
             primarySwatch: Colors.orange,
             inputDecorationTheme: InputDecorationTheme(
@@ -74,7 +84,7 @@ class MyApp extends StatelessWidget {
               ),
             ),
           ),
-          initialRoute: IntroPage.path,
+          initialRoute: Index.path,
           onGenerateRoute: (settings) {
             switch (settings.name) {
               case Index.path:
