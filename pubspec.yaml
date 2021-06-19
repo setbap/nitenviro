@@ -50,6 +50,8 @@ dependencies:
   webview_flutter: ^2.0.8
   location: ^4.3.0
   flutter_map_location_marker:
+  mask_text_input_formatter: ^2.0.0
+  time_range_picker: ^2.0.1
 
   public_nitenviro:
     path: ./packages/public_nitenviro
@@ -81,7 +83,6 @@ flutter:
   assets:
     - assets/
 
-
   fonts:
     - family: vazir
       fonts:
@@ -108,7 +109,6 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-
 
   #   - family: Trajan Pro
   #     fonts:

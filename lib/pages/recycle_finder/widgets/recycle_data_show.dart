@@ -88,7 +88,6 @@ class _RecycleDataShowState extends State<RecycleDataShow> {
                                 ),
                               ),
                             ),
-
                             decoration: BoxDecoration(
                               color: category.item2
                                   ? yellowDarken
@@ -158,7 +157,6 @@ class _RecycleDataShowState extends State<RecycleDataShow> {
           ),
           SliverToBoxAdapter(
             child: SizedBox(
-              height: 40,
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 12, horizontal: 16),

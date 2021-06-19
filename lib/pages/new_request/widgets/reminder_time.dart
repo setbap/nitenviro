@@ -5,21 +5,15 @@ typedef FnWithOneParam<T> = void Function(T value);
 
 class NEReminderTime extends StatefulWidget {
   final FnWithOneParam<int> fnWithOneParam;
+  final List<Tuple2<String, int>> data;
   const NEReminderTime({
     Key? key,
     required this.fnWithOneParam,
+    required this.data,
   }) : super(key: key);
 
-  final data = const [
-    Tuple2<String, int>("روزانه", 0),
-    Tuple2<String, int>("نیم ساعت قبل", 1),
-    Tuple2<String, int>("یک ساعت قبل", 2),
-    Tuple2<String, int>("دو ساعت قبل", 3),
-    Tuple2<String, int>("هفتگی", 4),
-  ];
-
   Tuple2<String, int> getReminder(int number) {
-    return data[number % 5];
+    return data[number % data.length];
   }
 
   @override
@@ -117,7 +111,7 @@ class _NESelectListState extends State<NESelectList> {
             ),
             child: Center(
               child: Text(
-                "زمان یادآوری",
+                "زمان جمع آوری",
                 style: textTheme.subtitle1!.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -149,7 +143,7 @@ class _NESelectListState extends State<NESelectList> {
                 );
               },
               padding: const EdgeInsets.all(0),
-              itemCount: 5,
+              itemCount: widget.data.length,
             ),
           ),
           Container(

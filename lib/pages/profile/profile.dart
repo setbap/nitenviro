@@ -193,7 +193,7 @@ class ProfileRequestBar extends StatelessWidget {
                 8,
               ),
               child: Text(
-                "درخواست تصویه",
+                "درخواست تسویه",
                 style: Theme.of(context).textTheme.bodyText1!.copyWith(
                       color: yellowSemiDarken,
                     ),

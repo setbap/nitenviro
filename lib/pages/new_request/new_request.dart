@@ -11,6 +11,7 @@ import 'package:nitenviro/pages/new_request/widgets/spectial_request.dart';
 import 'package:nitenviro/pages/new_request/widgets/text_field.dart';
 import 'package:nitenviro/pages/new_request/widgets/tim_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nitenviro/utils/utils.dart';
 
 class NewRequest extends StatefulWidget {
   const NewRequest({Key? key}) : super(key: key);
@@ -82,6 +83,7 @@ class _NewRequestState extends State<NewRequest>
               title: "یادآوری",
             ),
             NEReminderTime(
+              data: weekDataTuple,
               fnWithOneParam: (int value) {
                 requestCubit.changeReminer(value);
                 FocusScope.of(context).unfocus();
