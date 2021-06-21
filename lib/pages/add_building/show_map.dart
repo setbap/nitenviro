@@ -12,10 +12,12 @@ typedef OneItemCallBack = void Function(LatLng latLng);
 
 class ShowMap extends StatefulWidget {
   final OneItemCallBack oneItemCallBack;
+  final LatLng? latLng;
 
   const ShowMap({
     Key? key,
     required this.oneItemCallBack,
+    this.latLng,
   }) : super(key: key);
 
   @override
@@ -23,6 +25,7 @@ class ShowMap extends StatefulWidget {
 }
 
 class _ShowMapState extends State<ShowMap> {
+  late final LatLng latLng;
   late CenterOnLocationUpdate _centerOnLocationUpdate;
   late StreamController<double> _centerCurrentLocationStreamController;
   final MapController _controller = MapController();
@@ -30,12 +33,14 @@ class _ShowMapState extends State<ShowMap> {
   @override
   void initState() {
     super.initState();
+    latLng = widget.latLng ?? LatLng(36.56, 52.68);
     _centerOnLocationUpdate = CenterOnLocationUpdate.never;
     _centerCurrentLocationStreamController = StreamController<double>();
   }
 
   @override
   void dispose() {
+    _centerOnLocationUpdate = CenterOnLocationUpdate.never;
     _centerCurrentLocationStreamController.close();
     super.dispose();
   }
@@ -54,8 +59,10 @@ class _ShowMapState extends State<ShowMap> {
               },
               child: Text(
                 "ثبت موقعیت",
-                style: textTheme.subtitle1!
-                    .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+                style: textTheme.subtitle1!.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ))
         ],
         iconTheme: IconTheme.of(context).copyWith(
@@ -74,7 +81,7 @@ class _ShowMapState extends State<ShowMap> {
           FlutterMap(
             mapController: _controller,
             options: MapOptions(
-              center: LatLng(36.56, 52.68),
+              center: latLng,
               zoom: 13,
               maxZoom: 19,
               // Stop centering the location marker on the map if user interacted with the map.
@@ -110,7 +117,7 @@ class _ShowMapState extends State<ShowMap> {
             child: Padding(
               padding: const EdgeInsets.only(bottom: 48, left: 0),
               child: Icon(
-                Icons.add_location,
+                Icons.location_on_outlined,
                 size: 48,
                 color: Colors.redAccent,
               ),

@@ -44,7 +44,7 @@ class _IndexState extends State<Index> {
       NewRequest(),
     ),
     Tuple2<String, Widget>(
-      "Page 4",
+      "مدیریت ساختمان ها",
       AddLocation(),
     ),
     Tuple2<String, Widget>(
