@@ -91,7 +91,7 @@ class MyApp extends StatelessWidget {
               ),
             ),
           ),
-          initialRoute: Settings.path,
+          initialRoute: Index.path,
           onGenerateRoute: (settings) {
             switch (settings.name) {
               case Index.path:
