@@ -536,10 +536,12 @@ class NEFormTextInput extends StatelessWidget {
   final int? maxLines;
   final bool isReadOnly;
   final bool showClearButton;
+  final IconData? iconData;
 
   const NEFormTextInput({
     Key? key,
     this.textEditingController,
+     this.iconData,
     required this.textInputFormatter,
     required this.validator,
     required this.label,
@@ -576,6 +578,7 @@ class NEFormTextInput extends StatelessWidget {
             decoration: InputDecoration(
               labelText: label,
               hintText: hint,
+              prefixIcon: iconData==null?null:Icon(iconData),
               filled: true,
               fillColor: lightBorder,
               border: const UnderlineInputBorder(

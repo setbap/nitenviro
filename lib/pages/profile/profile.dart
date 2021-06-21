@@ -44,11 +44,13 @@ class Profile extends StatelessWidget {
           ),
           CircleAvatar(
             maxRadius: 60,
-            backgroundColor: yellowDarken,
+            backgroundColor: Colors.transparent,
             child: Image.network(
               "https://pfpmaker.com/_nuxt/img/profile-3-1.3e702c5.png",
               errorBuilder: (context, error, stackTrace) => const Icon(
-                Icons.account_circle_outlined,
+                Icons.account_circle,
+                size: 120,
+                color: yellowDarken,
               ),
             ),
           ),
@@ -59,7 +61,7 @@ class Profile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                "تقی تاکسی پور",
+                "سینا ابراهیمی",
                 style: Theme.of(context).textTheme.headline4!.copyWith(
                       fontWeight: FontWeight.bold,
                     ),

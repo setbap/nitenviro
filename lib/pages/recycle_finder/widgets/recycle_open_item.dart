@@ -65,7 +65,7 @@ class OpenItemDetail extends StatelessWidget {
           SliverToBoxAdapter(
             child: RecycleItemInfo(
               name: "نوع زباله",
-              value: recyclableItems.dry ? "زباله تر" : "زباله خشک",
+              value: !recyclableItems.dry ? "زباله تر" : "زباله خشک",
               unit: "",
               borderColor: _recycleColor,
             ),

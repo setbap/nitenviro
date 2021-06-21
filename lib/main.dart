@@ -10,6 +10,7 @@ import 'package:nitenviro/logic/video_tutorial/video_tutorials_cubit.dart';
 import 'package:nitenviro/pages/intro/intro.dart';
 import 'package:nitenviro/pages/phone_number_login/phone_number_login.dart';
 import 'package:nitenviro/pages/phone_number_validate_login/phone_number_validate_login.dart';
+import 'package:nitenviro/pages/settings/settings.dart';
 import 'package:nitenviro/repo/public_enviro_repo.dart';
 import 'package:nitenviro/utils/utils.dart';
 import 'package:public_nitenviro/public_nitenviro.dart';
@@ -67,6 +68,12 @@ class MyApp extends StatelessWidget {
           locale: const Locale("fa", "IR"),
           title: 'Nit Enviro',
           theme: ThemeData(
+            appBarTheme: AppBarTheme.of(context).copyWith(
+                color: yellowDarken,
+                titleTextStyle: Theme.of(context).textTheme.headline6!.copyWith(
+                      color: Colors.white,
+                    ),
+                iconTheme: IconTheme.of(context).copyWith(color: Colors.white)),
             visualDensity: VisualDensity.adaptivePlatformDensity,
             fontFamily: "vazir",
             primarySwatch: Colors.orange,
@@ -84,12 +91,16 @@ class MyApp extends StatelessWidget {
               ),
             ),
           ),
-          initialRoute: Index.path,
+          initialRoute: Settings.path,
           onGenerateRoute: (settings) {
             switch (settings.name) {
               case Index.path:
                 return MaterialPageRoute(
                   builder: (context) => Index(),
+                );
+              case Settings.path:
+                return MaterialPageRoute(
+                  builder: (context) => Settings(),
                 );
               case LoginPhoneNumber.path:
                 return MaterialPageRoute(
@@ -105,7 +116,7 @@ class MyApp extends StatelessWidget {
                 );
             }
           },
-          home: const Index(),
+          // home: const Index(),
         ),
       ),
     );

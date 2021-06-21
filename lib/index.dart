@@ -5,6 +5,7 @@ import 'package:nitenviro/pages/add_building/add_building.dart';
 import 'package:nitenviro/pages/new_request/new_request.dart';
 import 'package:nitenviro/pages/profile/profile.dart';
 import 'package:nitenviro/pages/recycle_finder/recycle_finder.dart';
+import 'package:nitenviro/pages/settings/settings.dart';
 import 'package:nitenviro/pages/tutorial/tutorials.dart';
 import 'package:nitenviro/shared_widget/bottom_nav.dart';
 import 'package:nitenviro/utils/colors.dart';
@@ -89,13 +90,18 @@ class _IndexState extends State<Index> {
             ),
           ),
         ),
-        leading: IconButton(
-          onPressed: () {},
-          icon: const Icon(
-            Icons.settings,
+        leading: Container(),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, Settings.path);
+            },
+            icon: const Icon(
+              Icons.settings,
+            ),
+            color: Colors.white,
           ),
-          color: Colors.white,
-        ),
+        ],
       ),
       body: PageView.builder(
         itemBuilder: (context, index) => pageList[index].item2,

@@ -33,7 +33,7 @@ class _LoginPhoneNumberStateValidate extends State<LoginPhoneNumberValidate> {
     _formKey.currentState?.save();
     if (_formKey.currentState?.validate() ?? false) {
       debugPrint(phoneNumber);
-      Navigator.pushNamedAndRemoveUntil(context, Index.path, (route) => true);
+      Navigator.pushNamedAndRemoveUntil(context, Index.path, (route) => false);
     } else {
       debugPrint("phoneNumber");
     }
