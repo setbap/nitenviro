@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nitenviro/logic/generic_api_state.dart';
 import 'package:nitenviro/logic/video_tutorial/video_tutorials_cubit.dart';
+import 'package:nitenviro/pages/recycle_finder/widgets/recycle_open_item.dart';
+import 'package:nitenviro/pages/tutorial/custom_video_player.dart';
 import 'package:nitenviro/repo/public_enviro_repo.dart';
 import 'package:nitenviro/utils/utils.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+
 
 class Tutorials extends StatelessWidget {
   const Tutorials({Key? key}) : super(key: key);
@@ -117,7 +119,7 @@ class TutorialsDataShow extends StatelessWidget {
                         children: [
                           Expanded(
                             child: Container(
-                              width:double.infinity,
+                              width: double.infinity,
                               margin: EdgeInsets.all(8),
                               clipBehavior: Clip.antiAlias,
                               decoration: BoxDecoration(
@@ -173,6 +175,7 @@ class TutorialsDataShow extends StatelessWidget {
 
 class OpenTutorialInfo extends StatelessWidget {
   final TutorialItem tutorialItem;
+
   const OpenTutorialInfo({
     Key? key,
     required this.tutorialItem,
@@ -192,28 +195,39 @@ class OpenTutorialInfo extends StatelessWidget {
       ),
       body: ListView(
         children: [
-          AspectRatio(
-            aspectRatio: 16 / 9,
-            child: WebView(
-              key: ValueKey(tutorialItem.name),
-              initialUrl: tutorialItem.videoLink,
-              allowsInlineMediaPlayback: true,
-              initialMediaPlaybackPolicy: AutoMediaPlaybackPolicy.always_allow,
-              javascriptMode: JavascriptMode.unrestricted,
+          Directionality(
+            textDirection: TextDirection.ltr,
+            child: Builder(
+              builder: (context) {
+                return AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: NEVideoPlayer(
+                    videoUrl:
+                        "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4",
+                    placeholderVideoImageUrl:
+                        "https://geonitenviro.nit.ac.ir/api/" +
+                            tutorialItem.image,
+
+                  ),
+                );
+              },
             ),
           ),
           SizedBox(height: 16),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
+          InfoItemContainer(
+            borderColor: darkGreen.withOpacity(0.2),
             child: Text(
               tutorialItem.name,
               style: Theme.of(context).textTheme.headline6,
             ),
           ),
-          SizedBox(height: 16),
-          Text(
-            tutorialItem.description,
-            style: Theme.of(context).textTheme.subtitle2,
+
+          InfoItemContainer(
+            borderColor: darkGreen.withOpacity(0.2),
+            child: Text(
+              tutorialItem.description,
+              style: Theme.of(context).textTheme.bodyText2,
+            ),
           ),
         ],
       ),

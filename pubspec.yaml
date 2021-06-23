@@ -54,6 +54,7 @@ dependencies:
   time_range_picker: ^2.0.1
   image_cropper: ^1.4.1
   cached_network_image: ^3.0.0
+  better_player: ^0.0.70
 
   public_nitenviro:
     path: ./packages/public_nitenviro
