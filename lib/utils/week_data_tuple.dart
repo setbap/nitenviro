@@ -1,6 +1,6 @@
 import 'package:tuple/tuple.dart';
 
-const weekDataTuple = const [
+const weekDataTuple = [
   Tuple2<String, int>(
     "شنبه",
     0,

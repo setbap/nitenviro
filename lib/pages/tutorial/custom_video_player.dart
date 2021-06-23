@@ -24,7 +24,7 @@ class _NEVideoPlayerState extends State<NEVideoPlayer> {
     super.initState();
     _betterPlayerConfiguration = BetterPlayerConfiguration(
       aspectRatio: 16 / 9,
-      controlsConfiguration: BetterPlayerControlsConfiguration(
+      controlsConfiguration: const BetterPlayerControlsConfiguration(
         enableSubtitles: false,
         enableOverflowMenu: false,
         enableSkips: false,

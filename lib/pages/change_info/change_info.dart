@@ -14,7 +14,7 @@ class ChangeInfo extends StatefulWidget {
   final String? name;
   final String? email;
 
-  ChangeInfo({
+  const ChangeInfo({
     Key? key,
     this.name,
     this.email,
@@ -29,7 +29,7 @@ class _ChangeInfoState extends State<ChangeInfo> {
 
   final nameInputController = TextEditingController();
   final emailInputController = TextEditingController();
-  File? _file = null;
+  File? _file;
 
   @override
   void initState() {
@@ -80,7 +80,7 @@ class _ChangeInfoState extends State<ChangeInfo> {
         body: Form(
           key: _formKey,
           child: ListView(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             children: [
               Hero(
                 tag: "prof_image",
@@ -91,10 +91,10 @@ class _ChangeInfoState extends State<ChangeInfo> {
                   url: "https://pfpmaker.com/_nuxt/img/profile-3-1.3e702c5.png",
                 ),
               ),
-              SizedBox(height: 24),
+              const SizedBox(height: 24),
               NEFormTextInput(
                 textEditingController: nameInputController,
-                textInputFormatter: [],
+                textInputFormatter: const [],
                 validator: (value) {
                   if (value == null || value.isEmpty || value == widget.name) {
                     return null;
@@ -109,7 +109,7 @@ class _ChangeInfoState extends State<ChangeInfo> {
               const SizedBox(height: 8),
               NEFormTextInput(
                 textEditingController: emailInputController,
-                textInputFormatter: [],
+                textInputFormatter: const [],
                 inputType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.done,
                 validator: (value) {
@@ -127,9 +127,10 @@ class _ChangeInfoState extends State<ChangeInfo> {
               NESendButton(
                 onTap: () {
                   if (_formKey.currentState!.validate()) {
+                    debugPrint(_file?.path);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text("اطلاعات مثلا در حال ارسال میباشد"),
+                        content: const Text("اطلاعات مثلا در حال ارسال میباشد"),
                         behavior: SnackBarBehavior.floating,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
@@ -144,7 +145,7 @@ class _ChangeInfoState extends State<ChangeInfo> {
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text("اطلاعات نادرست می باشد"),
+                        content: const Text("اطلاعات نادرست می باشد"),
                         behavior: SnackBarBehavior.floating,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
@@ -168,7 +169,7 @@ class _ChangeInfoState extends State<ChangeInfo> {
 class CircleAvatarWithEdit extends StatefulWidget {
   final FnWithOneParam<File?> onChanged;
   final String? url;
-  CircleAvatarWithEdit({
+  const CircleAvatarWithEdit({
     Key? key,
     required this.onChanged,
     this.url,
@@ -201,7 +202,7 @@ class _CircleAvatarWithEditState extends State<CircleAvatarWithEdit> {
         aspectRatioPresets: [
           CropAspectRatioPreset.square,
         ],
-        androidUiSettings: AndroidUiSettings(
+        androidUiSettings: const AndroidUiSettings(
           toolbarTitle: 'برش تصویر',
           statusBarColor: yellowDarken,
           toolbarColor: yellowDarken,
@@ -211,7 +212,7 @@ class _CircleAvatarWithEditState extends State<CircleAvatarWithEdit> {
         ),
         maxHeight: 1000,
         maxWidth: 1000,
-        iosUiSettings: IOSUiSettings(
+        iosUiSettings: const IOSUiSettings(
           title: 'برش تصویر',
         ));
     if (croppedFile != null) {
@@ -262,7 +263,7 @@ class _CircleAvatarWithEditState extends State<CircleAvatarWithEdit> {
                 ),
               ),
             ),
-          Container(
+          SizedBox(
             width: 112,
             child: Align(
               alignment: Alignment.bottomRight,
@@ -275,7 +276,7 @@ class _CircleAvatarWithEditState extends State<CircleAvatarWithEdit> {
                   color: darkGreen,
                   child: IconButton(
                     onPressed: getImage,
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.edit,
                       color: Colors.white,
                     ),

@@ -10,7 +10,6 @@ import 'package:nitenviro/pages/tutorial/custom_video_player.dart';
 import 'package:nitenviro/repo/public_enviro_repo.dart';
 import 'package:nitenviro/utils/utils.dart';
 
-
 class Tutorials extends StatelessWidget {
   const Tutorials({Key? key}) : super(key: key);
 
@@ -40,7 +39,7 @@ class Tutorials extends StatelessWidget {
                     context.read<VideoTutorialsCubit>().getAllTutorials();
                     Navigator.pop(context);
                   },
-                  child: Text(
+                  child: const Text(
                     'تلاش دوباره',
                   ),
                 ),
@@ -80,7 +79,7 @@ class TutorialsDataShow extends StatelessWidget {
               style: Theme.of(context).textTheme.headline2!.copyWith(
                     fontWeight: FontWeight.w800,
                     foreground: Paint()
-                      ..shader = LinearGradient(
+                      ..shader = const LinearGradient(
                         colors: [
                           blueGradient,
                           greenGradient,
@@ -88,14 +87,14 @@ class TutorialsDataShow extends StatelessWidget {
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                       ).createShader(
-                        Rect.fromLTWH(0.0, 0.0, 0.0, 100.0),
+                        const Rect.fromLTWH(0.0, 0.0, 0.0, 100.0),
                       ),
                   ),
             ),
           ),
         ),
         SliverPadding(
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           sliver: SliverGrid(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
@@ -120,11 +119,11 @@ class TutorialsDataShow extends StatelessWidget {
                           Expanded(
                             child: Container(
                               width: double.infinity,
-                              margin: EdgeInsets.all(8),
+                              margin: const EdgeInsets.all(8),
                               clipBehavior: Clip.antiAlias,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(16),
-                                gradient: LinearGradient(
+                                gradient: const LinearGradient(
                                   colors: [blueGradient, greenGradient],
                                   begin: Alignment.topCenter,
                                   end: Alignment.bottomCenter,
@@ -134,11 +133,11 @@ class TutorialsDataShow extends StatelessWidget {
                                 imageUrl:
                                     "https://geonitenviro.nit.ac.ir/api/" +
                                         tutItem.image,
-                                placeholder: (context, url) =>
-                                    Center(child: CircularProgressIndicator()),
+                                placeholder: (context, url) => const Center(
+                                    child: CircularProgressIndicator()),
                                 fit: BoxFit.cover,
                                 errorWidget: (context, url, error) =>
-                                    Icon(Icons.error),
+                                    const Icon(Icons.error),
                               ),
                             ),
                           ),
@@ -207,13 +206,12 @@ class OpenTutorialInfo extends StatelessWidget {
                     placeholderVideoImageUrl:
                         "https://geonitenviro.nit.ac.ir/api/" +
                             tutorialItem.image,
-
                   ),
                 );
               },
             ),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           InfoItemContainer(
             borderColor: darkGreen.withOpacity(0.2),
             child: Text(
@@ -221,7 +219,6 @@ class OpenTutorialInfo extends StatelessWidget {
               style: Theme.of(context).textTheme.headline6,
             ),
           ),
-
           InfoItemContainer(
             borderColor: darkGreen.withOpacity(0.2),
             child: Text(

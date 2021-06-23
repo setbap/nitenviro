@@ -96,23 +96,23 @@ class MyApp extends StatelessWidget {
             switch (settings.name) {
               case Index.path:
                 return MaterialPageRoute(
-                  builder: (context) => Index(),
+                  builder: (context) => const Index(),
                 );
               case Settings.path:
                 return MaterialPageRoute(
-                  builder: (context) => Settings(),
+                  builder: (context) => const Settings(),
                 );
               case LoginPhoneNumber.path:
                 return MaterialPageRoute(
-                  builder: (context) => LoginPhoneNumber(),
+                  builder: (context) => const LoginPhoneNumber(),
                 );
               case LoginPhoneNumberValidate.path:
                 return MaterialPageRoute(
-                  builder: (context) => LoginPhoneNumberValidate(),
+                  builder: (context) => const LoginPhoneNumberValidate(),
                 );
               case IntroPage.path:
                 return MaterialPageRoute(
-                  builder: (context) => IntroPage(),
+                  builder: (context) => const IntroPage(),
                 );
             }
           },

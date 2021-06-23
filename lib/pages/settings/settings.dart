@@ -7,6 +7,9 @@ import 'package:nitenviro/utils/colors.dart';
 
 class Settings extends StatelessWidget {
   static const String path = "/settings";
+
+  const Settings({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BackgroundCirclePainter(
@@ -53,18 +56,18 @@ class Settings extends StatelessWidget {
             ),
             SliverToBoxAdapter(
               child: Container(
-                margin: EdgeInsets.all(8),
+                margin: const EdgeInsets.all(8),
                 child: Column(
                   children: [
-                    SettingCardImage(),
+                    const SettingCardImage(),
                     SettingItem(
                       title: "تغییر مشخصات",
                       onPressed: () {
                         Navigator.push(
                           context,
-                          CupertinoPageRoute(
+                          MaterialPageRoute(
                             builder: (context) {
-                              return ChangeInfo(
+                              return const ChangeInfo(
                                 name: null,
                                 email: null,
                               );
@@ -98,11 +101,12 @@ class Settings extends StatelessWidget {
                       color: Colors.red,
                       title: "خروج از حساب کاربری",
                       onPressed: () {
-                        Navigator.pushNamedAndRemoveUntil(context, IntroPage.path, (route) => false);
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, IntroPage.path, (route) => false);
                       },
                       leadingIconData: Icons.exit_to_app,
                     ),
-                    SizedBox(height: 40),
+                    const SizedBox(height: 40),
                   ],
                 ),
               ),
@@ -126,12 +130,11 @@ class SettingBaseCard extends StatelessWidget {
     return Card(
       elevation: 0,
       color: Colors.grey.shade50.withOpacity(0.05),
-
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(
           12,
         ),
-        side: BorderSide(
+        side: const BorderSide(
           color: lightBorder,
         ),
       ),
@@ -150,7 +153,7 @@ class SettingCardImage extends StatelessWidget {
       child: Container(
         width: double.infinity,
         height: 180,
-        padding: EdgeInsets.all(
+        padding: const EdgeInsets.all(
           16,
         ),
         child: Column(
@@ -170,11 +173,11 @@ class SettingCardImage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8),
-            Container(
+            SizedBox(
               height: 24,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: const [
                   Text("09110001122"),
                   Text("  |  "),
                   Text("ebr.sina@gmail.com"),
@@ -230,15 +233,16 @@ class SettingItem extends StatelessWidget {
 }
 
 class RadiantGradientMask extends StatelessWidget {
-  RadiantGradientMask({
+  const RadiantGradientMask({
+    Key? key,
     required this.child,
-  });
+  }) : super(key: key);
   final Widget child;
 
   @override
   Widget build(BuildContext context) {
     return ShaderMask(
-      shaderCallback: (bounds) => LinearGradient(
+      shaderCallback: (bounds) => const LinearGradient(
         colors: [blueGradient, greenGradient],
         tileMode: TileMode.clamp,
       ).createShader(bounds),

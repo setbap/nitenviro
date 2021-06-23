@@ -178,14 +178,14 @@ class _LoginPhoneNumberStateValidate extends State<LoginPhoneNumberValidate> {
   }
 
   void _showSnackBar(String pin, BuildContext context) {
-    final snackBar = SnackBar(
-      duration: const Duration(seconds: 3),
+    const snackBar = SnackBar(
+      duration: Duration(seconds: 3),
       content: SizedBox(
         height: 40.0,
         child: Center(
           child: Text(
             'با موفقیت وارد شدید.',
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 22,
             ),
           ),

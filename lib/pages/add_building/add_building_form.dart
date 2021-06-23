@@ -21,7 +21,7 @@ class AddBuildingForm extends StatefulWidget {
   final LatLng? latLng;
   final String? id;
 
-  AddBuildingForm({
+  const AddBuildingForm({
     Key? key,
     this.id,
     this.name,
@@ -46,7 +46,7 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
   late final TextEditingController selectedDayController;
   late final TextEditingController timeRangeController;
   late final TextEditingController addressController;
-  LatLng? latLng = null;
+  LatLng? latLng;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -119,13 +119,13 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
         key: _formKey,
         child: Builder(builder: (context) {
           return ListView(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             physics: const BouncingScrollPhysics(),
             children: [
               NEFormTextInput(
                 label: "نام*",
                 hint: "(این نام صرفا جهت نمایش برای شما میباشد)",
-                textInputFormatter: [],
+                textInputFormatter: const [],
                 validator: (value) {
                   if (value == null || value == "") {
                     return "مقدار نام نمیتواند خالی باشد";
@@ -159,7 +159,7 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
                       },
                     ),
                   ),
-                  SizedBox(width: 16),
+                  const SizedBox(width: 16),
                   Expanded(
                     child: NEFormTextInput(
                       label: "پلاک*",
@@ -195,22 +195,20 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
                             timeRange = timeRange.withItem1(start);
                             timeRangeController.text = rangeToString(timeRange);
                             setState(() {});
-                            print("start time " + start.toString());
                           },
                           onEndChange: (end) {
                             timeRange = timeRange.withItem2(end);
                             timeRangeController.text = rangeToString(timeRange);
                             setState(() {});
-                            print("end time " + end.toString());
                           },
-                          interval: Duration(minutes: 15),
+                          interval: const Duration(minutes: 15),
                           use24HourFormat: false,
                           padding: 30,
                           start: timeRange.item1,
                           end: timeRange.item2,
                           disabledTime: TimeRange(
-                            startTime: TimeOfDay(hour: 21, minute: 0),
-                            endTime: TimeOfDay(hour: 9, minute: 0),
+                            startTime: const TimeOfDay(hour: 21, minute: 0),
+                            endTime: const TimeOfDay(hour: 9, minute: 0),
                           ),
                           disabledColor: Colors.red.withOpacity(0.5),
                           strokeWidth: 4,
@@ -233,17 +231,17 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
                             );
                           }).toList(),
                           labelOffset: -30,
-                          labelStyle: TextStyle(
+                          labelStyle: const TextStyle(
                             fontSize: 22,
                             color: Colors.grey,
                             fontWeight: FontWeight.bold,
                           ),
-                          timeTextStyle: TextStyle(
+                          timeTextStyle: const TextStyle(
                               color: Colors.white,
                               fontSize: 24,
                               fontStyle: FontStyle.italic,
                               fontWeight: FontWeight.bold),
-                          activeTimeTextStyle: TextStyle(
+                          activeTimeTextStyle: const TextStyle(
                             color: Colors.white,
                             fontSize: 26,
                             fontStyle: FontStyle.italic,
@@ -257,9 +255,9 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
                           backgroundWidget: LayoutBuilder(
                             builder: (context, constraints) {
                               return Center(
-                                child: Container(
+                                child: SizedBox(
                                   width: constraints.maxWidth / 2,
-                                  child: Text(
+                                  child: const Text(
                                     "محدوده ساعت انتخابی خود را مشخص کنید",
                                     textAlign: TextAlign.center,
                                   ),
@@ -276,7 +274,7 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
                           isReadOnly: true,
                           showClearButton: false,
                           textEditingController: timeRangeController,
-                          textInputFormatter: [],
+                          textInputFormatter: const [],
                           validator: (value) {
                             if (value == null || value == "") {
                               return "مقدار روز هفته نمیتواند خالی باشد";
@@ -294,7 +292,7 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 16),
+                  const SizedBox(width: 16),
                   Expanded(
                     child: InkWell(
                       onTap: () {
@@ -319,7 +317,7 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
                           hint: "(مثلا شنبه)",
                           showClearButton: false,
                           textEditingController: selectedDayController,
-                          textInputFormatter: [],
+                          textInputFormatter: const [],
                           validator: (value) {
                             if (value == null || value == "") {
                               return "مقدار پلاک نمیتواند خالی باشد";
@@ -336,7 +334,7 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
                 label: "آدرس محل دریافت*",
                 hint: "(شامل شهر خیابان کوچه نام طبقه و...)",
                 maxLines: 4,
-                textInputFormatter: [],
+                textInputFormatter: const [],
                 validator: (value) {
                   if (value == null || value == "") {
                     return "مقدار آدرس نمیتواند خالی باشد";
@@ -347,8 +345,8 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
               const SizedBox(height: 12),
               OutlinedButton.icon(
                 style: OutlinedButton.styleFrom(
-                  padding: EdgeInsets.all(12),
-                  shape: RoundedRectangleBorder(
+                  padding: const EdgeInsets.all(12),
+                  shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.vertical(
                       top: Radius.circular(16),
                       bottom: Radius.circular(0),
@@ -367,7 +365,6 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
                         return ShowMap(
                           latLng: latLng,
                           oneItemCallBack: (latLng) {
-                            print(latLng.toString());
                             setState(() {
                               this.latLng = latLng;
                             });
@@ -377,7 +374,7 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
                     ),
                   );
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.add_location,
                 ),
                 label: Text(
@@ -395,7 +392,6 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
                           return ShowMap(
                             latLng: latLng,
                             oneItemCallBack: (latLng) {
-                              print(latLng.toString());
                               setState(() {
                                 this.latLng = latLng;
                               });
@@ -407,9 +403,9 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
                   },
                   child: Container(
                     clipBehavior: Clip.antiAlias,
-                    margin: EdgeInsets.only(top: 4),
+                    margin: const EdgeInsets.only(top: 4),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.vertical(
+                      borderRadius: const BorderRadius.vertical(
                         bottom: Radius.circular(16),
                         top: Radius.circular(0),
                       ),
@@ -422,7 +418,7 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
                       child: AspectRatio(
                         aspectRatio: 16 / 9,
                         child: FlutterMap(
-                          // key: ValueKey(latLng.toString()),
+                          key: ValueKey(latLng.toString()),
                           options: MapOptions(
                             center: latLng,
                             zoom: 17.0,
@@ -438,8 +434,8 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
                                   width: 40.0,
                                   height: 70.0,
                                   point: latLng ?? LatLng(36.56, 52.68),
-                                  builder: (ctx) => Padding(
-                                    padding: const EdgeInsets.only(bottom: 30),
+                                  builder: (ctx) => const Padding(
+                                    padding: EdgeInsets.only(bottom: 30),
                                     child: Icon(
                                       Icons.location_on_outlined,
                                       size: 30,
@@ -457,10 +453,10 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
                 ),
                 firstChild: Container(
                   width: double.infinity,
-                  padding: EdgeInsets.all(12),
-                  margin: EdgeInsets.only(top: 4),
+                  padding: const EdgeInsets.all(12),
+                  margin: const EdgeInsets.only(top: 4),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.vertical(
+                    borderRadius: const BorderRadius.vertical(
                       bottom: Radius.circular(12),
                       top: Radius.circular(0),
                     ),
@@ -491,7 +487,7 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
                   if (_formKey.currentState!.validate() && latLng != null) {
                     ScaffoldMessenger.of(_scaffoldKey.currentContext!)
                         .showSnackBar(
-                      SnackBar(
+                      const SnackBar(
                         content: Text(
                           "موفقیت در ثبت خانه",
                         ),
@@ -503,7 +499,7 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
                   } else {
                     ScaffoldMessenger.of(_scaffoldKey.currentContext!)
                         .showSnackBar(
-                      SnackBar(
+                      const SnackBar(
                         content: Text(
                           "ارور در ثبت خانه",
                         ),
@@ -541,7 +537,7 @@ class NEFormTextInput extends StatelessWidget {
   const NEFormTextInput({
     Key? key,
     this.textEditingController,
-     this.iconData,
+    this.iconData,
     required this.textInputFormatter,
     required this.validator,
     required this.label,
@@ -578,7 +574,7 @@ class NEFormTextInput extends StatelessWidget {
             decoration: InputDecoration(
               labelText: label,
               hintText: hint,
-              prefixIcon: iconData==null?null:Icon(iconData),
+              prefixIcon: iconData == null ? null : Icon(iconData),
               filled: true,
               fillColor: lightBorder,
               border: const UnderlineInputBorder(

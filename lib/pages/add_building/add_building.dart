@@ -31,7 +31,7 @@ class AddLocation extends StatelessWidget {
         ),
         CirclePaintInfo(
           radius: 35,
-          center: Offset(size.width/2, 0),
+          center: Offset(size.width / 2, 0),
           isRightPrimary: false,
         ),
         CirclePaintInfo(
@@ -60,7 +60,7 @@ class AddLocation extends StatelessWidget {
                   ),
                   height: 70,
                   width: double.infinity,
-                  margin: EdgeInsets.only(
+                  margin: const EdgeInsets.only(
                     top: 16,
                     left: 12,
                     right: 12,
@@ -72,7 +72,7 @@ class AddLocation extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) {
-                            return AddBuildingForm();
+                            return const AddBuildingForm();
                           },
                         ),
                       );
@@ -89,14 +89,14 @@ class AddLocation extends StatelessWidget {
                   ),
                 ),
               ),
-              SliverPadding(
+              const SliverPadding(
                 padding: EdgeInsets.only(right: 12, top: 16),
                 sliver: SliverToBoxAdapter(
                   child: Text("لیست ساختمان ها"),
                 ),
               ),
               SliverPadding(
-                padding: EdgeInsets.symmetric(vertical: 0, horizontal: 8),
+                padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
                 sliver: SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (context, index) => Dismissible(
@@ -105,23 +105,23 @@ class AddLocation extends StatelessWidget {
                       key: ValueKey(index),
                       background: Card(
                         elevation: 1,
-                        margin: EdgeInsets.only(
+                        margin: const EdgeInsets.only(
                           top: 8,
                         ),
                         child: Container(
                           color: Colors.red,
-                          padding: EdgeInsets.only(
+                          padding: const EdgeInsets.only(
                             right: 12,
                           ),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.delete_outline,
                                 color: Colors.white,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 8,
                               ),
                               Text(
@@ -137,7 +137,7 @@ class AddLocation extends StatelessWidget {
                       ),
                       child: Card(
                         elevation: 1,
-                        margin: EdgeInsets.only(
+                        margin: const EdgeInsets.only(
                           top: 8,
                         ),
                         shadowColor: yellowDarken.withOpacity(0.1),
@@ -149,33 +149,33 @@ class AddLocation extends StatelessWidget {
                           ),
                         ),
                         child: ListTile(
-                          contentPadding: EdgeInsets.only(
+                          contentPadding: const EdgeInsets.only(
                             right: 12,
                           ),
                           minVerticalPadding: 0,
-                          title: Text("خانه تقی"),
+                          title: const Text("خانه تقی"),
                           dense: false,
                           subtitle: Row(
-                            children: [
-                              const Icon(
+                            children: const [
+                              Icon(
                                 CupertinoIcons.clock,
                                 color: darkGreen,
                               ),
-                              const SizedBox(width: 8),
+                              SizedBox(width: 8),
                               Text("شنبه"),
-                              const Text("ها"),
-                              const SizedBox(width: 8),
-                              const Text("از ساعت"),
-                              const SizedBox(width: 2),
+                              Text("ها"),
+                              SizedBox(width: 8),
+                              Text("از ساعت"),
+                              SizedBox(width: 2),
                               Text("09:00"),
-                              const SizedBox(width: 10),
-                              const Text("تا ساعت"),
-                              const SizedBox(width: 2),
+                              SizedBox(width: 10),
+                              Text("تا ساعت"),
+                              SizedBox(width: 2),
                               Text("21:00"),
                             ],
                           ),
                           trailing: IconButton(
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.edit,
                               size: 20,
                             ),
@@ -184,7 +184,7 @@ class AddLocation extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) {
-                                    return AddBuildingForm(
+                                    return const AddBuildingForm(
                                       name: "خانه تقی",
                                     );
                                   },

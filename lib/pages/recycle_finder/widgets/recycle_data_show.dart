@@ -121,14 +121,12 @@ class _RecycleDataShowState extends State<RecycleDataShow> {
                 spacing: 8,
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
-                  Container(
-                    child: Text(
-                      "دسته های انتخاب شده:",
-                      textAlign: TextAlign.center,
-                    ),
+                  const Text(
+                    "دسته های انتخاب شده:",
+                    textAlign: TextAlign.center,
                   ),
                   if (selectedCategories.isEmpty)
-                    Text(
+                    const Text(
                       "شما هیج دسته ای را انتخاب نکردید",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -171,10 +169,10 @@ class _RecycleDataShowState extends State<RecycleDataShow> {
               ),
             ),
           ),
-          if (data.length == 0)
+          if (data.isEmpty)
             SliverToBoxAdapter(
               child: Padding(
-                padding: EdgeInsets.only(top: 48),
+                padding: const EdgeInsets.only(top: 48),
                 child: Center(
                   child: Text(
                     "آیتمی با این مشخصات موجود نیست",
@@ -274,7 +272,7 @@ class CloseRecycleContainer extends StatelessWidget {
                       clipBehavior: Clip.antiAlias,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16),
-                        gradient: LinearGradient(
+                        gradient: const LinearGradient(
                           colors: [blueGradient, greenGradient],
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
@@ -282,7 +280,8 @@ class CloseRecycleContainer extends StatelessWidget {
                       ),
                     ),
                     fit: BoxFit.cover,
-                    errorWidget: (context, url, error) => Icon(Icons.error),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
                   ),
                   margin: const EdgeInsets.all(8),
                 ),

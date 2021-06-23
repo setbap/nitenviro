@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nitenviro/pages/change_info/change_info.dart';
 import 'package:nitenviro/shared_widget/background_circle_painter.dart';
 import 'package:nitenviro/utils/colors.dart';
 
@@ -52,50 +53,32 @@ class Profile extends StatelessWidget {
                 size: 120,
                 color: yellowDarken,
               ),
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) {
+                  return child;
+                }
+                return Opacity(
+                  opacity: loadingProgress.cumulativeBytesLoaded /
+                      loadingProgress.expectedTotalBytes!,
+                  child: const Icon(
+                    Icons.account_circle,
+                    size: 120,
+                    color: yellowDarken,
+                  ),
+                );
+              },
             ),
           ),
           const SizedBox(
             height: 16,
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                "سینا ابراهیمی",
-                style: Theme.of(context).textTheme.headline4!.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "بابل",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1!
-                        .copyWith(fontWeight: FontWeight.w200),
+          Center(
+            child: Text(
+              "سینا ابراهیمی",
+              style: Theme.of(context).textTheme.headline4!.copyWith(
+                    fontWeight: FontWeight.bold,
                   ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Text(
-                    "|",
-                    style: Theme.of(context).textTheme.headline5,
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Text(
-                    "  کد ملی : ${500400300}",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1!
-                        .copyWith(fontWeight: FontWeight.w200),
-                  ),
-                ],
-              )
-            ],
+            ),
           ),
           const SizedBox(
             height: 16,
@@ -156,9 +139,22 @@ class ProfileRequestBar extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return const ChangeInfo(
+                    name: "سینا ابراهیمی",
+                    email: "ebr.sina@gmail.com",
+                  );
+                },
+              ),
+            );
+          },
           style: ElevatedButton.styleFrom(
             elevation: 0,
+            shadowColor: Colors.transparent,
             primary: yellowSemiDarken,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(24),
@@ -170,39 +166,39 @@ class ProfileRequestBar extends StatelessWidget {
                 8,
               ),
               child: Text(
-                "درخواست جدید",
+                "تغییر پروفایل",
                 style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                      color: Colors.white,
+                      color: veryLightYellow,
                     ),
               ),
             ),
           ),
         ),
-        const SizedBox(width: 20),
-        OutlinedButton(
-          onPressed: () {},
-          style: OutlinedButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              side: const BorderSide(
-                width: 4,
-              ),
-              borderRadius: BorderRadius.circular(24),
-            ),
-          ),
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(
-                8,
-              ),
-              child: Text(
-                "درخواست تسویه",
-                style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                      color: yellowSemiDarken,
-                    ),
-              ),
-            ),
-          ),
-        ),
+        // const SizedBox(width: 20),
+        // OutlinedButton(
+        //   onPressed: () {},
+        //   style: OutlinedButton.styleFrom(
+        //     shape: RoundedRectangleBorder(
+        //       side: const BorderSide(
+        //         width: 4,
+        //       ),
+        //       borderRadius: BorderRadius.circular(24),
+        //     ),
+        //   ),
+        //   child: Center(
+        //     child: Padding(
+        //       padding: const EdgeInsets.all(
+        //         8,
+        //       ),
+        //       child: Text(
+        //         "درخواست تسویه",
+        //         style: Theme.of(context).textTheme.bodyText1!.copyWith(
+        //               color: yellowSemiDarken,
+        //             ),
+        //       ),
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }

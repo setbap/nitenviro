@@ -107,15 +107,15 @@ class _ShowMapState extends State<ShowMap> {
                 plugin: LocationMarkerPlugin(
                   centerCurrentLocationStream:
                       _centerCurrentLocationStreamController.stream,
-                  centerAnimationDuration: Duration(milliseconds: 700),
+                  centerAnimationDuration: const Duration(milliseconds: 700),
                   centerOnLocationUpdate: _centerOnLocationUpdate,
                 ),
               ),
             ],
           ),
-          Center(
+          const Center(
             child: Padding(
-              padding: const EdgeInsets.only(bottom: 48, left: 0),
+              padding: EdgeInsets.only(bottom: 48, left: 0),
               child: Icon(
                 Icons.location_on_outlined,
                 size: 48,
@@ -161,7 +161,7 @@ class _ShowMapState extends State<ShowMap> {
                 // Center the location marker on the map and zoom the map to level 18.
                 _centerCurrentLocationStreamController.add(18);
               },
-              child: Tooltip(
+              child: const Tooltip(
                 message: "نمایش موقعیت فعلی من",
                 child: Icon(
                   Icons.my_location,
@@ -188,7 +188,7 @@ class _ExampleAlertDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("راهنما انتخاب موقعیت فعلی"),
+      title: const Text("راهنما انتخاب موقعیت فعلی"),
       content: SizedBox(
         height: 400,
         child: Column(
