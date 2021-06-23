@@ -1,11 +1,12 @@
 import 'package:animations/animations.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nitenviro/logic/generic_api_state.dart';
 import 'package:nitenviro/logic/video_tutorial/video_tutorials_cubit.dart';
 import 'package:nitenviro/repo/public_enviro_repo.dart';
-import 'package:nitenviro/utils/colors.dart';
+import 'package:nitenviro/utils/utils.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class Tutorials extends StatelessWidget {
@@ -116,8 +117,9 @@ class TutorialsDataShow extends StatelessWidget {
                         children: [
                           Expanded(
                             child: Container(
+                              width:double.infinity,
                               margin: EdgeInsets.all(8),
-                              clipBehavior: Clip.antiAliasWithSaveLayer,
+                              clipBehavior: Clip.antiAlias,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(16),
                                 gradient: LinearGradient(
@@ -126,10 +128,15 @@ class TutorialsDataShow extends StatelessWidget {
                                   end: Alignment.bottomCenter,
                                 ),
                               ),
-                              child: Image.network(
-                                "https://geonitenviro.nit.ac.ir/api/" +
-                                    tutItem.image,
+                              child: CachedNetworkImage(
+                                imageUrl:
+                                    "https://geonitenviro.nit.ac.ir/api/" +
+                                        tutItem.image,
+                                placeholder: (context, url) =>
+                                    Center(child: CircularProgressIndicator()),
                                 fit: BoxFit.cover,
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
                               ),
                             ),
                           ),

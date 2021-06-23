@@ -1,4 +1,5 @@
 import 'package:animations/animations.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nitenviro/pages/recycle_finder/widgets/widgets.dart';
@@ -264,9 +265,24 @@ class CloseRecycleContainer extends StatelessWidget {
                     borderRadius: BorderRadius.circular(16),
                     color: mainYellow.withOpacity(0.1),
                   ),
-                  child: Image.network(
-                    "https://geonitenviro.nit.ac.ir/api" +
+                  child: CachedNetworkImage(
+                    imageUrl: "https://geonitenviro.nit.ac.ir/api/" +
                         recyclableItems.image[0].formats.thumbnail.url,
+                    placeholder: (context, url) => Container(
+                      width: double.infinity,
+                      height: double.infinity,
+                      clipBehavior: Clip.antiAlias,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        gradient: LinearGradient(
+                          colors: [blueGradient, greenGradient],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
+                      ),
+                    ),
+                    fit: BoxFit.cover,
+                    errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
                   margin: const EdgeInsets.all(8),
                 ),

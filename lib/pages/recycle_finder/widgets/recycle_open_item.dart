@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:nitenviro/pages/recycle_finder/widgets/widgets.dart';
 import 'package:nitenviro/utils/colors.dart';
@@ -37,12 +38,27 @@ class OpenItemDetail extends StatelessWidget {
                     .copyWith(color: Colors.white),
               ),
               collapseMode: CollapseMode.parallax,
-              background: Image.network(
-                "https://geonitenviro.nit.ac.ir/api" +
+              background: CachedNetworkImage(
+                imageUrl: "https://geonitenviro.nit.ac.ir/api/" +
                     (imageFormat.small?.url ?? imageFormat.thumbnail.url),
                 fit: BoxFit.cover,
                 colorBlendMode: BlendMode.darken,
-                color: Colors.black38,
+                color: Colors.black54,
+                placeholder: (context, url) => Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        blueGradient.withOpacity(0.7),
+                        greenGradient.withOpacity(0.7),
+                      ],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                  ),
+                ),
               ),
             ),
           ),
@@ -65,7 +81,7 @@ class OpenItemDetail extends StatelessWidget {
           SliverToBoxAdapter(
             child: RecycleItemInfo(
               name: "نوع زباله",
-              value: !recyclableItems.dry ? "زباله تر" : "زباله خشک",
+              value: recyclableItems.dry ? "زباله خشک" : "زباله تر",
               unit: "",
               borderColor: _recycleColor,
             ),
