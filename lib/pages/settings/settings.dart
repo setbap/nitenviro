@@ -1,9 +1,11 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nitenviro/pages/change_info/change_info.dart';
 import 'package:nitenviro/pages/intro/intro.dart';
 import 'package:nitenviro/shared_widget/background_circle_painter.dart';
 import 'package:nitenviro/utils/colors.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Settings extends StatelessWidget {
   static const String path = "/settings";
@@ -79,16 +81,53 @@ class Settings extends StatelessWidget {
                     ),
                     SettingItem(
                       title: "درباره ما",
-                      onPressed: () {},
+                      onPressed: () {
+                        showModal(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: const Text("درباره ما"),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              content: const Text(
+                                " درباره ما \n درباره آن ها \n درباره ایشان ",
+                              ),
+                              actions: [
+                                TextButton(
+                                  child: const Text("بستن"),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                )
+                              ],
+                            );
+                          },
+                        );
+                      },
                       leadingIconData: Icons.info,
                     ),
                     SettingItem(
                       title: "نمایش وب سایت",
-                      onPressed: () {},
+                      onPressed: () async {
+                        const _url = "https://www.nitenviro.ir";
+                        //TODO:check for url_launcher update
+                        final canShow = await canLaunch(_url) || true;
+                        if (canShow) {
+                          await launch(_url);
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                  "مشکلی در نمایش سایت به وجود آمده است $_url"),
+                            ),
+                          );
+                        }
+                      },
                       leadingIconData: Icons.info,
                     ),
                     SettingItem(
-                      title: "منابع مجوز باز",
+                      title: "مجوز های منبع باز",
                       onPressed: () {
                         showLicensePage(
                           context: context,

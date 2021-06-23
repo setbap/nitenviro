@@ -40,7 +40,7 @@ dependencies:
   intl: ^0.17.0
   pinput: ^1.2.0
   flutter_map: ^0.13.1
-  image_picker: ^0.8.0+3
+  image_picker: ^0.8.0+4
   dotted_decoration: ^2.0.0
   flutter_bloc: ^7.0.1
   tuple: ^2.0.0
@@ -55,6 +55,8 @@ dependencies:
   image_cropper: ^1.4.1
   cached_network_image: ^3.0.0
   better_player: ^0.0.70
+  url_launcher: ^6.0.7
+  shared_preferences: ^2.0.6
 
   public_nitenviro:
     path: ./packages/public_nitenviro
