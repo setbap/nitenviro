@@ -36,7 +36,7 @@ class _LoginPhoneNumberStateValidate extends State<LoginPhoneNumberValidate> {
       debugPrint(phoneNumber);
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setBool("loggedIn", true);
-      print(prefs.getBool("loggedIn"));
+
       Navigator.pushNamedAndRemoveUntil(context, Index.path, (route) => false);
     } else {
       debugPrint("phoneNumber");

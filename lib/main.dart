@@ -12,7 +12,6 @@ import 'package:nitenviro/logic/video_tutorial/video_tutorials_cubit.dart';
 import 'package:nitenviro/pages/intro/intro.dart';
 import 'package:nitenviro/pages/phone_number_login/phone_number_login.dart';
 import 'package:nitenviro/pages/phone_number_validate_login/phone_number_validate_login.dart';
-import 'package:nitenviro/pages/second_splash/second_splash.dart';
 import 'package:nitenviro/pages/settings/settings.dart';
 import 'package:nitenviro/repo/public_enviro_repo.dart';
 import 'package:nitenviro/utils/utils.dart';
@@ -145,7 +144,6 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       loggedIn = prefs.getBool("loggedIn") ?? false;
     });
-    print("is logged = $loggedIn");
 
     Future.delayed(const Duration(milliseconds: 60), () {
       splashController.close();
