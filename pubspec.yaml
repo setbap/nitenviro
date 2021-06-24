@@ -57,6 +57,7 @@ dependencies:
   better_player: ^0.0.70
   url_launcher: ^6.0.7
   shared_preferences: ^2.0.6
+  secondsplash: ^1.0.0
 
   public_nitenviro:
     path: ./packages/public_nitenviro

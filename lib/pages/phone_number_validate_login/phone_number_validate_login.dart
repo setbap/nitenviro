@@ -6,6 +6,7 @@ import 'package:nitenviro/index.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 import 'package:nitenviro/shared_widget/background_circle_painter.dart';
 import 'package:nitenviro/utils/colors.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPhoneNumberValidate extends StatefulWidget {
   static const String path = "/login";
@@ -29,10 +30,13 @@ class _LoginPhoneNumberStateValidate extends State<LoginPhoneNumberValidate> {
     });
   }
 
-  void submit() {
+  void submit() async {
     _formKey.currentState?.save();
     if (_formKey.currentState?.validate() ?? false) {
       debugPrint(phoneNumber);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setBool("loggedIn", true);
+      print(prefs.getBool("loggedIn"));
       Navigator.pushNamedAndRemoveUntil(context, Index.path, (route) => false);
     } else {
       debugPrint("phoneNumber");
@@ -111,9 +115,13 @@ class _LoginPhoneNumberStateValidate extends State<LoginPhoneNumberValidate> {
                               eachFieldWidth: 50,
                               eachFieldHeight: 50,
                               fieldsCount: 5,
-                              onSubmit: (String pin) {
+                              onSubmit: (String pin) async {
+                                SharedPreferences prefs =
+                                    await SharedPreferences.getInstance();
+                                await prefs.setBool("loggedIn", true);
+
                                 Navigator.pushNamedAndRemoveUntil(
-                                    context, Index.path, (route) => true);
+                                    context, Index.path, (route) => false);
                                 _showSnackBar(pin, context);
                               },
                               focusNode: _pinPutFocusNode,

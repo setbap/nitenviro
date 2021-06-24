@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -10,10 +12,13 @@ import 'package:nitenviro/logic/video_tutorial/video_tutorials_cubit.dart';
 import 'package:nitenviro/pages/intro/intro.dart';
 import 'package:nitenviro/pages/phone_number_login/phone_number_login.dart';
 import 'package:nitenviro/pages/phone_number_validate_login/phone_number_validate_login.dart';
+import 'package:nitenviro/pages/second_splash/second_splash.dart';
 import 'package:nitenviro/pages/settings/settings.dart';
 import 'package:nitenviro/repo/public_enviro_repo.dart';
 import 'package:nitenviro/utils/utils.dart';
 import 'package:public_nitenviro/public_nitenviro.dart';
+import 'package:secondsplash/secondsplash.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(const MyApp());
@@ -66,7 +71,7 @@ class MyApp extends StatelessWidget {
             Locale("fa", "IR"),
           ],
           locale: const Locale("fa", "IR"),
-          title: 'Nit Enviro',
+          title: 'Enviro',
           theme: ThemeData(
             appBarTheme: AppBarTheme.of(context).copyWith(
                 color: yellowDarken,
@@ -91,7 +96,7 @@ class MyApp extends StatelessWidget {
               ),
             ),
           ),
-          initialRoute: Index.path,
+          home: const MyHomePage(),
           onGenerateRoute: (settings) {
             switch (settings.name) {
               case Index.path:
@@ -119,6 +124,67 @@ class MyApp extends StatelessWidget {
           // home: const Index(),
         ),
       ),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key}) : super(key: key);
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  SplashController splashController = SplashController();
+  bool loggedIn = false;
+
+  void checkLogin() async {
+    // use for checking if user is logged in or not
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      loggedIn = prefs.getBool("loggedIn") ?? false;
+    });
+    print("is logged = $loggedIn");
+
+    Future.delayed(const Duration(milliseconds: 60), () {
+      splashController.close();
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    checkLogin();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SecondSplash(
+      controller: splashController,
+      decoration: const BoxDecoration(
+        color: Colors.white,
+      ),
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Center(
+            child: Image.asset(
+              "./assets/splash_light.png",
+              width: 256,
+              height: 256,
+              fit: BoxFit.scaleDown,
+            ),
+          ),
+          const Align(
+            child: CircularProgressIndicator(
+              color: Colors.orange,
+            ),
+            alignment: Alignment(0, 0.8),
+          ),
+        ],
+      ),
+      next: loggedIn ? const Index() : const IntroPage(),
     );
   }
 }

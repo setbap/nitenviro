@@ -5,6 +5,7 @@ import 'package:nitenviro/pages/change_info/change_info.dart';
 import 'package:nitenviro/pages/intro/intro.dart';
 import 'package:nitenviro/shared_widget/background_circle_painter.dart';
 import 'package:nitenviro/utils/colors.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Settings extends StatelessWidget {
@@ -139,7 +140,10 @@ class Settings extends StatelessWidget {
                     SettingItem(
                       color: Colors.red,
                       title: "خروج از حساب کاربری",
-                      onPressed: () {
+                      onPressed: () async {
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        prefs.setBool("loggedIn", false);
                         Navigator.pushNamedAndRemoveUntil(
                             context, IntroPage.path, (route) => false);
                       },

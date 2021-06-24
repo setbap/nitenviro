@@ -56,73 +56,91 @@ class _IndexState extends State<Index> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: yellowDarken,
-        centerTitle: true,
-        elevation: 0,
-        title: SizedBox(
-          width: 200,
-          height: 35,
-          child: PageTransitionSwitcher(
-            transitionBuilder: (
-              Widget child,
-              Animation<double> animation,
-              Animation<double> secondaryAnimation,
-            ) {
-              return FadeThroughTransition(
-                animation: animation,
-                fillColor: Colors.transparent,
-                secondaryAnimation: secondaryAnimation,
-                child: child,
-              );
-            },
-            child: Center(
-              key: ValueKey(pageIndex),
-              child: FittedBox(
-                child: Text(
-                  pageList[pageIndex].item1,
-                  style: Theme.of(context).textTheme.headline6!.copyWith(
-                        color: Colors.white,
-                      ),
+    return WillPopScope(
+      onWillPop: () async {
+        if (pageController.page != 2.0) {
+          setState(() {
+            pageIndex = 2;
+            pageController.animateToPage(
+              2,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeOutCubic,
+            );
+          });
+          return false;
+        }
+        return true;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: yellowDarken,
+          centerTitle: true,
+          elevation: 0,
+          title: SizedBox(
+            width: 200,
+            height: 35,
+            child: PageTransitionSwitcher(
+              transitionBuilder: (
+                Widget child,
+                Animation<double> animation,
+                Animation<double> secondaryAnimation,
+              ) {
+                return FadeThroughTransition(
+                  animation: animation,
+                  fillColor: Colors.transparent,
+                  secondaryAnimation: secondaryAnimation,
+                  child: child,
+                );
+              },
+              child: Center(
+                key: ValueKey(pageIndex),
+                child: FittedBox(
+                  child: Text(
+                    pageList[pageIndex].item1,
+                    style: Theme.of(context).textTheme.headline6!.copyWith(
+                          color: Colors.white,
+                        ),
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-        leading: Container(),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.pushNamed(context, Settings.path);
-            },
-            icon: const Icon(
-              Icons.settings,
+          leading: Container(),
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, Settings.path);
+              },
+              visualDensity: VisualDensity.compact,
+              tooltip: "تنظیمات",
+              icon: const Icon(
+                Icons.settings,
+              ),
+              color: Colors.white,
             ),
-            color: Colors.white,
+          ],
+        ),
+        body: PageView.builder(
+          itemBuilder: (context, index) => pageList[index].item2,
+          physics: const NeverScrollableScrollPhysics(),
+          controller: pageController,
+          itemCount: 5,
+        ),
+        extendBodyBehindAppBar: false,
+        resizeToAvoidBottomInset: true,
+        extendBody: true,
+        bottomNavigationBar: NEBottomNavigation(
+          currentIndex: pageIndex,
+          onTap: (index) => setState(
+            () {
+              pageIndex = index;
+              pageController.animateToPage(
+                index,
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeOutCubic,
+              );
+            },
           ),
-        ],
-      ),
-      body: PageView.builder(
-        itemBuilder: (context, index) => pageList[index].item2,
-        physics: const NeverScrollableScrollPhysics(),
-        controller: pageController,
-        itemCount: 5,
-      ),
-      extendBodyBehindAppBar: false,
-      resizeToAvoidBottomInset: true,
-      extendBody: true,
-      bottomNavigationBar: NEBottomNavigation(
-        currentIndex: pageIndex,
-        onTap: (index) => setState(
-          () {
-            pageIndex = index;
-            pageController.animateToPage(
-              index,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeOutCubic,
-            );
-          },
         ),
       ),
     );
