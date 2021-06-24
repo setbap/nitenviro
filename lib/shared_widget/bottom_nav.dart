@@ -34,24 +34,29 @@ class NEBottomNavigation extends StatelessWidget {
       onTap: onTap,
       items: const [
         BottomNavigationBarItem(
-          icon: Icon(Icons.notifications),
-          label: 'tickets',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(CupertinoIcons.arrow_3_trianglepath),
-          label: 'شناسایی پسماند بازیافتی',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.add_circle_outline),
-          label: 'اضافه کردن درخواست جدید',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.language),
+          icon: Icon(Icons.chrome_reader_mode),
           label: 'آموزش',
+          tooltip: 'آموزش',
         ),
         BottomNavigationBarItem(
-          icon: Icon(CupertinoIcons.profile_circled),
+          icon: Icon(CupertinoIcons.search),
+          label: 'شناسایی پسماند بازیافتی',
+          tooltip: 'شناسایی پسماند بازیافتی',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(CupertinoIcons.plus),
+          label: 'اضافه کردن درخواست جدید',
+          tooltip: 'اضافه کردن درخواست جدید',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(CupertinoIcons.house),
+          label: 'آموزش',
+          tooltip: 'آموزش',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(CupertinoIcons.person_2_square_stack),
           label: 'پروفایل',
+          tooltip: 'پروفایل',
         )
       ],
     );
