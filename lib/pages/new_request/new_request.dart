@@ -124,6 +124,5 @@ class _NewRequestState extends State<NewRequest>
   }
 
   @override
-  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }
