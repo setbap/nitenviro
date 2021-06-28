@@ -1,30 +1,29 @@
 import 'dart:async';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:location/location.dart';
-import 'package:nitenviro/index.dart';
-import 'package:nitenviro/logic/location/location_request_cubit.dart';
-import 'package:nitenviro/logic/new_request_form/new_request_cubit.dart';
-import 'package:nitenviro/logic/recyclable_detector/recyclable_detector_cubit.dart';
-import 'package:nitenviro/logic/video_tutorial/video_tutorials_cubit.dart';
-import 'package:nitenviro/pages/intro/intro.dart';
-import 'package:nitenviro/pages/phone_number_login/phone_number_login.dart';
-import 'package:nitenviro/pages/phone_number_validate_login/phone_number_validate_login.dart';
-import 'package:nitenviro/pages/settings/settings.dart';
-import 'package:nitenviro/repo/public_enviro_repo.dart';
-import 'package:nitenviro/utils/utils.dart';
 import 'package:public_nitenviro/public_nitenviro.dart';
+import 'package:rubbish_collectors/rubbish_collectors.dart';
 import 'package:secondsplash/secondsplash.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'package:nitenviro/logic/logic.dart';
+import 'package:nitenviro/pages/pages.dart';
+import 'package:nitenviro/repo/repo.dart';
+import 'package:nitenviro/utils/utils.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final SharedPreferences keyValueStorage =
+      await SharedPreferences.getInstance();
+  runApp(MyApp(keyValueStorage: keyValueStorage));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final SharedPreferences keyValueStorage;
+  const MyApp({Key? key, required this.keyValueStorage}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +33,40 @@ class MyApp extends StatelessWidget {
           create: (context) => PublicNitEnviroApi(
             nitenviroClient: PublicNitenviroClient(),
           ),
-        )
+        ),
+        RepositoryProvider(
+          create: (context) => RubbishCollectorsApi(
+            rubbishCollectorsClient: RubbishCollectorsClient(
+              interceptor: CustomInterceptors(
+                getAccessToken: () async =>
+                    keyValueStorage.getString(kAccessTokenKey),
+                getRefreshToken: () async =>
+                    keyValueStorage.getString(kRefreshTokenKey),
+                setAccessToken: (String token) async {
+                  await keyValueStorage.setString(kAccessTokenKey, token);
+                  return;
+                },
+                setRefreshToken: (String token) async {
+                  await keyValueStorage.setString(kRefreshTokenKey, token);
+                  return;
+                },
+                onAuthError: () async {
+                  await keyValueStorage.remove(kAccessTokenKey);
+                  await keyValueStorage.remove(kRefreshTokenKey);
+                  await keyValueStorage.remove(kIsLoggedIn);
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    IntroPage.path,
+                    (route) => false,
+                  );
+                },
+              ),
+              options: BaseOptions(
+                baseUrl: "http://217.219.165.22:5005",
+              ),
+            ),
+          ),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -52,9 +84,9 @@ class MyApp extends StatelessWidget {
               publicNitEnviroApi: context.read<PublicNitEnviroApi>(),
             )..getAllTutorials(),
           ),
-          BlocProvider<LocationRequestCubit>(
-            create: (context) => LocationRequestCubit(
-              location: Location(),
+          BlocProvider<UserInfoCubit>(
+            create: (context) => UserInfoCubit(
+              rubbishCollectorsApi: context.read<RubbishCollectorsApi>(),
             ),
           ),
         ],
@@ -95,6 +127,7 @@ class MyApp extends StatelessWidget {
               ),
             ),
           ),
+          // home: const LoginPhoneNumber(),
           home: const MyHomePage(),
           onGenerateRoute: (settings) {
             switch (settings.name) {
@@ -108,12 +141,30 @@ class MyApp extends StatelessWidget {
                 );
               case LoginPhoneNumber.path:
                 return MaterialPageRoute(
-                  builder: (context) => const LoginPhoneNumber(),
+                  builder: (context) => BlocProvider<AuthPhoneInputCubit>(
+                    create: (context) => AuthPhoneInputCubit(
+                      rubbishCollectorsApi:
+                          context.read<RubbishCollectorsApi>(),
+                    ),
+                    child: const LoginPhoneNumber(),
+                  ),
                 );
               case LoginPhoneNumberValidate.path:
+                final phoneNumber = settings.arguments as String;
                 return MaterialPageRoute(
-                  builder: (context) => const LoginPhoneNumberValidate(),
+                  builder: (context) => BlocProvider<AuthLoginInputCubit>(
+                    create: (context) => AuthLoginInputCubit(
+                      keyValueStorage: keyValueStorage,
+                      rubbishCollectorsApi:
+                          context.read<RubbishCollectorsApi>(),
+                      userInfoCubit: context.read<UserInfoCubit>(),
+                    ),
+                    child: LoginPhoneNumberValidate(
+                      phoneNumber: phoneNumber,
+                    ),
+                  ),
                 );
+
               case IntroPage.path:
                 return MaterialPageRoute(
                   builder: (context) => const IntroPage(),
@@ -139,11 +190,13 @@ class _MyHomePageState extends State<MyHomePage> {
   bool loggedIn = false;
 
   void checkLogin() async {
-    // use for checking if user is logged in or not
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      loggedIn = prefs.getBool("loggedIn") ?? false;
-    });
+    loggedIn = prefs.getBool(kIsLoggedIn) ?? false;
+    if (loggedIn) {
+      await context.read<UserInfoCubit>().getUserInfo();
+    }
+    loggedIn = prefs.getBool(kIsLoggedIn) ?? false;
+    setState(() {});
 
     Future.delayed(const Duration(milliseconds: 60), () {
       splashController.close();

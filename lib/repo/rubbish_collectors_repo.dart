@@ -1,39 +1,32 @@
-import 'package:public_nitenviro/public_nitenviro.dart';
+import 'package:rubbish_collectors/rubbish_collectors.dart';
 
-class PublicNitEnviroApi {
-  final PublicNitenviroClient _nitenviroClient;
+class RubbishCollectorsApi {
+  final RubbishCollectorsClient _rubbishCollectorsClient;
 
-  const PublicNitEnviroApi({required PublicNitenviroClient nitenviroClient})
-      : _nitenviroClient = nitenviroClient;
+  const RubbishCollectorsApi(
+      {required RubbishCollectorsClient rubbishCollectorsClient})
+      : _rubbishCollectorsClient = rubbishCollectorsClient;
 
-  Future<List<RecyclableItems>> getAllItems() async {
-    final items = await _nitenviroClient.items();
+  Future<GenericResult<SendCodeResult>> authSendCode(
+      {required String phoneNumber}) async {
+    final items =
+        await _rubbishCollectorsClient.authSendCode(phone: phoneNumber);
     return items;
   }
 
-  Future<List<TutorialItem>> getAllTutorials() async {
-    final items = await _nitenviroClient.items();
-    final tuts = items.map((e) => TutorialItem(
-          name: "آموزش بازیافت " + e.name,
-          image: e.image[0].url,
-          videoLink:
-              "https://www.aparat.com/video/video/embed/videohash/BtvlS/vt/frame",
-          description: e.description,
-        ));
-    return tuts.toList();
+  Future<GenericResult<AuthTokenResult>> authLogin({
+    required String phoneNumber,
+    required int loginCode,
+  }) async {
+    final items = await _rubbishCollectorsClient.authLogin(
+      phone: phoneNumber,
+      loginCode: loginCode,
+    );
+    return items;
   }
-}
 
-class TutorialItem {
-  final String name;
-  final String image;
-  final String videoLink;
-  final String description;
-
-  TutorialItem({
-    required this.name,
-    required this.image,
-    required this.videoLink,
-    required this.description,
-  });
+  Future<GenericResult<UserInfoResult>> getUserInfo() async {
+    final items = await _rubbishCollectorsClient.userGetInfo();
+    return items;
+  }
 }

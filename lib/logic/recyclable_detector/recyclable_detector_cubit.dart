@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:nitenviro/logic/generic_api_state.dart';
-import 'package:nitenviro/repo/public_enviro_repo.dart';
+import 'package:nitenviro/logic/logic.dart';
+import 'package:nitenviro/repo/repo.dart';
 import 'package:public_nitenviro/public_nitenviro.dart';
 
 class RecyclableDetectorCubit

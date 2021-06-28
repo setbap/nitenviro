@@ -13,11 +13,13 @@ import 'package:nitenviro/utils/utils.dart';
 class ChangeInfo extends StatefulWidget {
   final String? name;
   final String? email;
+  final String? avatarUrl;
 
   const ChangeInfo({
     Key? key,
     this.name,
     this.email,
+    this.avatarUrl,
   }) : super(key: key);
 
   @override
@@ -88,7 +90,8 @@ class _ChangeInfoState extends State<ChangeInfo> {
                   onChanged: (file) {
                     _file = file;
                   },
-                  url: "https://pfpmaker.com/_nuxt/img/profile-3-1.3e702c5.png",
+                  url: widget.avatarUrl ??
+                      "https://pfpmaker.com/_nuxt/img/profile-3-1.3e702c5.png",
                 ),
               ),
               const SizedBox(height: 24),

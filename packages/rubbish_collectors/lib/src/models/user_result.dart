@@ -4,7 +4,7 @@ class UserInfoResult {
   final String? name;
   final String? email;
   final String? avatarUrl;
-  final int? credit;
+  final int credit;
   final int? type;
   final bool? isActive;
   final String createdAt;
@@ -15,7 +15,7 @@ class UserInfoResult {
     this.name,
     this.email,
     this.avatarUrl,
-    this.credit,
+    this.credit = 0,
     this.type,
     this.isActive,
     required this.createdAt,

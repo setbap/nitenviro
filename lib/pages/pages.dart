@@ -1,0 +1,12 @@
+export 'package:nitenviro/pages/add_building/add_building.dart';
+export 'package:nitenviro/pages/change_info/change_info.dart';
+export 'package:nitenviro/pages/intro/intro.dart';
+export 'package:nitenviro/pages/new_request/new_request.dart';
+export 'package:nitenviro/pages/phone_number_login/phone_number_login.dart';
+export 'package:nitenviro/pages/phone_number_validate_login/phone_number_validate_login.dart';
+export 'package:nitenviro/pages/profile/profile.dart';
+export 'package:nitenviro/pages/recycle_finder/recycle_finder.dart';
+export 'package:nitenviro/pages/second_splash/second_splash.dart';
+export 'package:nitenviro/pages/settings/settings.dart';
+export 'package:nitenviro/pages/tutorial/tutorials.dart';
+export 'package:nitenviro/pages/index/index.dart';

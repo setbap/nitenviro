@@ -1,14 +1,9 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:nitenviro/pages/add_building/add_building.dart';
-import 'package:nitenviro/pages/new_request/new_request.dart';
-import 'package:nitenviro/pages/profile/profile.dart';
-import 'package:nitenviro/pages/recycle_finder/recycle_finder.dart';
-import 'package:nitenviro/pages/settings/settings.dart';
-import 'package:nitenviro/pages/tutorial/tutorials.dart';
-import 'package:nitenviro/shared_widget/bottom_nav.dart';
-import 'package:nitenviro/utils/colors.dart';
+import 'package:nitenviro/pages/pages.dart';
+import 'package:nitenviro/shared_widget/shared_widget.dart';
+import 'package:nitenviro/utils/utils.dart';
 import 'package:tuple/tuple.dart';
 
 class Index extends StatefulWidget {

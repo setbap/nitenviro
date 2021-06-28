@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:nitenviro/pages/change_info/change_info.dart';
-import 'package:nitenviro/shared_widget/background_circle_painter.dart';
-import 'package:nitenviro/utils/colors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nitenviro/logic/logic.dart';
+import 'package:nitenviro/pages/pages.dart';
+import 'package:nitenviro/shared_widget/shared_widget.dart';
+import 'package:nitenviro/utils/utils.dart';
+import 'package:rubbish_collectors/rubbish_collectors.dart';
 
 class Profile extends StatelessWidget {
   const Profile({Key? key}) : super(key: key);
@@ -34,103 +37,124 @@ class Profile extends StatelessWidget {
           isRightPrimary: false,
         ),
       ],
-      child: ListView(
-        shrinkWrap: true,
-        physics: const BouncingScrollPhysics(),
-        children: [
-          LayoutBuilder(
-            builder: (context, constraints) => SizedBox(
-              height: constraints.maxWidth / 9,
-            ),
-          ),
-          CircleAvatar(
-            maxRadius: 60,
-            backgroundColor: Colors.transparent,
-            child: Image.network(
-              "https://pfpmaker.com/_nuxt/img/profile-3-1.3e702c5.png",
-              errorBuilder: (context, error, stackTrace) => const Icon(
-                Icons.account_circle,
-                size: 120,
-                color: yellowDarken,
+      child: BlocBuilder<UserInfoCubit, UserInfoState>(
+        builder: (context, state) {
+          UserInfoResult userInfo = UserInfoResult(
+            id: -1,
+            phone: "",
+            createdAt: "",
+          );
+          if (state is UserInfoSuccess) {
+            userInfo = state.user;
+          }
+          return ListView(
+            shrinkWrap: true,
+            physics: const BouncingScrollPhysics(),
+            children: [
+              LayoutBuilder(
+                builder: (context, constraints) => SizedBox(
+                  height: constraints.maxWidth / 9,
+                ),
               ),
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null) {
-                  return child;
-                }
-                return Opacity(
-                  opacity: loadingProgress.cumulativeBytesLoaded /
-                      loadingProgress.expectedTotalBytes!,
-                  child: const Icon(
+              CircleAvatar(
+                maxRadius: 60,
+                backgroundColor: Colors.transparent,
+                child: Image.network(
+                  userInfo.avatarUrl ??
+                      "https://pfpmaker.com/_nuxt/img/profile-3-1.3e702c5.png",
+                  errorBuilder: (context, error, stackTrace) => const Icon(
                     Icons.account_circle,
                     size: 120,
                     color: yellowDarken,
                   ),
-                );
-              },
-            ),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          Center(
-            child: Text(
-              "سینا ابراهیمی",
-              style: Theme.of(context).textTheme.headline4!.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-            ),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          const ProfileRequestBar(),
-          const SizedBox(
-            height: 24,
-          ),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.only(
-              bottom: 0,
-              top: 24,
-              right: 24,
-              left: 24,
-            ),
-            decoration: const BoxDecoration(
-              color: darkGreen,
-              borderRadius: BorderRadius.vertical(
-                top: Radius.circular(40),
-                bottom: Radius.circular(40),
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) {
+                      return child;
+                    }
+                    return const Icon(
+                      Icons.account_circle,
+                      size: 120,
+                      color: yellowDarken,
+                    );
+                  },
+                ),
               ),
-            ),
-            child: Column(
-              children: const [
-                ProfileBoxInfo(
-                  title: "شماره تماس",
-                  icon: Icons.phone_enabled_outlined,
-                  value: "09112223344",
+              const SizedBox(
+                height: 16,
+              ),
+              Center(
+                child: Text(
+                  userInfo.name ?? "حافظ محیط زیست",
+                  style: Theme.of(context).textTheme.headline4!.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                 ),
-                ProfileBoxInfo(
-                  title: "ایمیل",
-                  icon: Icons.mail,
-                  value: "nitEnviro@gmail.com",
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              ProfileRequestBar(
+                avatarUrl: userInfo.avatarUrl,
+                email: userInfo.email,
+                name: userInfo.name,
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.only(
+                  bottom: 0,
+                  top: 24,
+                  right: 24,
+                  left: 24,
                 ),
-                ProfileBoxInfo(
-                  title: "دریافت های تمام شده",
-                  icon: Icons.circle,
-                  value: "123",
+                decoration: const BoxDecoration(
+                  color: darkGreen,
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(40),
+                    bottom: Radius.circular(40),
+                  ),
                 ),
-              ],
-            ),
-          )
-        ],
+                child: Column(
+                  children: [
+                    ProfileBoxInfo(
+                      title: "شماره تماس",
+                      icon: Icons.phone_enabled_outlined,
+                      value: userInfo.phone,
+                    ),
+                    ProfileBoxInfo(
+                      title: "ایمیل",
+                      icon: Icons.mail,
+                      value: userInfo.email ?? "ایمیل شما ثبت نشده است",
+                    ),
+                    ProfileBoxInfo(
+                      title: "دریافت های تمام شده",
+                      icon: Icons.circle,
+                      value: userInfo.credit == 0
+                          ? "دریافتی تا کنون نداشتید"
+                          : "${userInfo.credit} بار",
+                    ),
+                  ],
+                ),
+              )
+            ],
+          );
+        },
       ),
     );
   }
 }
 
 class ProfileRequestBar extends StatelessWidget {
+  final String? name;
+  final String? email;
+  final String? avatarUrl;
   const ProfileRequestBar({
     Key? key,
+    this.name,
+    this.avatarUrl,
+    this.email,
   }) : super(key: key);
 
   @override
@@ -144,9 +168,10 @@ class ProfileRequestBar extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) {
-                  return const ChangeInfo(
-                    name: "سینا ابراهیمی",
-                    email: "ebr.sina@gmail.com",
+                  return ChangeInfo(
+                    name: name,
+                    email: email,
+                    avatarUrl: avatarUrl,
                   );
                 },
               ),

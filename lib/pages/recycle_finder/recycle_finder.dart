@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nitenviro/logic/generic_api_state.dart';
-import 'package:nitenviro/logic/recyclable_detector/recyclable_detector_cubit.dart';
+import 'package:nitenviro/logic/logic.dart';
 import 'package:nitenviro/pages/recycle_finder/widgets/widgets.dart';
 import 'package:public_nitenviro/public_nitenviro.dart';
 
