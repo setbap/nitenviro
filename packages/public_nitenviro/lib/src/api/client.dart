@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:public_nitenviro/public_nitenviro.dart';
+import 'package:public_nitenviro/src/models/post_model.dart';
 
 class PublicNitenviroClient {
   final _client = http.Client();
@@ -57,7 +58,17 @@ class PublicNitenviroClient {
     return my_item;
   }
 
-  // Future<Map<String, SimplePrice>> simpleMultiCoinPrice({
+  Future<List<PostModel>> posts() async {
+    final rawItems = await _genericGet(path: Endpoints.posts());
+    var my_item = <PostModel>[];
+    for (var element in rawItems) {
+      final simplePrice = PostModel.fromJson(element);
+      my_item.add(simplePrice);
+    }
+    return my_item;
+  }
+
+// Future<Map<String, SimplePrice>> simpleMultiCoinPrice({
   //   required String currency,
   //   required List<String> tokensId,
   //   bool? includeMarketCap,

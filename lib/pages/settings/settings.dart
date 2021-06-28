@@ -248,7 +248,11 @@ class SettingCardImage extends StatelessWidget {
                   children: [
                     Text(userInfo.phone),
                     const Text("  |  "),
-                    Text(userInfo.email ?? "ایمیل خود را تاکنون ثبت نکردید"),
+                    FittedBox(
+                      child: Text(
+                        userInfo.email ?? "ایمیل خود را تاکنون ثبت نکردید",
+                      ),
+                    ),
                   ],
                 ),
               )

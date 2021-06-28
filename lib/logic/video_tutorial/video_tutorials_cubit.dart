@@ -1,13 +1,14 @@
 import 'package:bloc/bloc.dart';
 import 'package:nitenviro/logic/generic_api_state.dart';
 import 'package:nitenviro/repo/public_enviro_repo.dart';
+import 'package:public_nitenviro/public_nitenviro.dart';
 
-class VideoTutorialsCubit extends Cubit<GenericApiState<List<TutorialItem>>> {
+class VideoTutorialsCubit extends Cubit<GenericApiState<List<PostModel>>> {
   final PublicNitEnviroApi _publicNitEnviroApi;
   VideoTutorialsCubit({required PublicNitEnviroApi publicNitEnviroApi})
       : _publicNitEnviroApi = publicNitEnviroApi,
         super(
-          const GenericApiState<List<TutorialItem>>(
+          const GenericApiState<List<PostModel>>(
             error: "",
             isLoading: true,
           ),

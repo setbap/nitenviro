@@ -7,16 +7,15 @@ import 'package:nitenviro/logic/generic_api_state.dart';
 import 'package:nitenviro/logic/video_tutorial/video_tutorials_cubit.dart';
 import 'package:nitenviro/pages/recycle_finder/widgets/recycle_open_item.dart';
 import 'package:nitenviro/pages/tutorial/custom_video_player.dart';
-import 'package:nitenviro/repo/public_enviro_repo.dart';
 import 'package:nitenviro/utils/utils.dart';
+import 'package:public_nitenviro/public_nitenviro.dart';
 
 class Tutorials extends StatelessWidget {
   const Tutorials({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<VideoTutorialsCubit,
-        GenericApiState<List<TutorialItem>>>(
+    return BlocConsumer<VideoTutorialsCubit, GenericApiState<List<PostModel>>>(
       listener: (context, state) {
         if (state.isError) {
           showCupertinoDialog(
@@ -61,7 +60,7 @@ class Tutorials extends StatelessWidget {
 }
 
 class TutorialsDataShow extends StatelessWidget {
-  final List<TutorialItem> data;
+  final List<PostModel> data;
   const TutorialsDataShow({
     Key? key,
     required this.data,
@@ -110,7 +109,7 @@ class TutorialsDataShow extends StatelessWidget {
                   closedElevation: 0,
                   closedColor: Colors.transparent,
                   openBuilder: (context, action) => OpenTutorialInfo(
-                    tutorialItem: tutItem,
+                    postModel: tutItem,
                   ),
                   closedBuilder: (context, action) {
                     return InkWell(
@@ -132,9 +131,9 @@ class TutorialsDataShow extends StatelessWidget {
                               child: CachedNetworkImage(
                                 imageUrl:
                                     "https://geonitenviro.nit.ac.ir/api/" +
-                                        tutItem.image,
-                                placeholder: (context, url) => const Center(
-                                    child: CircularProgressIndicator()),
+                                        (tutItem.poster.formats.medium?.url ??
+                                            tutItem.poster.url),
+                                placeholder: (context, url) => const Center(),
                                 fit: BoxFit.cover,
                                 errorWidget: (context, url, error) =>
                                     const Icon(Icons.error),
@@ -146,7 +145,7 @@ class TutorialsDataShow extends StatelessWidget {
                               vertical: 2,
                             ),
                             child: Text(
-                              tutItem.name,
+                              tutItem.title,
                               style: Theme.of(context).textTheme.subtitle2,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
@@ -173,11 +172,11 @@ class TutorialsDataShow extends StatelessWidget {
 }
 
 class OpenTutorialInfo extends StatelessWidget {
-  final TutorialItem tutorialItem;
+  final PostModel postModel;
 
   const OpenTutorialInfo({
     Key? key,
-    required this.tutorialItem,
+    required this.postModel,
   }) : super(key: key);
 
   @override
@@ -185,14 +184,14 @@ class OpenTutorialInfo extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          tutorialItem.name,
+          postModel.title,
           style: Theme.of(context).textTheme.headline6!.copyWith(
                 color: Colors.white,
               ),
         ),
         backgroundColor: yellowDarken,
       ),
-      body: ListView(
+      body: Column(
         children: [
           Directionality(
             textDirection: TextDirection.ltr,
@@ -201,29 +200,35 @@ class OpenTutorialInfo extends StatelessWidget {
                 return AspectRatio(
                   aspectRatio: 16 / 9,
                   child: NEVideoPlayer(
-                    videoUrl:
-                        "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4",
+                    videoUrl: "https://geonitenviro.nit.ac.ir/api/" +
+                        postModel.videoUrl,
                     placeholderVideoImageUrl:
                         "https://geonitenviro.nit.ac.ir/api/" +
-                            tutorialItem.image,
+                            postModel.poster.url,
                   ),
                 );
               },
             ),
           ),
-          const SizedBox(height: 16),
-          InfoItemContainer(
-            borderColor: darkGreen.withOpacity(0.2),
-            child: Text(
-              tutorialItem.name,
-              style: Theme.of(context).textTheme.headline6,
-            ),
-          ),
-          InfoItemContainer(
-            borderColor: darkGreen.withOpacity(0.2),
-            child: Text(
-              tutorialItem.description,
-              style: Theme.of(context).textTheme.bodyText2,
+          Expanded(
+            child: ListView(
+              children: [
+                const SizedBox(height: 16),
+                InfoItemContainer(
+                  borderColor: darkGreen.withOpacity(0.2),
+                  child: Text(
+                    postModel.title,
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                ),
+                InfoItemContainer(
+                  borderColor: darkGreen.withOpacity(0.2),
+                  child: Text(
+                    postModel.description,
+                    style: Theme.of(context).textTheme.bodyText2,
+                  ),
+                ),
+              ],
             ),
           ),
         ],
