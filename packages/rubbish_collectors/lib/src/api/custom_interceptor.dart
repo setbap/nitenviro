@@ -58,11 +58,13 @@ class CustomInterceptors extends Interceptor {
 
     if (err.response?.statusCode == 401) {
       print("send again");
-      await refreshTokenFn();
       try {
+        await refreshTokenFn();
+        print("get refresh token");
         final retryAnswer = await _retry(err.requestOptions);
         return handler.resolve(retryAnswer);
       } catch (e) {
+        print("error in send again");
         return handler.reject(err);
       }
     }
@@ -75,18 +77,24 @@ class CustomInterceptors extends Interceptor {
   }
 
   Future<void> refreshTokenFn() async {
-    final refreshToken = await getAccessToken();
-    final response = await Dio().post(
-      'http://217.219.165.22:5005/Auth/Refresh',
-      data: {'refreshToken': refreshToken},
-    );
+    final refreshToken = await getRefreshToken();
+    try {
+      final response = await Dio().post(
+        'http://217.219.165.22:5005/Auth/Refresh',
+        data: {'refreshToken': refreshToken},
+      );
 
-    if (response.statusCode == 200) {
-      setAccessToken(response.data["value"]['accesstoken']);
-      setRefreshToken(response.data["value"]['refreshToken']);
-      print("get token yeeyeyey");
-    } else {
-      onAuthError();
+      if (response.statusCode == 200) {
+        setAccessToken(response.data["value"]['accesstoken']);
+        setRefreshToken(response.data["value"]['refreshToken']);
+        print("get token yeeyeyey");
+      } else {
+        onAuthError();
+      }
+    } on DioError catch (e) {
+      if (e.response?.statusCode == 400) {
+        onAuthError();
+      }
     }
   }
 
