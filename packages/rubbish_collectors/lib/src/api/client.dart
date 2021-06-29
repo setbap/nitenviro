@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:rubbish_collectors/rubbish_collectors.dart';
 
@@ -27,7 +29,7 @@ class RubbishCollectorsClient {
     return sendCodeResult;
   }
 
-  Future<GenericResult<AuthTokenResult>> authLogin({
+  Future<GenericResult<UserWithToken>> authLogin({
     required String phone,
     required int loginCode,
   }) async {
@@ -35,9 +37,9 @@ class RubbishCollectorsClient {
       Endpoints.authLoginPath(),
       data: {"phone": phone, "loginCode": loginCode},
     );
-    final loginResult = GenericResult<AuthTokenResult>.fromJson(
+    final loginResult = GenericResult<UserWithToken>.fromJson(
       loginRawResponse.data,
-      (dynamic json) => AuthTokenResult.fromJson(json),
+      (dynamic json) => UserWithToken.fromJson(json),
     );
     return loginResult;
   }
@@ -65,5 +67,29 @@ class RubbishCollectorsClient {
       (dynamic json) => UserInfoResult.fromJson(json),
     );
     return refreshResult;
+  }
+
+  Future<GenericResult<UserInfoResult>> userSetInfo({
+    String? name,
+    String? email,
+    File? avatar,
+  }) async {
+    var formData = FormData.fromMap({
+      'AvatarUrl':
+          avatar == null ? null : await MultipartFile.fromFile(avatar.path)
+    });
+    var userRawResponse = await dio.post(
+      Endpoints.userSetInfoPath(),
+      queryParameters: {
+        'Name': name,
+        'Email': email,
+      },
+      data: formData,
+    );
+    final userResult = GenericResult<UserInfoResult>.fromJson(
+      userRawResponse.data,
+      (dynamic json) => UserInfoResult.fromJson(json),
+    );
+    return userResult;
   }
 }

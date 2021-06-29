@@ -33,13 +33,15 @@ class BTNWithLoading extends StatelessWidget {
           ),
           Expanded(
             flex: 1,
-            child: Text(
-              isLoading ? loadingTitle : title,
-              textAlign: TextAlign.center,
-              style: Theme.of(context)
-                  .textTheme
-                  .headline6!
-                  .copyWith(color: Colors.white),
+            child: FittedBox(
+              child: Text(
+                isLoading ? loadingTitle : title,
+                textAlign: TextAlign.center,
+                style: Theme.of(context)
+                    .textTheme
+                    .headline6!
+                    .copyWith(color: Colors.white),
+              ),
             ),
           ),
           Expanded(

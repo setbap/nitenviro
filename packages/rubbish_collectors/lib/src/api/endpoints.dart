@@ -3,4 +3,5 @@ class Endpoints {
   static String authLoginPath() => '/Auth/Login';
   static String authRefreshPath() => '/Auth/Refresh';
   static String userGetInfoPath() => '/User/GetUserInfo';
+  static String userSetInfoPath() => '/User/Update';
 }

@@ -24,24 +24,26 @@ class AuthLoginInputCubit extends Cubit<AuthLoginInputState> {
     emit(AuthLoginInputLoading());
 
     try {
-      final authCode = await _rubbishCollectorsApi.authLogin(
+      final loginInfo = await _rubbishCollectorsApi.authLogin(
         phoneNumber: phoneNumber,
         loginCode: loginCode,
       );
-      if (authCode.isSuccess) {
-        keyValueStorage.setString(kAccessTokenKey, authCode.value!.accesstoken);
+
+      if (loginInfo.isSuccess) {
+        final authCode = loginInfo.value!.tokens;
+        keyValueStorage.setString(kAccessTokenKey, authCode.accesstoken);
         keyValueStorage.setString(
           kRefreshTokenKey,
-          authCode.value!.refreshToken,
+          authCode.refreshToken,
         );
         keyValueStorage.setBool(
           kIsLoggedIn,
           true,
         );
-        await _userInfoCubit.getUserInfo();
+        _userInfoCubit.setUserInfo(loginInfo.value!.user);
         emit(AuthLoginInputSuccess());
       } else {
-        final message = authCode.errors[0].message ?? "ارور در ورود";
+        final message = loginInfo.errors[0].message ?? "ارور در ورود";
         emit(AuthLoginInputError(message: message));
       }
     } catch (e) {

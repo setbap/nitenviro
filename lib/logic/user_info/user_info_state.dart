@@ -2,20 +2,24 @@ part of 'user_info_cubit.dart';
 
 @immutable
 abstract class UserInfoState {
-  const UserInfoState();
+  final UserInfoResult user;
+  const UserInfoState({required this.user});
 }
 
-class UserInfoInitial extends UserInfoState {}
+class UserInfoInitial extends UserInfoState {
+  const UserInfoInitial({required UserInfoResult user}) : super(user: user);
+}
 
-class UserInfoLoading extends UserInfoState {}
+class UserInfoLoading extends UserInfoState {
+  const UserInfoLoading({required UserInfoResult user}) : super(user: user);
+}
 
 class UserInfoSuccess extends UserInfoState {
-  final UserInfoResult user;
-
-  const UserInfoSuccess({required this.user});
+  const UserInfoSuccess({required UserInfoResult user}) : super(user: user);
 }
 
 class UserInfoError extends UserInfoState {
   final String? message;
-  const UserInfoError({this.message});
+  const UserInfoError({this.message, required UserInfoResult user})
+      : super(user: user);
 }

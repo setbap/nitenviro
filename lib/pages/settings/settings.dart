@@ -208,14 +208,6 @@ class SettingCardImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserInfoCubit, UserInfoState>(builder: (context, state) {
-      UserInfoResult userInfo = UserInfoResult(
-        id: -1,
-        phone: "",
-        createdAt: "",
-      );
-      if (state is UserInfoSuccess) {
-        userInfo = state.user;
-      }
       return SettingBaseCard(
         child: Container(
           width: double.infinity,
@@ -227,11 +219,16 @@ class SettingCardImage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              CircleAvatar(
-                maxRadius: 56,
-                backgroundColor: Colors.transparent,
+              Container(
+                width: 64,
+                height: 64,
+                clipBehavior: Clip.antiAlias,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(24),
+                  color: mainYellow.withOpacity(0.1),
+                ),
                 child: Image.network(
-                  userInfo.avatarUrl ??
+                  state.user.avatarUrl ??
                       "https://pfpmaker.com/_nuxt/img/profile-3-1.3e702c5.png",
                   errorBuilder: (context, error, stackTrace) => const Icon(
                     Icons.account_circle,
@@ -246,11 +243,11 @@ class SettingCardImage extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(userInfo.phone),
+                    Text(state.user.phone),
                     const Text("  |  "),
                     FittedBox(
                       child: Text(
-                        userInfo.email ?? "ایمیل خود را تاکنون ثبت نکردید",
+                        state.user.email ?? "ایمیل خود را تاکنون ثبت نکردید",
                       ),
                     ),
                   ],

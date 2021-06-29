@@ -4,7 +4,6 @@ import 'package:nitenviro/logic/logic.dart';
 import 'package:nitenviro/pages/pages.dart';
 import 'package:nitenviro/shared_widget/shared_widget.dart';
 import 'package:nitenviro/utils/utils.dart';
-import 'package:rubbish_collectors/rubbish_collectors.dart';
 
 class Profile extends StatelessWidget {
   const Profile({Key? key}) : super(key: key);
@@ -39,14 +38,6 @@ class Profile extends StatelessWidget {
       ],
       child: BlocBuilder<UserInfoCubit, UserInfoState>(
         builder: (context, state) {
-          UserInfoResult userInfo = UserInfoResult(
-            id: -1,
-            phone: "",
-            createdAt: "",
-          );
-          if (state is UserInfoSuccess) {
-            userInfo = state.user;
-          }
           return ListView(
             shrinkWrap: true,
             physics: const BouncingScrollPhysics(),
@@ -56,12 +47,17 @@ class Profile extends StatelessWidget {
                   height: constraints.maxWidth / 9,
                 ),
               ),
-              CircleAvatar(
-                maxRadius: 60,
-                backgroundColor: Colors.transparent,
+              Container(
+                width: 120,
+                height: 120,
+                clipBehavior: Clip.antiAlias,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                ),
                 child: Image.network(
-                  userInfo.avatarUrl ??
+                  state.user.avatarUrl ??
                       "https://pfpmaker.com/_nuxt/img/profile-3-1.3e702c5.png",
+                  key: ValueKey(state.user.now),
                   errorBuilder: (context, error, stackTrace) => const Icon(
                     Icons.account_circle,
                     size: 120,
@@ -84,7 +80,7 @@ class Profile extends StatelessWidget {
               ),
               Center(
                 child: Text(
-                  userInfo.name ?? "حافظ محیط زیست",
+                  state.user.name ?? "حافظ محیط زیست",
                   style: Theme.of(context).textTheme.headline4!.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -94,9 +90,9 @@ class Profile extends StatelessWidget {
                 height: 16,
               ),
               ProfileRequestBar(
-                avatarUrl: userInfo.avatarUrl,
-                email: userInfo.email,
-                name: userInfo.name,
+                avatarUrl: state.user.avatarUrl,
+                email: state.user.email,
+                name: state.user.name,
               ),
               const SizedBox(
                 height: 24,
@@ -121,19 +117,19 @@ class Profile extends StatelessWidget {
                     ProfileBoxInfo(
                       title: "شماره تماس",
                       icon: Icons.phone_enabled_outlined,
-                      value: userInfo.phone,
+                      value: state.user.phone,
                     ),
                     ProfileBoxInfo(
                       title: "ایمیل",
                       icon: Icons.mail,
-                      value: userInfo.email ?? "ایمیل شما ثبت نشده است",
+                      value: state.user.email ?? "ایمیل شما ثبت نشده است",
                     ),
                     ProfileBoxInfo(
                       title: "دریافت های تمام شده",
                       icon: Icons.circle,
-                      value: userInfo.credit == 0
+                      value: state.user.credit == 0
                           ? "دریافتی تا کنون نداشتید"
-                          : "${userInfo.credit} بار",
+                          : "${state.user.credit} بار",
                     ),
                   ],
                 ),

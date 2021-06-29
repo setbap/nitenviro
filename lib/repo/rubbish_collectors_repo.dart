@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:rubbish_collectors/rubbish_collectors.dart';
 
 class RubbishCollectorsApi {
@@ -14,7 +16,7 @@ class RubbishCollectorsApi {
     return items;
   }
 
-  Future<GenericResult<AuthTokenResult>> authLogin({
+  Future<GenericResult<UserWithToken>> authLogin({
     required String phoneNumber,
     required int loginCode,
   }) async {
@@ -27,6 +29,19 @@ class RubbishCollectorsApi {
 
   Future<GenericResult<UserInfoResult>> getUserInfo() async {
     final items = await _rubbishCollectorsClient.userGetInfo();
+    return items;
+  }
+
+  Future<GenericResult<UserInfoResult>> updateUserInfo({
+    String? name,
+    String? email,
+    File? avatar,
+  }) async {
+    final items = await _rubbishCollectorsClient.userSetInfo(
+      avatar: avatar,
+      email: email,
+      name: name,
+    );
     return items;
   }
 }

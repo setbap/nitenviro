@@ -23,7 +23,8 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   final SharedPreferences keyValueStorage;
-  const MyApp({Key? key, required this.keyValueStorage}) : super(key: key);
+  final navigatorKey = GlobalKey<NavigatorState>();
+  MyApp({Key? key, required this.keyValueStorage}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -54,8 +55,7 @@ class MyApp extends StatelessWidget {
                   await keyValueStorage.remove(kAccessTokenKey);
                   await keyValueStorage.remove(kRefreshTokenKey);
                   await keyValueStorage.remove(kIsLoggedIn);
-                  Navigator.pushNamedAndRemoveUntil(
-                    context,
+                  navigatorKey.currentState!.pushNamedAndRemoveUntil(
                     IntroPage.path,
                     (route) => false,
                   );
@@ -91,6 +91,7 @@ class MyApp extends StatelessWidget {
           ),
         ],
         child: MaterialApp(
+          navigatorKey: navigatorKey,
           localizationsDelegates: const [
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,

@@ -8,6 +8,7 @@ class UserInfoResult {
   final int? type;
   final bool? isActive;
   final String createdAt;
+  final String now;
 
   UserInfoResult({
     required this.id,
@@ -19,7 +20,7 @@ class UserInfoResult {
     this.type,
     this.isActive,
     required this.createdAt,
-  });
+  }) : now = DateTime.now().toIso8601String();
 
   factory UserInfoResult.fromJson(Map<String, dynamic> map) {
     return UserInfoResult(
