@@ -83,7 +83,7 @@ class _ChangeInfoState extends State<ChangeInfo> {
                     "پروفایل به روز رسانی شد",
                   ),
                   behavior: SnackBarBehavior.floating,
-                  duration: const Duration(seconds: 1000),
+                  duration: const Duration(seconds: 1),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(
                       12,

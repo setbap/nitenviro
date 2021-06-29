@@ -34,6 +34,7 @@ class BTNWithLoading extends StatelessWidget {
           Expanded(
             flex: 1,
             child: FittedBox(
+              fit: BoxFit.scaleDown,
               child: Text(
                 isLoading ? loadingTitle : title,
                 textAlign: TextAlign.center,
