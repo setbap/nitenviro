@@ -49,7 +49,7 @@ class _RecycleDataShowState extends State<RecycleDataShow> {
                 },
                 decoration: const InputDecoration(
                   isDense: true,
-                  hintText: "نام پسماند خود را وارد کنید. (مثلا قوطی رب)",
+                  hintText: "نام پسماند( مثلا قوطی رب )",
                   suffixIcon: Icon(
                     Icons.search,
                   ),

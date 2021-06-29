@@ -75,6 +75,22 @@ class _ChangeInfoState extends State<ChangeInfo> {
         listener: (context, state) {
           if (state is UserInfoSuccess) {
             imageCache?.clear();
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                SnackBar(
+                  content: const Text(
+                    "پروفایل به روز رسانی شد",
+                  ),
+                  behavior: SnackBarBehavior.floating,
+                  duration: const Duration(seconds: 1000),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                      12,
+                    ),
+                  ),
+                ),
+              );
             Navigator.pop(context);
           }
         },
@@ -147,7 +163,7 @@ class _ChangeInfoState extends State<ChangeInfo> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: const Text(
-                              "اطلاعات مثلا در حال ارسال میباشد",
+                              "اطلاعات در حال ارسال میباشد",
                             ),
                             behavior: SnackBarBehavior.floating,
                             shape: RoundedRectangleBorder(

@@ -83,6 +83,7 @@ class MyApp extends StatelessWidget {
             create: (context) => VideoTutorialsCubit(
               publicNitEnviroApi: context.read<PublicNitEnviroApi>(),
             )..getAllTutorials(),
+            lazy: false,
           ),
           BlocProvider<UserInfoCubit>(
             create: (context) => UserInfoCubit(

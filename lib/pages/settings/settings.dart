@@ -220,11 +220,11 @@ class SettingCardImage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                width: 64,
-                height: 64,
+                width: 80,
+                height: 80,
                 clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: BorderRadius.circular(32),
                   color: mainYellow.withOpacity(0.1),
                 ),
                 child: Image.network(

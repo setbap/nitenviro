@@ -47,32 +47,39 @@ class Profile extends StatelessWidget {
                   height: constraints.maxWidth / 9,
                 ),
               ),
-              Container(
-                width: 120,
-                height: 120,
-                clipBehavior: Clip.antiAlias,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100),
-                ),
-                child: Image.network(
-                  state.user.avatarUrl ??
-                      "https://pfpmaker.com/_nuxt/img/profile-3-1.3e702c5.png",
-                  key: ValueKey(state.user.now),
-                  errorBuilder: (context, error, stackTrace) => const Icon(
-                    Icons.account_circle,
-                    size: 120,
-                    color: yellowDarken,
+              Center(
+                child: Container(
+                  width: 120,
+                  height: 120,
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100),
+                    gradient: const LinearGradient(
+                      colors: [blueGradient, greenGradient],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
                   ),
-                  loadingBuilder: (context, child, loadingProgress) {
-                    if (loadingProgress == null) {
-                      return child;
-                    }
-                    return const Icon(
+                  child: Image.network(
+                    state.user.avatarUrl ??
+                        "https://pfpmaker.com/_nuxt/img/profile-3-1.3e702c5.png",
+                    key: ValueKey(state.user.now),
+                    errorBuilder: (context, error, stackTrace) => const Icon(
                       Icons.account_circle,
                       size: 120,
                       color: yellowDarken,
-                    );
-                  },
+                    ),
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) {
+                        return child;
+                      }
+                      return const Icon(
+                        Icons.account_circle,
+                        size: 120,
+                        color: yellowDarken,
+                      );
+                    },
+                  ),
                 ),
               ),
               const SizedBox(
