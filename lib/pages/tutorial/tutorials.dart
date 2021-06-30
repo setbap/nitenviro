@@ -48,12 +48,17 @@ class Tutorials extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        if (state.data == null || state.isLoading) {
+        if (state.data == null && state.isLoading) {
           return const Center(
             child: CircularProgressIndicator(),
           );
         }
-        return TutorialsDataShow(data: state.data!);
+        return RefreshIndicator(
+          onRefresh: () async {
+            await context.read<VideoTutorialsCubit>().getAllTutorials();
+          },
+          child: TutorialsDataShow(data: state.data!),
+        );
       },
     );
   }

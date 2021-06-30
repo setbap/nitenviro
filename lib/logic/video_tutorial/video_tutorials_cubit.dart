@@ -22,7 +22,7 @@ class VideoTutorialsCubit extends Cubit<GenericApiState<List<PostModel>>> {
         error: '',
       ),
     );
-    _publicNitEnviroApi.getAllTutorials().then((value) {
+    await _publicNitEnviroApi.getAllTutorials().then((value) {
       emit(state.copyWith(data: value));
     }).catchError((err) {
       emit(state.copyWith(isError: true, error: "new error"));

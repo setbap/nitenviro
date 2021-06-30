@@ -23,7 +23,7 @@ class RecyclableDetectorCubit
         error: '',
       ),
     );
-    _publicNitEnviroApi.getAllItems().then((value) {
+    await _publicNitEnviroApi.getAllItems().then((value) {
       emit(state.copyWith(data: value));
     }).catchError((err) {
       emit(state.copyWith(isError: true, error: "new error"));

@@ -44,12 +44,17 @@ class RecycleFinder extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        if (state.data == null || state.isLoading) {
+        if (state.data == null && state.isLoading) {
           return const Center(
             child: CircularProgressIndicator(),
           );
         }
-        return RecycleDataShow(data: state.data!);
+        return RecycleDataShow(
+          data: state.data!,
+          onRefresh: () async {
+            await context.read<RecyclableDetectorCubit>().getAllItems();
+          },
+        );
       },
     );
   }

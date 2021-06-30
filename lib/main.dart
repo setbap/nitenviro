@@ -75,8 +75,8 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider<RecyclableDetectorCubit>(
             create: (context) => RecyclableDetectorCubit(
-                publicNitEnviroApi: context.read<PublicNitEnviroApi>())
-              ..getAllItems(),
+              publicNitEnviroApi: context.read<PublicNitEnviroApi>(),
+            )..getAllItems(),
             lazy: false,
           ),
           BlocProvider<VideoTutorialsCubit>(

@@ -43,7 +43,6 @@ class UserInfoCubit extends Cubit<UserInfoState> {
     File? avatar,
   }) async {
     if (state is UserInfoSuccess) {
-      print("update user");
       emit(UserInfoLoading(user: (state as UserInfoSuccess).user));
       try {
         final userInfo = await _rubbishCollectorsApi.updateUserInfo(
