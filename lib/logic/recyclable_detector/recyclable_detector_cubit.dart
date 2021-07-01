@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:nitenviro/logic/generic_api_state.dart';
-import 'package:nitenviro/repo/public_enviro_repo.dart';
+import 'package:nitenviro/logic/logic.dart';
+import 'package:nitenviro/repo/repo.dart';
 import 'package:public_nitenviro/public_nitenviro.dart';
 
 class RecyclableDetectorCubit
@@ -23,7 +23,7 @@ class RecyclableDetectorCubit
         error: '',
       ),
     );
-    _publicNitEnviroApi.getAllItems().then((value) {
+    await _publicNitEnviroApi.getAllItems().then((value) {
       emit(state.copyWith(data: value));
     }).catchError((err) {
       emit(state.copyWith(isError: true, error: "new error"));

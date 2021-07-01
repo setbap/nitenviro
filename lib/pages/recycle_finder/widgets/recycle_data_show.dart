@@ -7,12 +7,17 @@ import 'package:nitenviro/utils/colors.dart';
 import 'package:public_nitenviro/public_nitenviro.dart';
 import 'package:tuple/tuple.dart';
 
+// from flutter files
+typedef RefreshCallback = Future<void> Function();
+
 class RecycleDataShow extends StatefulWidget {
   final List<RecyclableItems> data;
+  final RefreshCallback onRefresh;
 
   const RecycleDataShow({
     Key? key,
     required this.data,
+    required this.onRefresh,
   }) : super(key: key);
 
   @override
@@ -33,10 +38,9 @@ class _RecycleDataShowState extends State<RecycleDataShow> {
         categories.values.where((element) => element.item2).toList();
     return Container(
       color: lightBorder,
-      child: CustomScrollView(
-        physics: const BouncingScrollPhysics(),
-        slivers: [
-          SliverAppBar(
+      child: Column(
+        children: [
+          AppBar(
             automaticallyImplyLeading: false,
             centerTitle: true,
             title: Padding(
@@ -49,164 +53,175 @@ class _RecycleDataShowState extends State<RecycleDataShow> {
                 },
                 decoration: const InputDecoration(
                   isDense: true,
-                  hintText: "نام پسماند خود را وارد کنید. (مثلا قوطی رب)",
+                  hintText: "نام پسماند( مثلا قوطی رب )",
                   suffixIcon: Icon(
                     Icons.search,
                   ),
                 ),
               ),
             ),
-            pinned: true,
+            toolbarHeight: 75,
             backgroundColor: yellowDarken,
           ),
-          SliverToBoxAdapter(
-            child: SizedBox(
-              height: 80,
-              child: ListView.builder(
-                padding: const EdgeInsets.all(8),
+          Expanded(
+            child: RefreshIndicator(
+              onRefresh: widget.onRefresh,
+              triggerMode: RefreshIndicatorTriggerMode.onEdge,
+              child: CustomScrollView(
                 physics: const BouncingScrollPhysics(),
-                itemBuilder: (context, index) {
-                  final category = categories.values.elementAt(index);
-                  return InkWell(
-                    onTap: () {
-                      categories[category.item3] = Tuple3(
-                        category.item1,
-                        !category.item2,
-                        category.item3,
-                      );
-                      setState(() {});
-                    },
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: 80,
+                      child: ListView.builder(
+                        padding: const EdgeInsets.all(8),
+                        physics: const BouncingScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          final category = categories.values.elementAt(index);
+                          return InkWell(
+                            onTap: () {
+                              categories[category.item3] = Tuple3(
+                                category.item1,
+                                !category.item2,
+                                category.item3,
+                              );
+                              setState(() {});
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 8),
+                              child: Column(
+                                children: [
+                                  AnimatedContainer(
+                                    duration: const Duration(milliseconds: 200),
+                                    child: Center(
+                                      child: FittedBox(
+                                        child: Text(
+                                          category.item1,
+                                        ),
+                                      ),
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: category.item2
+                                          ? yellowDarken
+                                          : yellowDarken.withOpacity(0.3),
+                                      borderRadius: BorderRadius.circular(56),
+                                      border: Border.all(
+                                        width: 3,
+                                        color: category.item2
+                                            ? Colors.greenAccent
+                                            : Colors.transparent,
+                                      ),
+                                    ),
+                                    width: 64,
+                                    height: 64,
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                        itemCount: categories.length,
+                        scrollDirection: Axis.horizontal,
+                      ),
+                    ),
+                  ),
+                  SliverToBoxAdapter(
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 8),
-                      child: Column(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Wrap(
+                        spacing: 8,
+                        crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
-                          AnimatedContainer(
-                            duration: const Duration(milliseconds: 200),
-                            child: Center(
-                              child: FittedBox(
-                                child: Text(
-                                  category.item1,
+                          const Text(
+                            "دسته های انتخاب شده:",
+                            textAlign: TextAlign.center,
+                          ),
+                          if (selectedCategories.isEmpty)
+                            const Text(
+                              "شما هیج دسته ای را انتخاب نکردید",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ...(selectedCategories
+                              .map(
+                                (e) => Chip(
+                                  label: Text(e.item1),
+                                  deleteButtonTooltipMessage: "حذف ${e.item1}",
+                                  deleteIconColor: Colors.red.withOpacity(0.5),
+                                  visualDensity: VisualDensity.compact,
+                                  onDeleted: () {
+                                    categories[e.item3] = Tuple3(
+                                      e.item1,
+                                      !e.item2,
+                                      e.item3,
+                                    );
+                                    setState(() {});
+                                  },
                                 ),
-                              ),
-                            ),
-                            decoration: BoxDecoration(
-                              color: category.item2
-                                  ? yellowDarken
-                                  : yellowDarken.withOpacity(0.3),
-                              borderRadius: BorderRadius.circular(56),
-                              border: Border.all(
-                                width: 3,
-                                color: category.item2
-                                    ? Colors.greenAccent
-                                    : Colors.transparent,
-                              ),
-                            ),
-                            width: 64,
-                            height: 64,
-                          )
+                              )
+                              .toList())
                         ],
                       ),
                     ),
-                  );
-                },
-                itemCount: categories.length,
-                scrollDirection: Axis.horizontal,
-              ),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Wrap(
-                spacing: 8,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                children: [
-                  const Text(
-                    "دسته های انتخاب شده:",
-                    textAlign: TextAlign.center,
                   ),
-                  if (selectedCategories.isEmpty)
-                    const Text(
-                      "شما هیج دسته ای را انتخاب نکردید",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
+                  SliverToBoxAdapter(
+                    child: SizedBox(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 12, horizontal: 16),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text("لیست پسماند ها"),
+                            Text("تعداد: ${data.length}"),
+                          ],
+                        ),
                       ),
                     ),
-                  ...(selectedCategories
-                      .map(
-                        (e) => Chip(
-                          label: Text(e.item1),
-                          deleteButtonTooltipMessage: "حذف ${e.item1}",
-                          deleteIconColor: Colors.red.withOpacity(0.5),
-                          visualDensity: VisualDensity.compact,
-                          onDeleted: () {
-                            categories[e.item3] = Tuple3(
-                              e.item1,
-                              !e.item2,
-                              e.item3,
-                            );
-                            setState(() {});
-                          },
+                  ),
+                  if (data.isEmpty)
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 48),
+                        child: Center(
+                          child: Text(
+                            "آیتمی با این مشخصات موجود نیست",
+                            style: Theme.of(context).textTheme.headline6,
+                          ),
                         ),
-                      )
-                      .toList())
+                      ),
+                    ),
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        final item = data[index];
+                        return OpenContainer(
+                          transitionType: ContainerTransitionType.fade,
+                          closedColor: Colors.transparent,
+                          openColor: lightBorder,
+                          closedElevation: 0,
+                          openBuilder: (context, action) {
+                            return OpenItemDetail(
+                              recyclableItems: item,
+                            );
+                          },
+                          closedBuilder: (context, action) {
+                            return CloseRecycleContainer(
+                              onPressed: action,
+                              recyclableItems: item,
+                            );
+                          },
+                        );
+                      },
+                      childCount: data.length,
+                    ),
+                  ),
+                  const SliverPadding(padding: EdgeInsets.all(40))
                 ],
               ),
             ),
           ),
-          SliverToBoxAdapter(
-            child: SizedBox(
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text("لیست پسماند ها"),
-                    Text("تعداد: ${data.length}"),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          if (data.isEmpty)
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 48),
-                child: Center(
-                  child: Text(
-                    "آیتمی با این مشخصات موجود نیست",
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                ),
-              ),
-            ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                final item = data[index];
-                return OpenContainer(
-                  transitionType: ContainerTransitionType.fade,
-                  closedColor: Colors.transparent,
-                  openColor: lightBorder,
-                  closedElevation: 0,
-                  openBuilder: (context, action) {
-                    return OpenItemDetail(
-                      recyclableItems: item,
-                    );
-                  },
-                  closedBuilder: (context, action) {
-                    return CloseRecycleContainer(
-                      onPressed: action,
-                      recyclableItems: item,
-                    );
-                  },
-                );
-              },
-              childCount: data.length,
-            ),
-          ),
-          const SliverPadding(padding: EdgeInsets.all(40))
         ],
       ),
     );

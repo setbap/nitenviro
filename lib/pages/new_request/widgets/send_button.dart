@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nitenviro/utils/colors.dart';
 
 class NESendButton extends StatelessWidget {
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final String title;
   const NESendButton({
     Key? key,

@@ -1,10 +1,13 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nitenviro/logic/user_info/user_info_cubit.dart';
 import 'package:nitenviro/pages/change_info/change_info.dart';
 import 'package:nitenviro/pages/intro/intro.dart';
 import 'package:nitenviro/shared_widget/background_circle_painter.dart';
 import 'package:nitenviro/utils/colors.dart';
+import 'package:rubbish_collectors/rubbish_collectors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -63,23 +66,35 @@ class Settings extends StatelessWidget {
                 child: Column(
                   children: [
                     const SettingCardImage(),
-                    SettingItem(
-                      title: "تغییر مشخصات",
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return const ChangeInfo(
-                                name: null,
-                                email: null,
-                              );
-                            },
-                          ),
-                        );
-                      },
-                      leadingIconData: Icons.info,
-                    ),
+                    BlocBuilder<UserInfoCubit, UserInfoState>(
+                        builder: (context, state) {
+                      UserInfoResult userInfo = UserInfoResult(
+                        id: -1,
+                        phone: "",
+                        createdAt: "",
+                      );
+                      if (state is UserInfoSuccess) {
+                        userInfo = state.user;
+                      }
+                      return SettingItem(
+                        title: "تغییر مشخصات",
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return ChangeInfo(
+                                  name: userInfo.name,
+                                  email: userInfo.email,
+                                  avatarUrl: userInfo.avatarUrl,
+                                );
+                              },
+                            ),
+                          );
+                        },
+                        leadingIconData: Icons.info,
+                      );
+                    }),
                     SettingItem(
                       title: "درباره ما",
                       onPressed: () {
@@ -143,7 +158,7 @@ class Settings extends StatelessWidget {
                       onPressed: () async {
                         SharedPreferences prefs =
                             await SharedPreferences.getInstance();
-                        prefs.setBool("loggedIn", false);
+                        prefs.clear();
                         Navigator.pushNamedAndRemoveUntil(
                             context, IntroPage.path, (route) => false);
                       },
@@ -192,45 +207,57 @@ class SettingCardImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SettingBaseCard(
-      child: Container(
-        width: double.infinity,
-        height: 180,
-        padding: const EdgeInsets.all(
-          16,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            CircleAvatar(
-              maxRadius: 56,
-              backgroundColor: Colors.transparent,
-              child: Image.network(
-                "https://pfpmaker.com/_nuxt/img/profile-3-1.3e702c5.png",
-                errorBuilder: (context, error, stackTrace) => const Icon(
-                  Icons.account_circle,
-                  size: 112,
-                  color: Colors.grey,
+    return BlocBuilder<UserInfoCubit, UserInfoState>(builder: (context, state) {
+      return SettingBaseCard(
+        child: Container(
+          width: double.infinity,
+          height: 180,
+          padding: const EdgeInsets.all(
+            16,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                width: 80,
+                height: 80,
+                clipBehavior: Clip.antiAlias,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(32),
+                  color: mainYellow.withOpacity(0.1),
+                ),
+                child: Image.network(
+                  state.user.avatarUrl ??
+                      "https://pfpmaker.com/_nuxt/img/profile-3-1.3e702c5.png",
+                  errorBuilder: (context, error, stackTrace) => const Icon(
+                    Icons.account_circle,
+                    size: 112,
+                    color: Colors.grey,
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 8),
-            SizedBox(
-              height: 24,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text("09110001122"),
-                  Text("  |  "),
-                  Text("ebr.sina@gmail.com"),
-                ],
-              ),
-            )
-          ],
+              const SizedBox(height: 8),
+              SizedBox(
+                height: 24,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(state.user.phone),
+                    const Text("  |  "),
+                    FittedBox(
+                      child: Text(
+                        state.user.email ?? "ایمیل خود را تاکنون ثبت نکردید",
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 }
 

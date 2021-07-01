@@ -1,23 +1,27 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:nitenviro/logic/logic.dart';
 import 'package:nitenviro/pages/add_building/add_building_form.dart';
 import 'package:nitenviro/pages/new_request/widgets/reminder_time.dart';
-import 'package:nitenviro/pages/new_request/widgets/send_button.dart';
 import 'package:nitenviro/shared_widget/background_circle_painter.dart';
+import 'package:nitenviro/shared_widget/shared_widget.dart';
 import 'package:nitenviro/utils/colors.dart';
 import 'package:nitenviro/utils/utils.dart';
 
 class ChangeInfo extends StatefulWidget {
   final String? name;
   final String? email;
+  final String? avatarUrl;
 
   const ChangeInfo({
     Key? key,
     this.name,
     this.email,
+    this.avatarUrl,
   }) : super(key: key);
 
   @override
@@ -67,100 +71,131 @@ class _ChangeInfoState extends State<ChangeInfo> {
           isRightPrimary: false,
         ),
       ],
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          title: Text(
-            "تغییر مشخصات",
-            style: Theme.of(context).textTheme.headline6!.copyWith(
-                  color: Colors.white,
+      child: BlocConsumer<UserInfoCubit, UserInfoState>(
+        listener: (context, state) {
+          if (state is UserInfoSuccess) {
+            imageCache?.clear();
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                SnackBar(
+                  content: const Text(
+                    "پروفایل به روز رسانی شد",
+                  ),
+                  behavior: SnackBarBehavior.floating,
+                  duration: const Duration(seconds: 1),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                      12,
+                    ),
+                  ),
                 ),
-          ),
-        ),
-        body: Form(
-          key: _formKey,
-          child: ListView(
-            padding: const EdgeInsets.all(16),
-            children: [
-              Hero(
-                tag: "prof_image",
-                child: CircleAvatarWithEdit(
-                  onChanged: (file) {
-                    _file = file;
-                  },
-                  url: "https://pfpmaker.com/_nuxt/img/profile-3-1.3e702c5.png",
-                ),
+              );
+            Navigator.pop(context);
+          }
+        },
+        listenWhen: (previous, current) =>
+            previous is UserInfoLoading && current is UserInfoSuccess,
+        builder: (context, state) {
+          return Scaffold(
+            backgroundColor: Colors.transparent,
+            appBar: AppBar(
+              title: Text(
+                "تغییر مشخصات",
+                style: Theme.of(context).textTheme.headline6!.copyWith(
+                      color: Colors.white,
+                    ),
               ),
-              const SizedBox(height: 24),
-              NEFormTextInput(
-                textEditingController: nameInputController,
-                textInputFormatter: const [],
-                validator: (value) {
-                  if (value == null || value.isEmpty || value == widget.name) {
-                    return null;
-                  } else if (value.length < 4) {
-                    return "نام باید بیش از 3 حرف باشد";
-                  }
-                },
-                iconData: Icons.account_circle,
-                label: "نام و نام خانوادگی",
-                hint: "سینا ابراهیمی",
-              ),
-              const SizedBox(height: 8),
-              NEFormTextInput(
-                textEditingController: emailInputController,
-                textInputFormatter: const [],
-                inputType: TextInputType.emailAddress,
-                textInputAction: TextInputAction.done,
-                validator: (value) {
-                  if (value == null || value.isEmpty || value == widget.email) {
-                    return null;
-                  } else if (!isEmail(value)) {
-                    return "ایمیل وارد شده صحیح نمی باشد";
-                  }
-                },
-                iconData: Icons.mail,
-                label: "ایمیل",
-                hint: "example@example.com",
-              ),
-              const SizedBox(height: 16),
-              NESendButton(
-                onTap: () {
-                  if (_formKey.currentState!.validate()) {
-                    debugPrint(_file?.path);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: const Text("اطلاعات مثلا در حال ارسال میباشد"),
-                        behavior: SnackBarBehavior.floating,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                            12,
+            ),
+            body: Form(
+              key: _formKey,
+              child: ListView(
+                padding: const EdgeInsets.all(16),
+                children: [
+                  CircleAvatarWithEdit(
+                    onChanged: (file) {
+                      _file = file;
+                    },
+                    url: widget.avatarUrl ??
+                        "https://pfpmaker.com/_nuxt/img/profile-3-1.3e702c5.png",
+                  ),
+                  const SizedBox(height: 24),
+                  NEFormTextInput(
+                    textEditingController: nameInputController,
+                    textInputFormatter: const [],
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return null;
+                      } else if (value.length < 4) {
+                        return "نام باید بیش از 3 حرف باشد";
+                      }
+                    },
+                    iconData: Icons.account_circle,
+                    label: "نام و نام خانوادگی",
+                    hint: "سینا ابراهیمی",
+                  ),
+                  const SizedBox(height: 8),
+                  NEFormTextInput(
+                    textEditingController: emailInputController,
+                    textInputFormatter: const [],
+                    inputType: TextInputType.emailAddress,
+                    textInputAction: TextInputAction.done,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return null;
+                      } else if (!isEmail(value)) {
+                        return "ایمیل وارد شده صحیح نمی باشد";
+                      }
+                    },
+                    iconData: Icons.mail,
+                    label: "ایمیل",
+                    hint: "example@example.com",
+                  ),
+                  const SizedBox(height: 16),
+                  BTNWithLoading(
+                    onSubmit: () {
+                      if (_formKey.currentState!.validate()) {
+                        context.read<UserInfoCubit>().updateUserInfo(
+                              name: nameInputController.text,
+                              email: emailInputController.text,
+                              avatar: _file,
+                            );
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: const Text(
+                              "اطلاعات در حال ارسال میباشد",
+                            ),
+                            behavior: SnackBarBehavior.floating,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                12,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    );
-                    Future.delayed(const Duration(seconds: 2), () {
-                      Navigator.pop(context);
-                    });
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: const Text("اطلاعات نادرست می باشد"),
-                        behavior: SnackBarBehavior.floating,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                            12,
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: const Text("اطلاعات نادرست می باشد"),
+                            behavior: SnackBarBehavior.floating,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                12,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    );
-                  }
-                },
-                title: "ثبت مشخصات",
+                        );
+                      }
+                    },
+                    title: "ثبت مشخصات",
+                    isLoading: state is UserInfoLoading,
+                    loadingTitle: "در حال ارسال ",
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -252,8 +287,9 @@ class _CircleAvatarWithEditState extends State<CircleAvatarWithEdit> {
               width: 112,
               height: 112,
               clipBehavior: Clip.antiAlias,
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(100)),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+              ),
               child: Image.network(
                 widget.url ?? "",
                 errorBuilder: (context, error, stackTrace) => const Icon(
