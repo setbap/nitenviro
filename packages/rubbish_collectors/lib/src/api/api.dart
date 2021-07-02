@@ -1,3 +1,3 @@
-export './custom_interceptor.dart';
-export './client.dart';
-export './endpoints.dart';
+export 'interceptors/interceptors.dart';
+export 'client.dart';
+export 'endpoints.dart';

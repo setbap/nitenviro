@@ -10,6 +10,7 @@ environment:
 dependencies:
   dio: ^4.0.0
   freezed_annotation: ^0.14.2
+  connectivity_plus: ^1.0.4
 
 dev_dependencies:
   freezed: ^0.14.2

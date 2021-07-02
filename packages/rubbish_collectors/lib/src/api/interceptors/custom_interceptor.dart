@@ -1,16 +1,18 @@
 import 'dart:developer' as dev;
 import 'package:dio/dio.dart';
+import 'package:rubbish_collectors/rubbish_collectors.dart';
 
 class CustomInterceptors extends Interceptor {
   final Future<String?> Function() getAccessToken;
   final Future<String?> Function() getRefreshToken;
-
+  final Dio dioClient;
   final Future Function(String token) setAccessToken;
   final Future Function(String token) setRefreshToken;
   final VoidCallback onAuthError;
 
   CustomInterceptors({
     required this.getAccessToken,
+    required this.dioClient,
     required this.getRefreshToken,
     required this.setAccessToken,
     required this.setRefreshToken,
@@ -80,8 +82,8 @@ class CustomInterceptors extends Interceptor {
   Future<void> refreshTokenFn() async {
     final refreshToken = await getRefreshToken();
     try {
-      final response = await Dio().post(
-        'http://217.219.165.22:5005/Auth/Refresh',
+      final response = await dioClient.post(
+        Endpoints.authRefreshPath(),
         data: {'refreshToken': refreshToken},
       );
 
@@ -106,9 +108,12 @@ class CustomInterceptors extends Interceptor {
       method: requestOptions.method,
       headers: requestOptions.headers,
     );
-    final response = await Dio().request(
-      requestOptions.baseUrl + requestOptions.path,
+    final response = await dioClient.request(
+      requestOptions.path,
+      cancelToken: requestOptions.cancelToken,
       data: requestOptions.data,
+      onReceiveProgress: requestOptions.onReceiveProgress,
+      onSendProgress: requestOptions.onSendProgress,
       queryParameters: requestOptions.queryParameters,
       options: options,
     );

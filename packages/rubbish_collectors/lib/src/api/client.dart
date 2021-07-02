@@ -1,16 +1,42 @@
 import 'dart:io';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:rubbish_collectors/rubbish_collectors.dart';
+import 'package:rubbish_collectors/src/api/interceptors/dio_connectivity_request_retrier.dart';
 
 class RubbishCollectorsClient {
   final Dio dio;
+  final Future<String?> Function() getAccessToken;
+  final Future<String?> Function() getRefreshToken;
+
+  final Future Function(String token) setAccessToken;
+  final Future Function(String token) setRefreshToken;
+  final VoidCallback onAuthError;
 
   RubbishCollectorsClient({
-    required Interceptor interceptor,
     required BaseOptions options,
+    required this.getAccessToken,
+    required this.getRefreshToken,
+    required this.setAccessToken,
+    required this.setRefreshToken,
+    required this.onAuthError,
   }) : dio = Dio(options) {
-    dio.interceptors.add(interceptor);
+    final CustomInterceptors ci = CustomInterceptors(
+      getAccessToken: getAccessToken,
+      getRefreshToken: getRefreshToken,
+      setAccessToken: setAccessToken,
+      setRefreshToken: setRefreshToken,
+      dioClient: dio,
+      onAuthError: onAuthError,
+    );
+    final retrier = RetryOnConnectionChangeInterceptor(
+      requestRetrier: DioConnectivityRequestRetrier(
+        dio: Dio(),
+        connectivity: Connectivity(),
+      ),
+    );
+    dio.interceptors.addAll([ci, retrier]);
   }
 
   Future<GenericResult<SendCodeResult>> authSendCode({

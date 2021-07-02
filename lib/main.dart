@@ -38,29 +38,27 @@ class MyApp extends StatelessWidget {
         RepositoryProvider(
           create: (context) => RubbishCollectorsApi(
             rubbishCollectorsClient: RubbishCollectorsClient(
-              interceptor: CustomInterceptors(
-                getAccessToken: () async =>
-                    keyValueStorage.getString(kAccessTokenKey),
-                getRefreshToken: () async =>
-                    keyValueStorage.getString(kRefreshTokenKey),
-                setAccessToken: (String token) async {
-                  await keyValueStorage.setString(kAccessTokenKey, token);
-                  return;
-                },
-                setRefreshToken: (String token) async {
-                  await keyValueStorage.setString(kRefreshTokenKey, token);
-                  return;
-                },
-                onAuthError: () async {
-                  await keyValueStorage.remove(kAccessTokenKey);
-                  await keyValueStorage.remove(kRefreshTokenKey);
-                  await keyValueStorage.remove(kIsLoggedIn);
-                  navigatorKey.currentState!.pushNamedAndRemoveUntil(
-                    IntroPage.path,
-                    (route) => false,
-                  );
-                },
-              ),
+              getAccessToken: () async =>
+                  keyValueStorage.getString(kAccessTokenKey),
+              getRefreshToken: () async =>
+                  keyValueStorage.getString(kRefreshTokenKey),
+              setAccessToken: (String token) async {
+                await keyValueStorage.setString(kAccessTokenKey, token);
+                return;
+              },
+              setRefreshToken: (String token) async {
+                await keyValueStorage.setString(kRefreshTokenKey, token);
+                return;
+              },
+              onAuthError: () async {
+                await keyValueStorage.remove(kAccessTokenKey);
+                await keyValueStorage.remove(kRefreshTokenKey);
+                await keyValueStorage.remove(kIsLoggedIn);
+                navigatorKey.currentState!.pushNamedAndRemoveUntil(
+                  IntroPage.path,
+                  (route) => false,
+                );
+              },
               options: BaseOptions(
                 baseUrl: "http://217.219.165.22:5005",
               ),
@@ -190,6 +188,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   SplashController splashController = SplashController();
   bool loggedIn = false;
+  bool showConnectionBanner = false;
+  bool isPageClosed = false;
 
   void checkLogin() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -200,6 +200,17 @@ class _MyHomePageState extends State<MyHomePage> {
     loggedIn = prefs.getBool(kIsLoggedIn) ?? false;
     setState(() {});
 
+    debugPrint("0 seconds");
+    Future.delayed(const Duration(seconds: 2), () {
+      debugPrint("2 seconds");
+      if (!isPageClosed) {
+        debugPrint("not closed");
+        setState(() {
+          showConnectionBanner = true;
+        });
+      }
+    });
+
     Future.delayed(const Duration(milliseconds: 60), () {
       splashController.close();
     });
@@ -209,6 +220,12 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     checkLogin();
+  }
+
+  @override
+  void dispose() {
+    isPageClosed = true;
+    super.dispose();
   }
 
   @override
@@ -233,7 +250,17 @@ class _MyHomePageState extends State<MyHomePage> {
             child: CircularProgressIndicator(
               color: Colors.orange,
             ),
-            alignment: Alignment(0, 0.8),
+            alignment: Alignment(0, 0.65),
+          ),
+          AnimatedOpacity(
+            opacity: showConnectionBanner ? 1 : 0,
+            duration: const Duration(milliseconds: 300),
+            child: const Align(
+              child: Text(
+                "لطفا اتصال اینترنت خود را بررسی کنید",
+              ),
+              alignment: Alignment(0, 0.85),
+            ),
           ),
         ],
       ),
