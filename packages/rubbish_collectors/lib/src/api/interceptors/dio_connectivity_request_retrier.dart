@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
@@ -14,26 +15,16 @@ class DioConnectivityRequestRetrier {
 
   Future<Response> scheduleRequestRetry(RequestOptions requestOptions) async {
     StreamSubscription? streamSubscription;
-    final responseCompleter = Completer<Response>();
+    final Completer<Response> responseCompleter = Completer<Response>();
 
     streamSubscription = connectivity.onConnectivityChanged.listen(
-      (connectivityResult) {
+      (connectivityResult) async {
         if (connectivityResult != ConnectivityResult.none) {
-          streamSubscription?.cancel();
+          log("check connection ");
           responseCompleter.complete(
-            dio.request(
-              requestOptions.path,
-              cancelToken: requestOptions.cancelToken,
-              data: requestOptions.data,
-              onReceiveProgress: requestOptions.onReceiveProgress,
-              onSendProgress: requestOptions.onSendProgress,
-              queryParameters: requestOptions.queryParameters,
-              options: Options(
-                method: requestOptions.method,
-                headers: requestOptions.headers,
-              ),
-            ),
+            dio.fetch(requestOptions),
           );
+          streamSubscription?.cancel();
         }
       },
     );

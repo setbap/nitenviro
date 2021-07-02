@@ -1,9 +1,12 @@
 import 'dart:developer' as dev;
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:rubbish_collectors/rubbish_collectors.dart';
+import 'package:rubbish_collectors/src/api/interceptors/dio_connectivity_request_retrier.dart';
 
 class CustomInterceptors extends Interceptor {
   final Future<String?> Function() getAccessToken;
+  final DioConnectivityRequestRetrier requestRetrier;
   final Future<String?> Function() getRefreshToken;
   final Dio dioClient;
   final Future Function(String token) setAccessToken;
@@ -17,6 +20,7 @@ class CustomInterceptors extends Interceptor {
     required this.setAccessToken,
     required this.setRefreshToken,
     required this.onAuthError,
+    required this.requestRetrier,
   });
 
   @override
@@ -75,8 +79,23 @@ class CustomInterceptors extends Interceptor {
       dev.log("400 error");
       return handler.resolve(err.response!);
     }
+    if (_shouldRetry(err)) {
+      try {
+        final res =
+            await requestRetrier.scheduleRequestRetry(err.requestOptions);
+        return handler.resolve(res);
+      } catch (e) {
+        dev.log("$e");
+      }
+    }
 
     return super.onError(err, handler);
+  }
+
+  bool _shouldRetry(DioError err) {
+    return err.type != DioErrorType.response &&
+        err.error != null &&
+        err.error is SocketException;
   }
 
   Future<void> refreshTokenFn() async {

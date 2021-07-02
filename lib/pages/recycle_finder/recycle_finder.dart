@@ -12,13 +12,15 @@ class RecycleFinder extends StatelessWidget {
     return BlocConsumer<RecyclableDetectorCubit,
         GenericApiState<List<RecyclableItems>>>(
       listener: (context, state) {
-        if (state.isError) {
-          showCupertinoDialog(
+        if (state.isError && !state.isLoading) {
+          showDialog(
             context: context,
-            builder: (context) => CupertinoAlertDialog(
+            builder: (context) => AlertDialog(
               title: Text(
-                'Error',
-                style: TextStyle(color: Theme.of(context).primaryColor),
+                'خطا',
+                style: TextStyle(
+                  color: Theme.of(context).errorColor,
+                ),
               ),
               content: const Text('مشکلی در ارتباط با سرور به وجود آمده است'),
               actions: <Widget>[
@@ -35,7 +37,9 @@ class RecycleFinder extends StatelessWidget {
                   },
                   child: Text(
                     'تلاش دوباره',
-                    style: TextStyle(color: Theme.of(context).cardColor),
+                    // style: TextStyle(
+                    //   color: Theme.of(context).cardColor,
+                    // ),
                   ),
                 ),
               ],
@@ -47,6 +51,28 @@ class RecycleFinder extends StatelessWidget {
         if (state.data == null && state.isLoading) {
           return const Center(
             child: CircularProgressIndicator(),
+          );
+        }
+        if (state.data == null) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "مشکل در دریافت اطلاعات",
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                OutlinedButton(
+                  child: const Text("دریافت مجدد"),
+                  onPressed: () {
+                    context.read<RecyclableDetectorCubit>().getAllItems();
+                  },
+                ),
+              ],
+            ),
           );
         }
         return RecycleDataShow(

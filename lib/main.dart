@@ -195,21 +195,21 @@ class _MyHomePageState extends State<MyHomePage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     loggedIn = prefs.getBool(kIsLoggedIn) ?? false;
     if (loggedIn) {
+      debugPrint("0 seconds");
+      Future.delayed(const Duration(seconds: 2), () {
+        debugPrint("2 seconds");
+        if (!isPageClosed) {
+          debugPrint("not closed");
+          setState(() {
+            showConnectionBanner = true;
+          });
+        }
+      });
+
       await context.read<UserInfoCubit>().getUserInfo();
     }
     loggedIn = prefs.getBool(kIsLoggedIn) ?? false;
     setState(() {});
-
-    debugPrint("0 seconds");
-    Future.delayed(const Duration(seconds: 2), () {
-      debugPrint("2 seconds");
-      if (!isPageClosed) {
-        debugPrint("not closed");
-        setState(() {
-          showConnectionBanner = true;
-        });
-      }
-    });
 
     Future.delayed(const Duration(milliseconds: 60), () {
       splashController.close();

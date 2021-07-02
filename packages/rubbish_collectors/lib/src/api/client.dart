@@ -29,14 +29,14 @@ class RubbishCollectorsClient {
       setRefreshToken: setRefreshToken,
       dioClient: dio,
       onAuthError: onAuthError,
-    );
-    final retrier = RetryOnConnectionChangeInterceptor(
       requestRetrier: DioConnectivityRequestRetrier(
         dio: Dio(),
         connectivity: Connectivity(),
       ),
     );
-    dio.interceptors.addAll([ci, retrier]);
+    // final retrier = RetryOnConnectionChangeInterceptor(
+    // );
+    dio.interceptors.add(ci);
   }
 
   Future<GenericResult<SendCodeResult>> authSendCode({
