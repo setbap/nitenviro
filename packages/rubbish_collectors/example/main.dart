@@ -8,7 +8,7 @@ void main() async {
       getRefreshToken: () async => "aasdasd",
       setAccessToken: (String token) async => null,
       setRefreshToken: (String token) async => null,
-      onAuthError: () async => print("onAuthError"),
+      onAuthError: () async => "",
     ),
     options: BaseOptions(
       baseUrl: "http://217.219.165.22:5005",

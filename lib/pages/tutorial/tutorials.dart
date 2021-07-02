@@ -102,9 +102,9 @@ class TutorialsDataShow extends StatelessWidget {
           sliver: SliverGrid(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              crossAxisSpacing: 8,
-              mainAxisSpacing: 24,
-              mainAxisExtent: 212,
+              crossAxisSpacing: 12,
+              mainAxisSpacing: 12,
+              mainAxisExtent: 222,
             ),
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
@@ -112,51 +112,62 @@ class TutorialsDataShow extends StatelessWidget {
                 return OpenContainer(
                   openElevation: 0,
                   closedElevation: 0,
+                  tappable: false,
                   closedColor: Colors.transparent,
                   openBuilder: (context, action) => OpenTutorialInfo(
                     postModel: tutItem,
                   ),
                   closedBuilder: (context, action) {
-                    return InkWell(
-                      child: Column(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              width: double.infinity,
-                              margin: const EdgeInsets.all(8),
-                              clipBehavior: Clip.antiAlias,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16),
-                                gradient: const LinearGradient(
-                                  colors: [blueGradient, greenGradient],
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter,
+                    return Material(
+                      borderRadius: BorderRadius.circular(16),
+                      color: Colors.white,
+                      borderOnForeground: true,
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(16),
+                        onTap: action,
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                width: double.infinity,
+                                margin: const EdgeInsets.all(8),
+                                clipBehavior: Clip.antiAlias,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(16),
+                                  gradient: const LinearGradient(
+                                    colors: [blueGradient, greenGradient],
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                  ),
+                                ),
+                                child: CachedNetworkImage(
+                                  imageUrl:
+                                      "https://geonitenviro.nit.ac.ir/api/" +
+                                          (tutItem.poster.formats.medium?.url ??
+                                              tutItem.poster.url),
+                                  placeholder: (context, url) => const Center(),
+                                  fit: BoxFit.cover,
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.error),
                                 ),
                               ),
-                              child: CachedNetworkImage(
-                                imageUrl:
-                                    "https://geonitenviro.nit.ac.ir/api/" +
-                                        (tutItem.poster.formats.medium?.url ??
-                                            tutItem.poster.url),
-                                placeholder: (context, url) => const Center(),
-                                fit: BoxFit.cover,
-                                errorWidget: (context, url, error) =>
-                                    const Icon(Icons.error),
+                            ),
+                            Container(
+                              height: 36,
+                              padding: const EdgeInsets.only(
+                                bottom: 4,
+                                top: 2,
+                                right: 4,
                               ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 2,
-                            ),
-                            child: Text(
-                              tutItem.title,
-                              style: Theme.of(context).textTheme.subtitle2,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          )
-                        ],
+                              child: Text(
+                                tutItem.title,
+                                style: Theme.of(context).textTheme.subtitle2,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     );
                   },
@@ -217,6 +228,7 @@ class OpenTutorialInfo extends StatelessWidget {
           ),
           Expanded(
             child: ListView(
+              physics: const BouncingScrollPhysics(),
               children: [
                 const SizedBox(height: 16),
                 InfoItemContainer(
@@ -231,6 +243,7 @@ class OpenTutorialInfo extends StatelessWidget {
                   child: Text(
                     postModel.description,
                     style: Theme.of(context).textTheme.bodyText2,
+                    textAlign: TextAlign.justify,
                   ),
                 ),
               ],

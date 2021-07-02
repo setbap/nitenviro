@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
-typedef T ConverterToJson<T>(dynamic data);
+typedef ConverterToJson<T> = T Function(dynamic data);
 
 void tryCatch(Function? f) {
   try {
@@ -14,13 +14,12 @@ void tryCatch(Function? f) {
 
 class FFConvert {
   FFConvert._();
-  static T? Function<T extends Object?>(dynamic value) convert =
-      <T>(dynamic value) {
-    if (value == null) {
-      return null;
-    }
-    return json.decode(value.toString()) as T?;
-  };
+  static get convert => <T>(dynamic value) {
+        if (value == null) {
+          return null;
+        }
+        return json.decode(value.toString()) as T?;
+      };
 }
 
 T? asT<T extends Object?>(dynamic value, [T? defaultValue]) {

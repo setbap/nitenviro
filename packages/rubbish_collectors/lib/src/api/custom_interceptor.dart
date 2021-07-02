@@ -1,3 +1,4 @@
+import 'dart:developer' as dev;
 import 'package:dio/dio.dart';
 
 class CustomInterceptors extends Interceptor {
@@ -22,11 +23,11 @@ class CustomInterceptors extends Interceptor {
     RequestInterceptorHandler handler,
   ) async {
     final accesstoken = await getAccessToken();
-    options.headers['Authorization'] = 'Bearer ${accesstoken}';
-    print(
+    options.headers['Authorization'] = 'Bearer $accesstoken';
+    dev.log(
       'REQUEST[${options.method}] => PATH: ${options.path}',
     );
-    print(
+    dev.log(
       'REQUEST[header] => PATH: ${options.headers}',
     );
     return super.onRequest(options, handler);
@@ -37,7 +38,7 @@ class CustomInterceptors extends Interceptor {
     Response response,
     ResponseInterceptorHandler handler,
   ) async {
-    print(
+    dev.log(
       'RESPONSE[${response.statusCode}] => PATH: ${response.data}',
     );
     super.onResponse(response, handler);
@@ -48,28 +49,28 @@ class CustomInterceptors extends Interceptor {
     DioError err,
     ErrorInterceptorHandler handler,
   ) async {
-    print(
+    dev.log(
       'ERROR[${err.response?.statusCode}] => PATH: ${err.error}',
     );
 
-    print(
+    dev.log(
       'ERROR[${err.response?.statusCode}] => PATH: ${err.response}',
     );
 
     if (err.response?.statusCode == 401) {
-      print("send again");
+      dev.log("send again");
       try {
         await refreshTokenFn();
-        print("get refresh token");
+        dev.log("get refresh token");
         final retryAnswer = await _retry(err.requestOptions);
         return handler.resolve(retryAnswer);
       } catch (e) {
-        print("error in send again");
+        dev.log("error in send again");
         return handler.reject(err);
       }
     }
     if (err.response?.statusCode == 400) {
-      print("400 error");
+      dev.log("400 error");
       return handler.resolve(err.response!);
     }
 
@@ -87,7 +88,7 @@ class CustomInterceptors extends Interceptor {
       if (response.statusCode == 200) {
         setAccessToken(response.data["value"]['accesstoken']);
         setRefreshToken(response.data["value"]['refreshToken']);
-        print("get token yeeyeyey");
+        dev.log("get token yeeyeyey");
       } else {
         onAuthError();
       }
@@ -100,8 +101,8 @@ class CustomInterceptors extends Interceptor {
 
   Future<Response<dynamic>> _retry(RequestOptions requestOptions) async {
     final accesstoken = await getAccessToken();
-    requestOptions.headers["Authorization"] = 'Bearer ${accesstoken}';
-    final options = new Options(
+    requestOptions.headers["Authorization"] = 'Bearer $accesstoken';
+    final options = Options(
       method: requestOptions.method,
       headers: requestOptions.headers,
     );
