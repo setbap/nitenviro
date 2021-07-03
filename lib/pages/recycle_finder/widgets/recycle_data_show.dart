@@ -24,11 +24,13 @@ class RecycleDataShow extends StatefulWidget {
   State<RecycleDataShow> createState() => _RecycleDataShowState();
 }
 
-class _RecycleDataShowState extends State<RecycleDataShow> {
+class _RecycleDataShowState extends State<RecycleDataShow>
+    with AutomaticKeepAliveClientMixin {
   String searchText = "";
   var categories = {...mapCategory};
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final data = widget.data
         .where((element) =>
             element.name.contains(searchText) &&
@@ -226,6 +228,9 @@ class _RecycleDataShowState extends State<RecycleDataShow> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class CloseRecycleContainer extends StatelessWidget {

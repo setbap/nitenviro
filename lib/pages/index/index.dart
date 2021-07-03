@@ -14,7 +14,7 @@ class Index extends StatefulWidget {
   State<Index> createState() => _IndexState();
 }
 
-class _IndexState extends State<Index> {
+class _IndexState extends State<Index> with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     super.initState();
@@ -51,6 +51,7 @@ class _IndexState extends State<Index> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return WillPopScope(
       onWillPop: () async {
         if (pageController.page != 2.0) {
@@ -140,4 +141,7 @@ class _IndexState extends State<Index> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
