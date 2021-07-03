@@ -56,11 +56,11 @@ class CustomInterceptors extends Interceptor {
     ErrorInterceptorHandler handler,
   ) async {
     dev.log(
-      'ERROR[${err.response?.statusCode}] => PATH: ${err.error}',
+      'ERROR[${err.response?.statusCode}] => ERROR: ${err.error}',
     );
 
     dev.log(
-      'ERROR[${err.response?.statusCode}] => PATH: ${err.response}',
+      'ERROR[${err.response?.statusCode}] => RES: ${err.response}',
     );
 
     if (err.response?.statusCode == 401) {
@@ -79,7 +79,11 @@ class CustomInterceptors extends Interceptor {
       dev.log("400 error");
       return handler.resolve(err.response!);
     }
+    if (err.response?.statusCode == 404 || err.response?.statusCode == 404) {
+      return super.onError(err, handler);
+    }
     if (_shouldRetry(err)) {
+      dev.log("should retry");
       try {
         final res =
             await requestRetrier.scheduleRequestRetry(err.requestOptions);
@@ -98,7 +102,7 @@ class CustomInterceptors extends Interceptor {
         err.error is SocketException;
   }
 
-  Future<void> refreshTokenFn() async {
+  Future refreshTokenFn() async {
     final refreshToken = await getRefreshToken();
     try {
       final response = await dioClient.post(
@@ -116,6 +120,7 @@ class CustomInterceptors extends Interceptor {
     } on DioError catch (e) {
       if (e.response?.statusCode == 400) {
         onAuthError();
+        rethrow;
       }
     }
   }

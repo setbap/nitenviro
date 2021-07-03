@@ -1,3 +1,3 @@
-const kAccessTokenKey = "accesstoken";
-const kRefreshTokenKey = "refreshToken";
-const kIsLoggedIn = "loggedIn";
+const kAccessTokenKey = "accesstoken2";
+const kRefreshTokenKey = "refreshToken1";
+const kIsLoggedIn = "loggedIn1";

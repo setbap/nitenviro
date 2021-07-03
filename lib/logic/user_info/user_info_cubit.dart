@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -23,15 +24,21 @@ class UserInfoCubit extends Cubit<UserInfoState> {
   Future<bool?> getUserInfo() async {
     emit(UserInfoLoading(user: state.user));
     try {
+      log("getUserInfo");
       final userInfo = await _rubbishCollectorsApi.getUserInfo();
       if (userInfo.isSuccess) {
+        log("getUserInfo:isSuccess");
         emit(UserInfoSuccess(user: userInfo.value!));
         return true;
       } else {
+        log("getUserInfo:isSuccess:false");
         emit(UserInfoError(
             user: state.user, message: userInfo.errors[0].message));
       }
+    } on ServerException catch (_) {
+      rethrow;
     } catch (e) {
+      log("getUserInfo:isSuccess:err");
       emit(UserInfoError(
           user: state.user, message: "مشکلی در ارتباط با اینترنت"));
     }

@@ -15,13 +15,12 @@ class RubbishCollectorsClient {
   final VoidCallback onAuthError;
 
   RubbishCollectorsClient({
-    required BaseOptions options,
     required this.getAccessToken,
     required this.getRefreshToken,
     required this.setAccessToken,
     required this.setRefreshToken,
     required this.onAuthError,
-  }) : dio = Dio(options) {
+  }) : dio = Dio(BaseOptions(baseUrl: Endpoints.baseUrl())) {
     final CustomInterceptors ci = CustomInterceptors(
       getAccessToken: getAccessToken,
       getRefreshToken: getRefreshToken,
@@ -85,14 +84,18 @@ class RubbishCollectorsClient {
   }
 
   Future<GenericResult<UserInfoResult>> userGetInfo() async {
-    var refreshRawResponse = await dio.get(
-      Endpoints.userGetInfoPath(),
-    );
-    final refreshResult = GenericResult<UserInfoResult>.fromJson(
-      refreshRawResponse.data,
-      (dynamic json) => UserInfoResult.fromJson(json),
-    );
-    return refreshResult;
+    try {
+      var refreshRawResponse = await dio.get(
+        Endpoints.userGetInfoPath(),
+      );
+      final refreshResult = GenericResult<UserInfoResult>.fromJson(
+        refreshRawResponse.data,
+        (dynamic json) => UserInfoResult.fromJson(json),
+      );
+      return refreshResult;
+    } catch (e) {
+      throw ServerException();
+    }
   }
 
   Future<GenericResult<UserInfoResult>> userSetInfo({

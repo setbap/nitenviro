@@ -35,11 +35,8 @@ class RecycleFinder extends StatelessWidget {
                     context.read<RecyclableDetectorCubit>().getAllItems();
                     Navigator.pop(context);
                   },
-                  child: Text(
+                  child: const Text(
                     'تلاش دوباره',
-                    // style: TextStyle(
-                    //   color: Theme.of(context).cardColor,
-                    // ),
                   ),
                 ),
               ],
