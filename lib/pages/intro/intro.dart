@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:nitenviro/pages/phone_number_login/phone_number_login.dart';
 
 class IntroPage extends StatefulWidget {
-  static const String path="/intro";
+  static const String path = "/intro";
   const IntroPage({Key? key}) : super(key: key);
 
   @override
@@ -33,7 +33,7 @@ List<IntroPageData> intropageData = [
     backgroundColor: const Color(0xffD2FBE6),
     fillColor: const Color(0xff59B981),
     textColor: Colors.white,
-    text: "NirEnviro",
+    text: "Enviro",
     path: "assets/1.png",
   ),
   IntroPageData(
@@ -171,11 +171,9 @@ class _IntroPageState extends State<IntroPage>
                     onTap: () {
                       if (currentIndex == intropageData.length - 1) {
                         Navigator.pushReplacementNamed(
-                          context,
-                          LoginPhoneNumber.path
-                        );
+                            context, LoginPhoneNumber.path);
                       } else {
-                      _animationController.forward(from: 0.0);
+                        _animationController.forward(from: 0.0);
                       }
                     },
                     child: Container(
