@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nitenviro/pages/second_splash/widgets/widgets.dart';
 import 'package:secondsplash/secondsplash.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -74,13 +75,8 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          Center(
-            child: Image.asset(
-              "./assets/splash_light.png",
-              width: 256,
-              height: 256,
-              fit: BoxFit.scaleDown,
-            ),
+          const Center(
+            child: AnimatedLogo(),
           ),
           if (serverError)
             Align(

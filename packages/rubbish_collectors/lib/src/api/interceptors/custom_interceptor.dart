@@ -79,7 +79,7 @@ class CustomInterceptors extends Interceptor {
       dev.log("400 error");
       return handler.resolve(err.response!);
     }
-    if (err.response?.statusCode == 404 || err.response?.statusCode == 404) {
+    if (err.response?.statusCode == 404 || err.response?.statusCode == 500) {
       return super.onError(err, handler);
     }
     if (_shouldRetry(err)) {
@@ -105,8 +105,8 @@ class CustomInterceptors extends Interceptor {
   Future refreshTokenFn() async {
     final refreshToken = await getRefreshToken();
     try {
-      final response = await dioClient.post(
-        Endpoints.authRefreshPath(),
+      final response = await Dio().post(
+        Endpoints.baseUrl() + Endpoints.authRefreshPath(),
         data: {'refreshToken': refreshToken},
       );
 

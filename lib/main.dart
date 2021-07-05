@@ -37,9 +37,9 @@ class MyApp extends StatelessWidget {
           create: (context) => RubbishCollectorsApi(
             rubbishCollectorsClient: RubbishCollectorsClient(
               getAccessToken: () async =>
-                  keyValueStorage.getString(kAccessTokenKey) ?? "null",
+                  keyValueStorage.getString(kAccessTokenKey) ?? "",
               getRefreshToken: () async =>
-                  keyValueStorage.getString(kRefreshTokenKey) ?? "null",
+                  keyValueStorage.getString(kRefreshTokenKey) ?? "",
               setAccessToken: (String token) async {
                 await keyValueStorage.setString(kAccessTokenKey, token);
                 return;
