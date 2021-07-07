@@ -130,6 +130,7 @@ class _IndexState extends State<Index> with AutomaticKeepAliveClientMixin {
           onTap: (index) => setState(
             () {
               pageIndex = index;
+              FocusManager.instance.primaryFocus?.unfocus();
               pageController.animateToPage(
                 index,
                 duration: const Duration(milliseconds: 300),

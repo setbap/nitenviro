@@ -177,9 +177,9 @@ class TutorialsDataShow extends StatelessWidget {
                               ),
                             ),
                             Container(
-                              height: 36,
+                              height: 28,
                               padding: const EdgeInsets.only(
-                                bottom: 4,
+                                bottom: 0,
                                 top: 2,
                                 right: 4,
                               ),
