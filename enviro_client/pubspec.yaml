@@ -59,10 +59,10 @@ dependencies:
   secondsplash: ^1.0.0
 
   public_nitenviro:
-    path: ./packages/public_nitenviro
+    path: ../packages/public_nitenviro
 
   rubbish_collectors:
-    path: ./packages/rubbish_collectors
+    path: ../packages/rubbish_collectors
 
 dev_dependencies:
   flutter_test:

@@ -829,7 +829,7 @@ packages:
   public_nitenviro:
     dependency: "direct main"
     description:
-      path: "packages/public_nitenviro"
+      path: "../packages/public_nitenviro"
       relative: true
     source: path
     version: "0.0.1"
@@ -850,7 +850,7 @@ packages:
   rubbish_collectors:
     dependency: "direct main"
     description:
-      path: "packages/rubbish_collectors"
+      path: "../packages/rubbish_collectors"
       relative: true
     source: path
     version: "0.0.1"
