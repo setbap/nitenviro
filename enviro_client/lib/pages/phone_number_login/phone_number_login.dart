@@ -84,6 +84,16 @@ class _LoginPhoneNumberProvidedState extends State<LoginPhoneNumberProvided> {
             );
           }
           if (state is AuthPhoneInputSuccess) {
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                const SnackBar(
+                  content:
+                      Text("حالت توسعه: لطفا برای ورود کد 55555 وارد کنید"),
+                  behavior: SnackBarBehavior.floating,
+                  duration: Duration(seconds: 10),
+                ),
+              );
             Navigator.pushNamed(
               context,
               LoginPhoneNumberValidate.path,

@@ -90,12 +90,13 @@ class _LoginPhoneNumberStateValidate extends State<LoginPhoneNumberValidate> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
-                  state.message,
+                  "${state.message} : لطفا کد 55555 وارد کنید",
                 ),
               ),
             );
           }
           if (state is AuthLoginInputSuccess) {
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
             Navigator.pushNamedAndRemoveUntil(
               context,
               Index.path,
