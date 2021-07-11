@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:nitenviro/repo/repo.dart';
 import 'package:tuple/tuple.dart';
-
-typedef FnWithOneParam<T> = void Function(T value);
 
 class NEReminderTime extends StatefulWidget {
   final FnWithOneParam<int> fnWithOneParam;

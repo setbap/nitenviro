@@ -1,12 +1,13 @@
 import 'dart:io';
 
+import 'package:enviro_shared/shared_widget/text_input_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:nitenviro/logic/logic.dart';
-import 'package:nitenviro/shared_widget/shared_widget.dart';
-import 'package:nitenviro/utils/utils.dart';
+import 'package:enviro_shared/logic/logic.dart';
+import 'package:enviro_shared/shared_widget/shared_widget.dart';
+import 'package:enviro_shared/utils/utils.dart';
 
 class ChangeInfo extends StatefulWidget {
   final String? name;

@@ -5,12 +5,14 @@ import 'package:enviro_shared/utils/colors.dart';
 
 class NEBottomNavigation extends StatelessWidget {
   final int currentIndex;
+  final List<BottomNavigationBarItem> items;
   final void Function(int index) onTap;
 
   const NEBottomNavigation({
     Key? key,
     required this.currentIndex,
     required this.onTap,
+    required this.items,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -32,33 +34,7 @@ class NEBottomNavigation extends StatelessWidget {
       showSelectedLabels: false,
       currentIndex: currentIndex,
       onTap: onTap,
-      items: const [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.chrome_reader_mode),
-          label: 'آموزش',
-          tooltip: 'آموزش',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(CupertinoIcons.search),
-          label: 'شناسایی پسماند بازیافتی',
-          tooltip: 'شناسایی پسماند بازیافتی',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(CupertinoIcons.plus),
-          label: 'اضافه کردن درخواست جدید',
-          tooltip: 'اضافه کردن درخواست جدید',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(CupertinoIcons.house),
-          label: 'آموزش',
-          tooltip: 'آموزش',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(CupertinoIcons.person_2_square_stack),
-          label: 'پروفایل',
-          tooltip: 'پروفایل',
-        )
-      ],
+      items: items,
     );
   }
 }

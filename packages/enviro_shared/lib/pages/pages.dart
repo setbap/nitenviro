@@ -1,0 +1,10 @@
+export 'package:enviro_shared/pages/change_info/change_info.dart';
+export 'package:enviro_shared/pages/intro/intro.dart';
+export 'package:enviro_shared/pages/phone_number_login/phone_number_login.dart';
+export 'package:enviro_shared/pages/phone_number_validate_login/phone_number_validate_login.dart';
+export 'package:enviro_shared/pages/profile/profile.dart';
+export 'package:enviro_shared/pages/recycle_finder/recycle_finder.dart';
+export 'package:enviro_shared/pages/second_splash/second_splash.dart';
+export 'package:enviro_shared/pages/settings/settings.dart';
+export 'package:enviro_shared/pages/tutorial/tutorials.dart';
+export 'package:enviro_shared/pages/index/index.dart';
