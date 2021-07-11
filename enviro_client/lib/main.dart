@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
                 await keyValueStorage.remove(kRefreshTokenKey);
                 await keyValueStorage.remove(kIsLoggedIn);
                 navigatorKey.currentState!.pushNamedAndRemoveUntil(
-                  IntroPage.path,
+                  Intro.path,
                   (route) => false,
                 );
               },
@@ -160,9 +160,9 @@ class MyApp extends StatelessWidget {
                   ),
                 );
 
-              case IntroPage.path:
+              case Intro.path:
                 return MaterialPageRoute(
-                  builder: (context) => const IntroPage(),
+                  builder: (context) => const Intro(),
                 );
             }
           },

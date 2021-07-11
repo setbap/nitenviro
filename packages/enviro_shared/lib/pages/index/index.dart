@@ -1,15 +1,19 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:enviro_shared/pages/pages.dart';
 import 'package:enviro_shared/shared_widget/shared_widget.dart';
 import 'package:enviro_shared/utils/utils.dart';
 import 'package:tuple/tuple.dart';
 
 class IndexPage extends StatefulWidget {
   final List<Tuple3<String, Widget, BottomNavigationBarItem>> pages;
+  final VoidCallback goSettingPage;
 
-  const IndexPage({Key? key, required this.pages}) : super(key: key);
+  const IndexPage({
+    Key? key,
+    required this.pages,
+    required this.goSettingPage,
+  }) : super(key: key);
 
   @override
   State<IndexPage> createState() => _IndexPageState();
@@ -84,7 +88,7 @@ class _IndexPageState extends State<IndexPage>
           actions: [
             IconButton(
               onPressed: () {
-                Navigator.pushNamed(context, Settings.path);
+                widget.goSettingPage();
               },
               visualDensity: VisualDensity.compact,
               tooltip: "تنظیمات",

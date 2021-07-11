@@ -9,8 +9,8 @@ import 'package:enviro_shared/pages/tutorial/custom_video_player.dart';
 import 'package:enviro_shared/utils/utils.dart';
 import 'package:public_nitenviro/public_nitenviro.dart';
 
-class Tutorials extends StatelessWidget {
-  const Tutorials({Key? key}) : super(key: key);
+class TutorialsPage extends StatelessWidget {
+  const TutorialsPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

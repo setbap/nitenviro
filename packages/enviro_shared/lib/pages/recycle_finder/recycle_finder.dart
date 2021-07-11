@@ -5,8 +5,8 @@ import 'package:enviro_shared/logic/logic.dart';
 import 'package:enviro_shared/pages/recycle_finder/widgets/widgets.dart';
 import 'package:public_nitenviro/public_nitenviro.dart';
 
-class RecycleFinder extends StatelessWidget {
-  const RecycleFinder({Key? key}) : super(key: key);
+class RecycleFinderPage extends StatelessWidget {
+  const RecycleFinderPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<RecyclableDetectorCubit,

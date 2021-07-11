@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:enviro_shared/logic/logic.dart';
-import 'package:enviro_shared/pages/pages.dart';
 import 'package:enviro_shared/shared_widget/shared_widget.dart';
 import 'package:enviro_shared/utils/utils.dart';
 
-class Profile extends StatelessWidget {
-  const Profile({Key? key}) : super(key: key);
+class ProfilePage extends StatelessWidget {
+  final GoToChnageProfile goToChnageProfile;
+
+  const ProfilePage({
+    Key? key,
+    required this.goToChnageProfile,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -97,9 +101,11 @@ class Profile extends StatelessWidget {
                 height: 16,
               ),
               ProfileRequestBar(
-                avatarUrl: state.user.avatarUrl,
-                email: state.user.email,
-                name: state.user.name,
+                pushProfilePage: () => goToChnageProfile(
+                  avatarUrl: state.user.avatarUrl,
+                  email: state.user.email,
+                  name: state.user.name,
+                ),
               ),
               const SizedBox(
                 height: 24,
@@ -150,14 +156,11 @@ class Profile extends StatelessWidget {
 }
 
 class ProfileRequestBar extends StatelessWidget {
-  final String? name;
-  final String? email;
-  final String? avatarUrl;
+  final VoidCallback pushProfilePage;
+
   const ProfileRequestBar({
     Key? key,
-    this.name,
-    this.avatarUrl,
-    this.email,
+    required this.pushProfilePage,
   }) : super(key: key);
 
   @override
@@ -167,18 +170,7 @@ class ProfileRequestBar extends StatelessWidget {
       children: [
         ElevatedButton(
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return ChangeInfo(
-                    name: name,
-                    email: email,
-                    avatarUrl: avatarUrl,
-                  );
-                },
-              ),
-            );
+            pushProfilePage();
           },
           style: ElevatedButton.styleFrom(
             elevation: 0,

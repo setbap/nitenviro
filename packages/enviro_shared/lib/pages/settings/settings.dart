@@ -3,18 +3,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:enviro_shared/logic/logic.dart';
-import 'package:enviro_shared/pages/change_info/change_info.dart';
 import 'package:enviro_shared/pages/intro/intro.dart';
 import 'package:enviro_shared/shared_widget/shared_widget.dart';
 import 'package:enviro_shared/utils/utils.dart';
-import 'package:rubbish_collectors/rubbish_collectors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class Settings extends StatelessWidget {
-  static const String path = "/settings";
+class SettingsPage extends StatelessWidget {
+  final GoToChnageProfile goToChnageProfile;
 
-  const Settings({Key? key}) : super(key: key);
+  const SettingsPage({
+    Key? key,
+    required this.goToChnageProfile,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -68,30 +69,13 @@ class Settings extends StatelessWidget {
                     const SettingCardImage(),
                     BlocBuilder<UserInfoCubit, UserInfoState>(
                         builder: (context, state) {
-                      UserInfoResult userInfo = UserInfoResult(
-                        id: -1,
-                        phone: "",
-                        createdAt: "",
-                      );
-                      if (state is UserInfoSuccess) {
-                        userInfo = state.user;
-                      }
                       return SettingItem(
                         title: "تغییر مشخصات",
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return ChangeInfo(
-                                  name: userInfo.name,
-                                  email: userInfo.email,
-                                  avatarUrl: userInfo.avatarUrl,
-                                );
-                              },
-                            ),
-                          );
-                        },
+                        onPressed: () => goToChnageProfile(
+                          avatarUrl: state.user.avatarUrl,
+                          email: state.user.email,
+                          name: state.user.name,
+                        ),
                         leadingIconData: Icons.info,
                       );
                     }),

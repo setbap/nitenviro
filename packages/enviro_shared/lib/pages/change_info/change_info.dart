@@ -9,12 +9,12 @@ import 'package:enviro_shared/logic/logic.dart';
 import 'package:enviro_shared/shared_widget/shared_widget.dart';
 import 'package:enviro_shared/utils/utils.dart';
 
-class ChangeInfo extends StatefulWidget {
+class ChangeInfoPage extends StatefulWidget {
   final String? name;
   final String? email;
   final String? avatarUrl;
 
-  const ChangeInfo({
+  const ChangeInfoPage({
     Key? key,
     this.name,
     this.email,
@@ -22,10 +22,10 @@ class ChangeInfo extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<ChangeInfo> createState() => _ChangeInfoState();
+  State<ChangeInfoPage> createState() => _ChangeInfoPageState();
 }
 
-class _ChangeInfoState extends State<ChangeInfo> {
+class _ChangeInfoPageState extends State<ChangeInfoPage> {
   late final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final nameInputController = TextEditingController();

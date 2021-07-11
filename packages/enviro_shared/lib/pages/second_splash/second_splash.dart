@@ -1,25 +1,25 @@
+import 'package:enviro_shared/pages/second_splash/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:enviro_shared/pages/second_splash/widgets/widgets.dart';
 import 'package:secondsplash/secondsplash.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:enviro_shared/logic/logic.dart';
 import 'package:enviro_shared/utils/utils.dart';
 
-class MyHomePage extends StatefulWidget {
-  final Widget authPage;
-  final Widget notAuthPage;
-  const MyHomePage({
+class MyHomePageSplash extends StatefulWidget {
+  final PageReturn authPage;
+  final PageReturn notAuthPage;
+  const MyHomePageSplash({
     Key? key,
     required this.authPage,
     required this.notAuthPage,
   }) : super(key: key);
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MyHomePageSplash> createState() => _MyHomePageSplashState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageSplashState extends State<MyHomePageSplash> {
   SplashController splashController = SplashController();
   bool loggedIn = false;
   bool showConnectionBanner = false;
@@ -112,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ]
         ],
       ),
-      next: loggedIn ? widget.authPage : widget.notAuthPage,
+      next: loggedIn ? widget.authPage() : widget.notAuthPage(),
     );
   }
 }
