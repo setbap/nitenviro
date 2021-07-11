@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nitenviro/utils/colors.dart';
+import 'package:nitenviro/utils/utils.dart';
 
 class NETextField extends StatelessWidget {
   final String hint;

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
-import 'package:nitenviro/utils/colors.dart';
+import 'package:enviro_shared/utils/colors.dart';
 
 class NEBottomNavigation extends StatelessWidget {
   final int currentIndex;

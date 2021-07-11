@@ -2,8 +2,8 @@ import 'package:dotted_decoration/dotted_decoration.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nitenviro/pages/add_building/add_building_form.dart';
-import 'package:nitenviro/shared_widget/background_circle_painter.dart';
-import 'package:nitenviro/utils/colors.dart';
+import 'package:nitenviro/shared_widget/shared_widget.dart';
+import 'package:nitenviro/utils/utils.dart';
 
 class AddLocation extends StatelessWidget {
   const AddLocation({Key? key}) : super(key: key);

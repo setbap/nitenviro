@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:nitenviro/repo/rubbish_collectors_repo.dart';
+import 'package:enviro_shared/repo/rubbish_collectors_repo.dart';
 
 part 'auth_phone_input_state.dart';
 

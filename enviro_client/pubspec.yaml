@@ -64,6 +64,9 @@ dependencies:
   rubbish_collectors:
     path: ../packages/rubbish_collectors
 
+  enviro_shared:
+    path: ../packages/enviro_shared
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

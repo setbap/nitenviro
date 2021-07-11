@@ -1,7 +1,7 @@
 library enviro_shared;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export './models/models.dart';
+export './logic/logic.dart';
+export './repo/repo.dart';
+export './shared_widget/shared_widget.dart';
+export './utils/utils.dart';

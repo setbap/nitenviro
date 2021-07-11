@@ -7,9 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:nitenviro/logic/logic.dart';
 import 'package:nitenviro/pages/add_building/add_building_form.dart';
 import 'package:nitenviro/pages/new_request/widgets/reminder_time.dart';
-import 'package:nitenviro/shared_widget/background_circle_painter.dart';
 import 'package:nitenviro/shared_widget/shared_widget.dart';
-import 'package:nitenviro/utils/colors.dart';
 import 'package:nitenviro/utils/utils.dart';
 
 class ChangeInfo extends StatefulWidget {

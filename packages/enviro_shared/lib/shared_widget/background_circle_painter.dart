@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
-import 'package:nitenviro/utils/colors.dart';
+import 'package:enviro_shared/utils/colors.dart';
 
 typedef CirclePaintFn = List<CirclePaintInfo> Function(Size size);
 
@@ -73,7 +73,6 @@ class BackgroundPainter extends CustomPainter {
           ],
         ).createShader(rect),
     );
-
   }
 }
 

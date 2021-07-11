@@ -6,12 +6,15 @@ import 'package:image_picker/image_picker.dart';
 import 'package:nitenviro/logic/new_request_form/new_request_cubit.dart';
 import 'package:nitenviro/pages/new_request/widgets/n_e_request_title.dart';
 import 'package:nitenviro/pages/new_request/widgets/text_field.dart';
-import 'package:nitenviro/utils/colors.dart';
+import 'package:nitenviro/utils/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SpectialRequest extends StatefulWidget {
   final TextEditingController textEditingController;
-  const SpectialRequest({Key? key,required this.textEditingController,}) : super(key: key);
+  const SpectialRequest({
+    Key? key,
+    required this.textEditingController,
+  }) : super(key: key);
 
   @override
   SpectialRequestState createState() => SpectialRequestState();
@@ -20,7 +23,6 @@ class SpectialRequest extends StatefulWidget {
 class SpectialRequestState extends State<SpectialRequest> {
   File? _image;
   final picker = ImagePicker();
-
 
   Future getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);

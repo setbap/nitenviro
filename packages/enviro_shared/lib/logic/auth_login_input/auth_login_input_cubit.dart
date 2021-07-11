@@ -2,9 +2,9 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:nitenviro/logic/logic.dart';
-import 'package:nitenviro/repo/repo.dart';
-import 'package:nitenviro/utils/utils.dart';
+import 'package:enviro_shared/logic/logic.dart';
+import 'package:enviro_shared/repo/repo.dart';
+import 'package:enviro_shared/utils/utils.dart';
 
 part 'auth_login_input_state.dart';
 
