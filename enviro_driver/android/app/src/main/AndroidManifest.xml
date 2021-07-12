@@ -1,8 +1,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.enviro_driver">
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
    <application
-        android:label="enviro_driver"
+        android:label="Enviro Driver"
         android:icon="@mipmap/ic_launcher">
+        
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
