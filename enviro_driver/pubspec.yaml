@@ -15,7 +15,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+1
+version: 0.0.3+3
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -49,26 +49,26 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^1.0.3
-#   flutter_native_splash: ^1.2.0
-#   flutter_launcher_icons: ^0.9.0
+  flutter_native_splash: ^1.2.0
+  # flutter_launcher_icons: ^0.9.0
 
-# #  flutter pub run flutter_launcher_icons:main
+#  flutter pub run flutter_launcher_icons:main
 # flutter_icons:
 #   android: true
 #   ios: true
 #   image_path: "assets/icon.png"
-# # For information on the generic Dart part of this file, see the
-# # following page: https://dart.dev/tools/pub/pubspec
-# flutter_native_splash:
-#   color: "#ffffff"
-#   #  color_dark: "#000000"
-#   image: assets/splash_light.png
-#   #  image_dark: assets/splash_dark.png
-#   android: true
-#   ios: true
-#   ios_content_mode: center
-#   android_gravity: center
-#   fullscreen: false
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/splash_light.png
+  #  color_dark: "#000000"
+  #  image_dark: assets/splash_dark.png
+  android: true
+  ios: true
+  ios_content_mode: center
+  android_gravity: center
+  fullscreen: false
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
