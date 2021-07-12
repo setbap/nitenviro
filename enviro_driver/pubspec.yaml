@@ -49,6 +49,26 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^1.0.3
+#   flutter_native_splash: ^1.2.0
+#   flutter_launcher_icons: ^0.9.0
+
+# #  flutter pub run flutter_launcher_icons:main
+# flutter_icons:
+#   android: true
+#   ios: true
+#   image_path: "assets/icon.png"
+# # For information on the generic Dart part of this file, see the
+# # following page: https://dart.dev/tools/pub/pubspec
+# flutter_native_splash:
+#   color: "#ffffff"
+#   #  color_dark: "#000000"
+#   image: assets/splash_light.png
+#   #  image_dark: assets/splash_dark.png
+#   android: true
+#   ios: true
+#   ios_content_mode: center
+#   android_gravity: center
+#   fullscreen: false
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

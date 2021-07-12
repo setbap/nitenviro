@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nitenviro/utils/utils.dart';
+import 'package:enviro_shared/utils/utils.dart';
 
 class NESendButton extends StatelessWidget {
   final VoidCallback? onTap;

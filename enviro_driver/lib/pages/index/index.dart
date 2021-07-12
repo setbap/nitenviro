@@ -25,7 +25,7 @@ const List<Tuple3<String, Widget, BottomNavigationBarItem>> pageList =
       )),
   Tuple3<String, Widget, BottomNavigationBarItem>(
       "درخواست جمع آوری",
-      NewRequest(),
+      AllRequest(),
       BottomNavigationBarItem(
         icon: Icon(CupertinoIcons.plus),
         label: 'اضافه کردن درخواست جدید',

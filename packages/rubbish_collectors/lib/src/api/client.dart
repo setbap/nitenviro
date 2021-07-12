@@ -20,7 +20,12 @@ class RubbishCollectorsClient {
     required this.setAccessToken,
     required this.setRefreshToken,
     required this.onAuthError,
-  }) : dio = Dio(BaseOptions(baseUrl: Endpoints.baseUrl())) {
+  }) : dio = Dio(
+          BaseOptions(
+            baseUrl: Endpoints.baseUrl(),
+            headers: {"Access-Control-Allow-Origin": "*"},
+          ),
+        ) {
     final CustomInterceptors ci = CustomInterceptors(
       getAccessToken: getAccessToken,
       getRefreshToken: getRefreshToken,
