@@ -212,8 +212,7 @@ class SettingCardImage extends StatelessWidget {
                   color: mainYellow.withOpacity(0.1),
                 ),
                 child: Image.network(
-                  state.user.avatarUrl ??
-                      "https://pfpmaker.com/_nuxt/img/profile-3-1.3e702c5.png",
+                  state.user.avatarUrl,
                   errorBuilder: (context, error, stackTrace) => const Icon(
                     Icons.account_circle,
                     size: 112,
@@ -229,10 +228,10 @@ class SettingCardImage extends StatelessWidget {
                   children: [
                     Text(state.user.phone),
                     const Text("  |  "),
-                    FittedBox(
-                      child: Text(
-                        state.user.email ?? "ایمیل خود را تاکنون ثبت نکردید",
-                      ),
+                    Text(
+                      state.user.email.isEmpty
+                          ? "ایمیل خود را تاکنون ثبت نکردید"
+                          : state.user.email,
                     ),
                   ],
                 ),

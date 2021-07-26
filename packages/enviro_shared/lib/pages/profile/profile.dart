@@ -65,9 +65,7 @@ class ProfilePage extends StatelessWidget {
                     ),
                   ),
                   child: Image.network(
-                    state.user.avatarUrl ??
-                        "https://pfpmaker.com/_nuxt/img/profile-3-1.3e702c5.png",
-                    key: ValueKey(state.user.now),
+                    state.user.avatarUrl,
                     errorBuilder: (context, error, stackTrace) => const Icon(
                       Icons.account_circle,
                       size: 120,
@@ -91,7 +89,7 @@ class ProfilePage extends StatelessWidget {
               ),
               Center(
                 child: Text(
-                  state.user.name ?? "حافظ محیط زیست",
+                  state.user.name.isEmpty ? "حافظ محیط زیست" : state.user.name,
                   style: Theme.of(context).textTheme.headline4!.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -135,7 +133,9 @@ class ProfilePage extends StatelessWidget {
                     ProfileBoxInfo(
                       title: "ایمیل",
                       icon: Icons.mail,
-                      value: state.user.email ?? "ایمیل شما ثبت نشده است",
+                      value: state.user.email.isEmpty
+                          ? "ایمیل شما ثبت نشده است"
+                          : state.user.email,
                     ),
                     ProfileBoxInfo(
                       title: "دریافت های تمام شده",

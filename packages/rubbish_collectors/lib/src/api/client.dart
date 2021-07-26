@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -63,15 +64,24 @@ class RubbishCollectorsClient {
     required String phone,
     required int loginCode,
   }) async {
-    var loginRawResponse = await dio.post(
-      Endpoints.authLoginPath(),
-      data: {"phone": phone, "loginCode": loginCode},
-    );
-    final loginResult = GenericResult<UserWithToken>.fromJson(
-      loginRawResponse.data,
-      (dynamic json) => UserWithToken.fromJson(json),
-    );
-    return loginResult;
+    try {
+      var loginRawResponse = await dio.post(
+        Endpoints.authLoginPath(),
+        data: {"phone": phone, "loginCode": loginCode},
+      );
+      // log(loginRawResponse.data.toString());
+      final loginResult = GenericResult<UserWithToken>.fromJson(
+        loginRawResponse.data,
+        (dynamic json) {
+          return UserWithToken.fromJson(json);
+        },
+      );
+
+      return loginResult;
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
   }
 
   Future<GenericResult<AuthTokenResult>> authRefresh({
@@ -109,15 +119,13 @@ class RubbishCollectorsClient {
     File? avatar,
   }) async {
     var formData = FormData.fromMap({
-      'AvatarUrl':
-          avatar == null ? null : await MultipartFile.fromFile(avatar.path)
+      'Avatar':
+          avatar == null ? null : await MultipartFile.fromFile(avatar.path),
+      'Name': name,
+      'Email': email,
     });
-    var userRawResponse = await dio.post(
-      Endpoints.userSetInfoPath(),
-      queryParameters: {
-        'Name': name,
-        'Email': email,
-      },
+    var userRawResponse = await dio.patch(
+      Endpoints.userPatchInfoPath(),
       data: formData,
     );
     final userResult = GenericResult<UserInfoResult>.fromJson(

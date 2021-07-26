@@ -17,7 +17,7 @@ class UserInfoCubit extends Cubit<UserInfoState> {
         super(UserInfoInitial(
             user: UserInfoResult(
           createdAt: "",
-          id: -1,
+          id: "",
           phone: "",
         )));
 
