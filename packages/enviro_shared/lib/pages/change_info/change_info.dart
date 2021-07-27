@@ -217,7 +217,7 @@ class _CircleAvatarWithEditState extends State<CircleAvatarWithEdit> {
   final picker = ImagePicker();
 
   Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       _image = File(pickedFile.path);
