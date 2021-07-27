@@ -1,16 +1,17 @@
+import 'package:enviro_driver/pages/requests/sub_page/sub_page.dart';
 import 'package:enviro_driver/repo/repo.dart';
 import 'package:flutter/material.dart';
 
 const double _kTabHeight = 46.0;
 
-class AllRequest extends StatelessWidget {
-  const AllRequest({Key? key}) : super(key: key);
+class Requests extends StatelessWidget {
+  const Requests({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
-      initialIndex: 1,
+      initialIndex: 0,
       child: Column(
         children: [
           Container(
@@ -51,8 +52,8 @@ class AllRequest extends StatelessWidget {
           const Expanded(
             child: TabBarView(
               children: [
-                Icon(Icons.directions_car),
-                Icon(Icons.directions_transit),
+                AllReuqest(),
+                IngoinRequest(),
               ],
             ),
           )

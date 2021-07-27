@@ -24,12 +24,12 @@ const List<Tuple3<String, Widget, BottomNavigationBarItem>> pageList =
         tooltip: 'شناسایی پسماند بازیافتی',
       )),
   Tuple3<String, Widget, BottomNavigationBarItem>(
-      "درخواست جمع آوری",
-      AllRequest(),
+      "درخواست ها",
+      Requests(),
       BottomNavigationBarItem(
-        icon: Icon(CupertinoIcons.plus),
-        label: 'اضافه کردن درخواست جدید',
-        tooltip: 'اضافه کردن درخواست جدید',
+        icon: Icon(CupertinoIcons.arrow_up_bin),
+        label: 'درخواست ها',
+        tooltip: 'درخواست ها',
       )),
   Tuple3<String, Widget, BottomNavigationBarItem>(
       "مدیریت ساختمان ها",
