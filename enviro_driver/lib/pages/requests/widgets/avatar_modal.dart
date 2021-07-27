@@ -84,15 +84,14 @@ class AvatarBottomSheet extends StatelessWidget {
                   ),
                   child: Container(
                     padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).scaffoldBackgroundColor,
-                        boxShadow: const [
-                          BoxShadow(
-                            blurRadius: 10,
-                            color: Colors.black12,
-                            spreadRadius: 5,
-                          )
-                        ]),
+                    decoration:
+                        const BoxDecoration(color: Colors.white, boxShadow: [
+                      BoxShadow(
+                        blurRadius: 10,
+                        color: Colors.black12,
+                        spreadRadius: 5,
+                      )
+                    ]),
                     width: double.infinity,
                     child: MediaQuery.removePadding(
                       context: context,
@@ -111,6 +110,8 @@ class AvatarBottomSheet extends StatelessWidget {
 Future<T?> showAvatarModalBottomSheet<T>({
   required BuildContext context,
   required WidgetBuilder builder,
+  String? imageUrl,
+  String? name,
   Color? backgroundColor,
   double? elevation,
   ShapeBorder? shape,
@@ -131,6 +132,8 @@ Future<T?> showAvatarModalBottomSheet<T>({
     builder: builder,
     containerBuilder: (_, animation, child) => AvatarBottomSheet(
       child: child,
+      imageUrl: imageUrl,
+      name: name,
       animation: animation,
     ),
     bounce: bounce,

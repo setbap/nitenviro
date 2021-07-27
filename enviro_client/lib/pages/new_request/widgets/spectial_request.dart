@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:nitenviro/logic/new_request_form/new_request_cubit.dart';
-import 'package:nitenviro/pages/new_request/widgets/n_e_request_title.dart';
 import 'package:nitenviro/pages/new_request/widgets/text_field.dart';
+import 'package:nitenviro/repo/repo.dart';
 import 'package:nitenviro/utils/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -25,7 +25,7 @@ class SpectialRequestState extends State<SpectialRequest> {
   final picker = ImagePicker();
 
   Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     setState(() {
       if (pickedFile != null) {

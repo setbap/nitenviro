@@ -1,20 +1,22 @@
 import 'dart:ui';
-import 'package:enviro_shared/enviro_shared.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:flutter/material.dart';
+import 'package:enviro_shared/shared_widget/shared_widget.dart';
+import 'package:flutter/cupertino.dart';
 
-class SimpleMapDialog extends StatefulWidget {
-  final LatLng latLng;
-  const SimpleMapDialog({
+class BluredSimpleMap extends StatefulWidget {
+  final double lat;
+  final double lng;
+  const BluredSimpleMap({
     Key? key,
-    required this.latLng,
+    required this.lat,
+    required this.lng,
   }) : super(key: key);
 
   @override
-  State<SimpleMapDialog> createState() => _SimpleMapDialogState();
+  State<BluredSimpleMap> createState() => _BluredSimpleMapState();
 }
 
-class _SimpleMapDialogState extends State<SimpleMapDialog>
+class _BluredSimpleMapState extends State<BluredSimpleMap>
     with SingleTickerProviderStateMixin {
   late Animation<double> animation;
   late AnimationController controller;
@@ -65,7 +67,7 @@ class _SimpleMapDialogState extends State<SimpleMapDialog>
                 tag: "main_simple_map_hero",
                 child: SimpleLocation(
                   key: const ValueKey("locationKey"),
-                  latLng: widget.latLng,
+                  latLng: LatLng(widget.lat, widget.lng),
                 ),
               ),
             ),
