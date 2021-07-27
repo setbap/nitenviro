@@ -122,11 +122,27 @@ class RequestItemCard extends StatelessWidget {
                             ),
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          showAvatarModalBottomSheet(
+                            builder: (context) {
+                              return RequestCardDetailModal(
+                                lat: 36.37,
+                                lng: 52.264,
+                                address: text,
+                                desc: text,
+                                time: 1,
+                                imageUrl: isSpectial ? imageUrl : "",
+                                specialDesc: isSpectial ? imageUrl : "",
+                              );
+                            },
+                            name: "سینا ابراهیمی",
+                            context: context,
+                          );
+                        },
                         child: const Padding(
                           padding: EdgeInsets.symmetric(vertical: 12),
                           child: Text(
-                            "قبول درخواست",
+                            "ثبت دریافت",
                             style: TextStyle(
                               color: Colors.white,
                             ),
