@@ -34,7 +34,7 @@ jobs:
       - name: Create a Release Clinet App in GitHub
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "enviro_driver/build/app/outputs/flutter-apk/app.apk,enviro_driver/build/app/outputs/flutter-apk/enviro-driver64.apk,enviro_client/build/app/outputs/flutter-apk/enviro_client.apk,enviro_client/build/app/outputs/flutter-apk/enviro-client64.apk"
+          artifacts: "enviro_driver/build/app/outputs/flutter-apk/enviro_driver.apk,enviro_driver/build/app/outputs/flutter-apk/enviro-driver64.apk,enviro_client/build/app/outputs/flutter-apk/enviro_client.apk,enviro_client/build/app/outputs/flutter-apk/enviro-client64.apk"
           token: ${{ secrets.GH_TOKEN }}
           tag: ${{ steps.version.outputs.content }}
           commit: ${{ github.sha }}
