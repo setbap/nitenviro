@@ -1,8 +1,8 @@
+import 'package:enviro_driver/pages/history/widgets/history_list.dart';
 import 'package:enviro_driver/repo/repo.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:enviro_driver/shared_widget/shared_widget.dart';
 import 'package:tuple/tuple.dart';
+import './widgets/widgets.dart';
 
 const items = [
   Tuple2("روز اخیر", 0),
@@ -53,74 +53,31 @@ class _HistoryState extends State<History> {
           isRightPrimary: false,
         ),
       ],
-      child: CustomScrollView(
-        physics: const BouncingScrollPhysics(),
-        slivers: [
-          SliverToBoxAdapter(
-            child: ColoredBox(
-              color: yellowDarken,
-              child: SizedBox(
-                height: 60,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: items
-                      .map((item) => HistoryChips(
-                          isSelected: item.item2 == selectedDate,
-                          text: item.item1,
-                          onTap: () {
-                            setState(() {
-                              selectedDate = item.item2;
-                            });
-                          }))
-                      .toList(),
-                ),
+      child: Column(
+        children: [
+          ColoredBox(
+            color: yellowDarken,
+            child: SizedBox(
+              height: 60,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: items
+                    .map((item) => HistoryChips(
+                        isSelected: item.item2 == selectedDate,
+                        text: item.item1,
+                        onTap: () {
+                          setState(() {
+                            selectedDate = item.item2;
+                          });
+                        }))
+                    .toList(),
               ),
             ),
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class HistoryChips extends StatelessWidget {
-  const HistoryChips(
-      {Key? key,
-      required this.isSelected,
-      required this.text,
-      required this.onTap})
-      : super(key: key);
-
-  final bool isSelected;
-  final String text;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.only(right: 8.0),
-        child: Chip(
-          label: Text(
-            text,
-            style: isSelected
-                ? Theme.of(context)
-                    .textTheme
-                    .subtitle1!
-                    .copyWith(fontWeight: FontWeight.bold)
-                : Theme.of(context).textTheme.subtitle1,
           ),
-          backgroundColor: isSelected ? veryLightYellow : lightYellow,
-          avatar: isSelected
-              ? const Icon(
-                  Icons.done,
-                  color: darkGreen,
-                )
-              : null,
-          side:
-              isSelected ? const BorderSide(color: darkGreen, width: 3) : null,
-        ),
+          const Expanded(
+            child: HistoryList(),
+          ),
+        ],
       ),
     );
   }

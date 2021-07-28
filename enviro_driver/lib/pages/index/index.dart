@@ -35,7 +35,7 @@ const List<Tuple3<String, Widget, BottomNavigationBarItem>> pageList =
       "تاریخچه",
       History(),
       BottomNavigationBarItem(
-        icon: Icon(CupertinoIcons.calendar),
+        icon: Icon(Icons.calendar_today_rounded),
         label: 'تاریخچه',
         tooltip: 'تاریخچه',
       )),

@@ -35,6 +35,7 @@ dependencies:
   url_launcher: ^6.0.7
   shared_preferences: ^2.0.6
   secondsplash: ^1.0.0
+  grouped_list: ^4.1.0
 
   public_nitenviro:
     path: ../public_nitenviro
