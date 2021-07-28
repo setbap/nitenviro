@@ -32,12 +32,12 @@ const List<Tuple3<String, Widget, BottomNavigationBarItem>> pageList =
         tooltip: 'درخواست ها',
       )),
   Tuple3<String, Widget, BottomNavigationBarItem>(
-      "مدیریت ساختمان ها",
-      AddLocation(),
+      "تاریخچه",
+      History(),
       BottomNavigationBarItem(
-        icon: Icon(CupertinoIcons.house),
-        label: 'آموزش',
-        tooltip: 'آموزش',
+        icon: Icon(CupertinoIcons.calendar),
+        label: 'تاریخچه',
+        tooltip: 'تاریخچه',
       )),
   Tuple3<String, Widget, BottomNavigationBarItem>(
     "پروفایل",

@@ -1,10 +1,17 @@
-import 'package:enviro_driver/pages/requests/widgets/request_item_card.dart';
 import 'package:enviro_driver/repo/repo.dart';
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 
+const List<String> times = [
+  "از 9  تا 12 ",
+  "از 12 تا 15 ",
+  "از 15 تا 18",
+];
+
 class RequestCardDetailModal extends StatelessWidget {
   final String desc;
+  final int plak;
+  final int postalCode;
   final int time;
   final String address;
   final double lat;
@@ -17,6 +24,8 @@ class RequestCardDetailModal extends StatelessWidget {
     Key? key,
     required this.desc,
     required this.time,
+    required this.plak,
+    required this.postalCode,
     required this.address,
     required this.lat,
     required this.lng,
@@ -61,7 +70,7 @@ class RequestCardDetailModal extends StatelessWidget {
             ),
             color: lightBorder,
           ),
-          child: Center(child: Text(times[0])),
+          child: Center(child: Text(times[time])),
         ),
         const SizedBox(height: 16),
         // const NERequestTitle(
@@ -87,6 +96,20 @@ class RequestCardDetailModal extends StatelessWidget {
           ),
           child: Center(
             child: Text(address),
+          ),
+        ),
+        const SizedBox(height: 4),
+        Container(
+          padding: const EdgeInsets.all(8),
+          decoration: const BoxDecoration(
+            color: lightBorder,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text("پلاک : $plak"),
+              Text("کد پستی : $postalCode"),
+            ],
           ),
         ),
         const SizedBox(height: 4),

@@ -1,34 +1,25 @@
-import 'package:enviro_driver/pages/requests/widgets/avatar_modal.dart';
-import 'package:enviro_driver/pages/requests/widgets/request_detail.dart';
 import 'package:enviro_shared/enviro_shared.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-enum RequestItemCardType {
-  ready,
-  ingoing,
-}
-const List<String> times = [
-  "از 9  تا 12 ",
-  "از 12 تا 15 ",
-  "از 15 تا 18",
-];
-
-const String imageUrl =
-    "https://www.royalmobl.ir/wp-content/uploads/2019/11/04.jpg";
-
-const text =
-    "با این وجود بلومبرگ در گزارش خود به این موضوع اشاره می‌کند که این نخستین باری نیست که استیبل کوین تتر مورد اتهام قرار گرفته‌ و وضعیت فعالیت‌ آن‌ها مورد بررسی قرار می‌گیرد.  پیش از این نیز مقامات آمریکایی فعالیت‌های مربوط به تتر را مورد بازرسی قرار داده بودند.";
-
-const place = "محمودآباد . خیابان امام بن بست امید";
-
 class RequestItemCard extends StatelessWidget {
-  final RequestItemCardType requestItemCardType;
+  final String address;
+  final String time;
+  final String detailBTNText;
+  final String acceptBTNText;
   final bool isSpectial;
+  final VoidCallback? onDetailPress;
+  final VoidCallback? onAcceptPress;
+
   const RequestItemCard({
     Key? key,
-    required this.requestItemCardType,
+    required this.address,
+    required this.time,
+    required this.detailBTNText,
+    required this.acceptBTNText,
     required this.isSpectial,
+    this.onDetailPress,
+    this.onAcceptPress,
   }) : super(key: key);
 
   @override
@@ -59,13 +50,13 @@ class RequestItemCard extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const RequestItemDataRow(
+                RequestItemDataRow(
                   name: "مکان",
-                  value: text,
+                  value: address,
                 ),
                 RequestItemDataRow(
                   name: "زمان",
-                  value: times[0],
+                  value: time,
                 ),
                 Row(
                   children: [
@@ -80,28 +71,12 @@ class RequestItemCard extends StatelessWidget {
                             ),
                           ),
                         ),
-                        onPressed: () {
-                          showAvatarModalBottomSheet(
-                            builder: (context) {
-                              return RequestCardDetailModal(
-                                lat: 36.37,
-                                lng: 52.264,
-                                address: text,
-                                desc: text,
-                                time: 1,
-                                imageUrl: isSpectial ? imageUrl : "",
-                                specialDesc: isSpectial ? imageUrl : "",
-                              );
-                            },
-                            name: "سینا ابراهیمی",
-                            context: context,
-                          );
-                        },
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 12),
+                        onPressed: onDetailPress,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 12),
                           child: Text(
-                            "مشاهده جزییات",
-                            style: TextStyle(
+                            detailBTNText,
+                            style: const TextStyle(
                               color: mediumGreen,
                             ),
                           ),
@@ -122,23 +97,7 @@ class RequestItemCard extends StatelessWidget {
                             ),
                           ),
                         ),
-                        onPressed: () {
-                          showAvatarModalBottomSheet(
-                            builder: (context) {
-                              return RequestCardDetailModal(
-                                lat: 36.37,
-                                lng: 52.264,
-                                address: text,
-                                desc: text,
-                                time: 1,
-                                imageUrl: isSpectial ? imageUrl : "",
-                                specialDesc: isSpectial ? imageUrl : "",
-                              );
-                            },
-                            name: "سینا ابراهیمی",
-                            context: context,
-                          );
-                        },
+                        onPressed: onAcceptPress,
                         child: const Padding(
                           padding: EdgeInsets.symmetric(vertical: 12),
                           child: Text(

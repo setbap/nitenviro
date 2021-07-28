@@ -1,4 +1,4 @@
-export 'package:enviro_driver/pages/add_building/add_building.dart';
+export 'package:enviro_driver/pages/history/history.dart';
 export 'package:enviro_driver/pages/change_info/change_info.dart';
 export 'package:enviro_driver/pages/intro/intro.dart';
 export 'package:enviro_driver/pages/requests/requests.dart';

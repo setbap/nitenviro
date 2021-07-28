@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class NERequestTitle extends StatelessWidget {
-  final String imagePath;
+  final String? imagePath;
   final String title;
 
   const NERequestTitle({
     Key? key,
-    required this.imagePath,
+    this.imagePath,
     required this.title,
   }) : super(key: key);
   @override
@@ -17,11 +17,12 @@ class NERequestTitle extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Image.asset(
-            imagePath,
-            height: 32,
-          ),
-          const SizedBox(width: 12),
+          if (imagePath != null)
+            Image.asset(
+              imagePath!,
+              height: 32,
+            ),
+          if (imagePath != null) const SizedBox(width: 12),
           Text(
             title,
             style: textTheme.headline6!.copyWith(
