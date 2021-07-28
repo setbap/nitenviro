@@ -65,12 +65,12 @@ class _NewRequestState extends State<NewRequest>
               imagePath: "assets/cal.png",
               title: "زمان",
             ),
-            NETimPicker(
-              onConfirm: (year, month, day) {
-                requestCubit.changeTime("$year-$month-$day");
-                FocusScope.of(context).unfocus();
-              },
-            ),
+            // NETimPicker(
+            //   onConfirm: (year, month, day) {
+            //     requestCubit.changeTime("$year-$month-$day");
+            //     FocusScope.of(context).unfocus();
+            //   },
+            // ),
             const SizedBox(height: 24),
             const NERequestTitle(
               imagePath: "assets/alert.png",
