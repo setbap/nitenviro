@@ -1,5 +1,7 @@
+import 'package:enviro_driver/logic/logic.dart';
 import 'package:enviro_driver/pages/requests/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 const String imageUrl =
     "https://www.royalmobl.ir/wp-content/uploads/2019/11/04.jpg";
@@ -43,6 +45,8 @@ class AllReuqest extends StatelessWidget {
             );
           },
           onAcceptPress: () {
+            // TODO : remove this line and get in init state
+            context.read<GetRequestWithLocation>().getCurrentLocation();
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text("درخواست به لیست در حال اجرا اضافه شد"),

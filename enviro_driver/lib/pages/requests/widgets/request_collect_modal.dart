@@ -35,7 +35,9 @@ class _RequestCollectModalState extends State<RequestCollectModal> {
   late final TextEditingController mixController;
 
   Future getImage() async {
-    final pickedFile = await picker.pickImage(source: ImageSource.camera);
+    final pickedFile = await picker.pickImage(
+      source: ImageSource.camera,
+    );
 
     setState(() {
       if (pickedFile != null) {

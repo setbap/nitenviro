@@ -1,18 +1,27 @@
-import 'dart:io';
+class DriverLocationData {
+  final double lat;
+  final double lng;
+  final bool loading;
+  final String errror;
 
-import 'package:freezed_annotation/freezed_annotation.dart';
+  const DriverLocationData({
+    required this.lat,
+    required this.lng,
+    required this.loading,
+    required this.errror,
+  });
 
-part 'request_model.freezed.dart';
-
-@freezed
-class CollectingRequest with _$CollectingRequest {
-  factory CollectingRequest({
-    @Default("") String comment,
-    @Default(0) int selectedBuilding,
-    @Default(0) int selectedReminder,
-    @Default("1400/04/04") String requestedTime,
-    @Default("") String commentOnSpecial,
-    File? spectialImage,
-    @Default(false) bool isSpectial,
-  }) = _CollectingRequest;
+  DriverLocationData copyWith({
+    double? lat,
+    double? lng,
+    bool? loading,
+    String? errror,
+  }) {
+    return DriverLocationData(
+      lat: lat ?? this.lat,
+      lng: lng ?? this.lng,
+      loading: loading ?? this.loading,
+      errror: errror ?? this.errror,
+    );
+  }
 }

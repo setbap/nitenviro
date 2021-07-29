@@ -63,8 +63,8 @@ class MyApp extends StatelessWidget {
       ],
       child: MultiBlocProvider(
         providers: [
-          BlocProvider<NewRequestCubit>(
-            create: (context) => NewRequestCubit(),
+          BlocProvider<GetRequestWithLocation>(
+            create: (context) => GetRequestWithLocation(),
           ),
           BlocProvider<RecyclableDetectorCubit>(
             create: (context) => RecyclableDetectorCubit(
