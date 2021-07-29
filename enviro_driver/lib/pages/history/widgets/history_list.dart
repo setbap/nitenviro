@@ -1,154 +1,95 @@
+import 'dart:math';
+
+import 'package:enviro_driver/models/collected_rubbish.dart';
+import 'package:enviro_driver/pages/history/widgets/widgets.dart';
 import 'package:enviro_driver/repo/repo.dart';
 import 'package:flutter/material.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:grouped_list/grouped_list.dart';
-import 'package:intl/intl.dart';
-
-List<Element> _elements = [
-  Element(DateTime(2020, 6, 24, 9, 25), 'مکان : آمل'),
-  Element(DateTime(2020, 6, 24, 9, 26), 'مکان : آمل'),
-  Element(DateTime(2020, 6, 24, 9, 27), 'مکان : آمل'),
-  Element(DateTime(2020, 6, 24, 9, 28), 'مکان : آمل'),
-  Element(DateTime(2020, 6, 24, 9, 29), 'مکان : آمل'),
-  Element(DateTime(2020, 7, 24, 9, 20), 'مکان : آمل'),
-  Element(DateTime(2020, 7, 24, 9, 21), 'مکان : آمل'),
-  Element(DateTime(2020, 7, 24, 9, 22), 'مکان : آمل'),
-  Element(DateTime(2020, 7, 24, 9, 23), 'مکان : آمل'),
-  Element(DateTime(2020, 7, 24, 9, 24), 'مکان : آمل'),
-  Element(DateTime(2020, 7, 24, 1, 25), 'مکان : آمل'),
-  Element(DateTime(2020, 6, 24, 9, 25), 'مکان : آمل'),
-  Element(
-    DateTime(2020, 6, 24, 9, 36),
-    'Fine and what about you?',
-  ),
-  Element(
-    DateTime(2020, 7, 24, 9, 36),
-    'Fine and what about you?',
-  ),
-  Element(
-    DateTime(2020, 9, 24, 9, 36),
-    'Fine and what about you?',
-  ),
-  Element(
-    DateTime(2020, 8, 24, 9, 36),
-    'Fine and what about you?',
-  ),
-  Element(
-    DateTime(2020, 2, 24, 9, 36),
-    'Fine and what about you?',
-  ),
-  Element(
-    DateTime(2020, 1, 24, 9, 36),
-    'Fine and what about you?',
-  ),
-  Element(
-    DateTime(2020, 3, 24, 9, 36),
-    'Fine and what about you?',
-  ),
-  Element(
-    DateTime(2020, 4, 24, 9, 36),
-    'Fine and what about you?',
-  ),
-  Element(DateTime(2021, 6, 24, 9, 39), 'تست 1234'),
-  Element(
-    DateTime(2020, 6, 25, 14, 12),
-    'Hey you do you wanna go to the cinema?',
-  ),
-  Element(
-      DateTime(2020, 6, 25, 14, 19), 'Yes of course when do we want to meet'),
-  Element(
-    DateTime(2020, 6, 25, 14, 20),
-    'Lets meet at 8 o clock',
-  ),
-  Element(DateTime(2020, 6, 25, 14, 25), 'Okay see you then :)'),
-  Element(DateTime(2020, 6, 27, 18, 41),
-      'Hey whats up? Can you help me real quick?'),
-  Element(
-    DateTime(2020, 6, 27, 18, 45),
-    'Of course  what do you need?',
-  ),
-  Element(DateTime(2020, 6, 28, 8, 47),
-      'Can you send me the homework for tomorrow please?'),
-  Element(
-    DateTime(2020, 6, 28, 8, 48),
-    'I dont understand the math questions :(',
-  ),
-  Element(
-    DateTime(2020, 6, 28, 8, 56),
-    'Yeah sure I have send them per mail',
-  ),
-];
 
 class HistoryList extends StatelessWidget {
   const HistoryList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return GroupedListView<Element, DateTime>(
-      elements: _elements,
+    return GroupedListView<CollectedRubish, DateTime>(
+      elements: generator(),
       physics: const BouncingScrollPhysics(),
       order: GroupedListOrder.DESC,
       reverse: false,
       floatingHeader: true,
       useStickyGroupSeparators: true,
-      groupBy: (Element element) =>
-          DateTime(element.date.year, element.date.month, element.date.day),
-      groupHeaderBuilder: (Element element) => SizedBox(
+      groupBy: (CollectedRubish element) => DateTime(element.collectedAt.year,
+          element.collectedAt.month, element.collectedAt.day),
+      groupHeaderBuilder: (CollectedRubish element) => SizedBox(
         height: 48,
         child: Align(
           child: Container(
             margin: const EdgeInsets.only(top: 8),
-            width: 120,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
+              border: Border.all(color: yellowDarken),
               color: lightYellow,
-              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+              borderRadius: const BorderRadius.all(Radius.circular(12)),
             ),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                DateFormat.yMMMd().format(element.date),
+                element.collectedAt.toPersianDateStr(
+                  strMonth: true,
+                  showDayStr: true,
+                ),
                 textAlign: TextAlign.center,
               ),
             ),
           ),
         ),
       ),
-      itemBuilder: (_, Element element) {
-        return Align(
-          child: SizedBox(
-            child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16.0),
-                side: const BorderSide(
-                  width: 2,
-                  color: yellowSemiDarken,
-                ),
-              ),
-              elevation: 4.0,
-              margin:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-              child: ListTile(
-                contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 16.0, vertical: 16.0),
-                leading: Text(DateFormat.Hm().format(element.date)),
-                title: Text(element.name),
-                trailing: const Icon(Icons.person_outline),
-              ),
-            ),
-          ),
-        );
+      itemBuilder: (_, CollectedRubish collectedRubish) {
+        return HistoryButton(collectedRubish: collectedRubish);
       },
     );
   }
 }
 
-class Element implements Comparable {
-  DateTime date;
-  String name;
+List<CollectedRubish> generator() {
+  final random = Random(100000);
+  final List<String?> images = [
+    "https://dast2.com/uploads/cdn4/103506/6c064205a7b323fb002ecbf4de6a61ef0680f00f/l.jpg",
+    null,
+    null,
+    "https://dast2.com/uploads/cdn9/103462/b72f93c19cadf12dbc5f9425108f3dcb42889e71/l.jpg",
+    "https://dast2.com/uploads/cdn2/103401/5a6b2254c559ed5cebfbe20548f9c1003aa6f613/l.jpg",
+    null,
+    "https://dast2.com/uploads/cdn6/103394/b6c82906afd7634d08be9cd3d8fb2b017815a856/l.jpg",
+    "https://dast2.com/uploads/cdn2/103302/574acbfae13575c33ec5d9abebbe240a9d62903e/l.jpg",
+    null,
+    "https://dast2.com/uploads/cdn3/103268/1812e85d4835ca486ed5363fdfd7e2b5682b8704/l.jpg",
+  ];
 
-  Element(this.date, this.name);
-
-  @override
-  int compareTo(other) {
-    return date.compareTo(other.date);
+  var list = <CollectedRubish>[];
+  for (var i = 0; i < 1000; i++) {
+    list.add(CollectedRubish(
+      address: "asdasd",
+      collectedAt: DateTime(
+        random.nextInt(2) + 2020,
+        random.nextInt(12),
+        random.nextInt(3) * 6,
+        random.nextInt(8) + 8,
+        random.nextInt(59),
+      ),
+      isSpectial: random.nextBool(),
+      driverDesc: "korea das dasd as dasd ",
+      imageUrl: images[random.nextInt(10)] ?? "",
+      lat: random.nextInt(100) / 100 + 56,
+      lng: random.nextInt(100) / 100 + 36,
+      plak: random.nextInt(100),
+      postalCode: 2003040500,
+      glass: random.nextBool() ? random.nextInt(10000) / 100 : null,
+      metal: random.nextBool() ? random.nextInt(10000) / 100 : null,
+      mix: random.nextBool() ? random.nextInt(10000) / 100 : null,
+      paper: random.nextBool() ? random.nextInt(10000) / 100 : null,
+      plastic: random.nextBool() ? random.nextInt(10000) / 100 : null,
+    ));
   }
+  return list;
 }

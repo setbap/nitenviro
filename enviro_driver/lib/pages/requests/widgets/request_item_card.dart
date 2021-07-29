@@ -122,11 +122,13 @@ class RequestItemCard extends StatelessWidget {
 
 class RequestItemDataRow extends StatelessWidget {
   final String name;
+  final int maxLines;
   final String value;
   const RequestItemDataRow({
     Key? key,
     required this.name,
     required this.value,
+    this.maxLines = 1,
   }) : super(key: key);
 
   @override
@@ -134,6 +136,7 @@ class RequestItemDataRow extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.max,
       children: [
         Text(
@@ -148,7 +151,7 @@ class RequestItemDataRow extends StatelessWidget {
         Expanded(
           child: Text(
             value,
-            maxLines: 1,
+            maxLines: maxLines,
             overflow: TextOverflow.ellipsis,
           ),
         ),
@@ -158,23 +161,22 @@ class RequestItemDataRow extends StatelessWidget {
 }
 
 class SpacialRoban extends StatelessWidget {
-  const SpacialRoban({
-    Key? key,
-  }) : super(key: key);
+  final Color robanColor;
+  const SpacialRoban({Key? key, this.robanColor = darkGreen}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Transform(
       transform: Matrix4.identity()..setRotationZ(3.14 / 4),
       origin: const Offset(35, 35),
-      child: const Align(
+      child: Align(
         alignment: Alignment.topLeft,
         child: ColoredBox(
-          child: SizedBox(
+          child: const SizedBox(
             height: 70,
             width: 15,
           ),
-          color: darkGreen,
+          color: robanColor,
         ),
       ),
     );

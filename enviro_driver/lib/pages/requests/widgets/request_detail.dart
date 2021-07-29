@@ -73,14 +73,6 @@ class RequestCardDetailModal extends StatelessWidget {
           child: Center(child: Text(times[time])),
         ),
         const SizedBox(height: 16),
-        // const NERequestTitle(
-        //   imagePath: "assets/alert.png",
-        //   title: "یادآوری",
-        // ),
-        //  const NERequestTitle(
-        //   imagePath: "assets/location.png",
-        //   title: "مکان",
-        // ),
         const NERequestTitle(
           imagePath: "assets/building.png",
           title: "مکان ساختمان",
@@ -144,9 +136,7 @@ class RequestCardDetailModal extends StatelessWidget {
           ),
         ),
         // end loaction request data
-
         const SizedBox(height: 16),
-
         // start Special request data
         if (isSpecial)
           const NERequestTitle(
@@ -186,7 +176,6 @@ class RequestCardDetailModal extends StatelessWidget {
           ),
         if (isSpecial) const SizedBox(height: 16),
         // end Special request data
-
         OutlinedButton(
           style: OutlinedButton.styleFrom(
             backgroundColor: darkGreen.withOpacity(0.1),

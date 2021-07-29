@@ -36,6 +36,7 @@ dependencies:
   shared_preferences: ^2.0.6
   secondsplash: ^1.0.0
   grouped_list: ^4.1.0
+  persian_number_utility: ^0.3.4
 
   public_nitenviro:
     path: ../public_nitenviro
