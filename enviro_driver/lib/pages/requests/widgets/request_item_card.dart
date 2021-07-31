@@ -98,11 +98,11 @@ class RequestItemCard extends StatelessWidget {
                           ),
                         ),
                         onPressed: onAcceptPress,
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 12),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 12),
                           child: Text(
-                            "ثبت دریافت",
-                            style: TextStyle(
+                            acceptBTNText,
+                            style: const TextStyle(
                               color: Colors.white,
                             ),
                           ),

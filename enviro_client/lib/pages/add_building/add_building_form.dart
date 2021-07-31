@@ -1,10 +1,13 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:enviro_shared/enviro_shared.dart';
 import 'package:enviro_shared/shared_widget/shared_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:time_range_picker/time_range_picker.dart';
+import 'package:nitenviro/logic/city_province_data/city_province_data.dart';
+import 'package:rubbish_collectors/rubbish_collectors.dart';
 import 'package:tuple/tuple.dart';
 import 'package:latlong2/latlong.dart';
 import 'show_map.dart';
@@ -13,7 +16,7 @@ class AddBuildingForm extends StatefulWidget {
   final String? name;
   final String? postalCode;
   final String? pelak;
-  final Tuple2<TimeOfDay, TimeOfDay>? timeRange;
+  final int? timeRange;
   final int? dayOfWeek;
   final String? address;
   final LatLng? latLng;
@@ -46,10 +49,49 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
   late final TextEditingController addressController;
   LatLng? latLng;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  ProvinceModel? selectedProvince;
+  CityModel? selectedCity;
+
+  InputDecoration data() {
+    return const InputDecoration(
+      filled: true,
+      fillColor: lightBorder,
+      border: UnderlineInputBorder(
+        borderSide: BorderSide(color: darkBorder),
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(16),
+        ),
+      ),
+      focusColor: lightYellow,
+      focusedBorder: UnderlineInputBorder(
+        borderSide: BorderSide(color: mainYellow),
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(16),
+        ),
+      ),
+      hintStyle: TextStyle(color: Colors.grey),
+      errorBorder: UnderlineInputBorder(
+        borderSide: BorderSide(color: mainYellow),
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(16),
+        ),
+      ),
+    );
+  }
 
   @override
   void initState() {
     super.initState();
+
+    selectedCity = const CityModel(
+      provinceId: "9f8ddce9-bd3d-4e79-bc94-56d6ded8bfdf",
+      name: "بابل",
+      id: "83e3b69a-3a85-4629-97f4-b7540c4433d4",
+    );
+    selectedProvince = const ProvinceModel(
+      id: "9f8ddce9-bd3d-4e79-bc94-56d6ded8bfdf",
+      name: "مازندران",
+    );
 
     nameController = TextEditingController(
       text: widget.name,
@@ -62,13 +104,8 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
       text: widget.pelak,
     );
 
-    timeRange = const Tuple2<TimeOfDay, TimeOfDay>(
-      TimeOfDay(hour: 9, minute: 0),
-      TimeOfDay(hour: 21, minute: 0),
-    );
-
     timeRangeController = TextEditingController(
-      text: rangeToString(timeRange),
+      text: timeOfDayDataTuple[widget.timeRange ?? 0].item1,
     );
 
     selectedDayController = TextEditingController(
@@ -79,12 +116,6 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
     );
 
     latLng = widget.latLng;
-  }
-
-  String rangeToString(Tuple2<TimeOfDay, TimeOfDay> range) {
-    final start = "از ${range.item1.hour}:${range.item1.minute} ";
-    final end = " تا ${range.item2.hour}:${range.item2.minute}";
-    return start + end;
   }
 
   @override
@@ -104,7 +135,9 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
       key: _scaffoldKey,
       appBar: AppBar(
         title: Text(
-          widget.id != null ? "اضافه کردن ساختمان جدید" : "تغییر ساختمان موجود",
+          (widget.id != null || widget.name != null)
+              ? "تغییر ${widget.name!}"
+              : "اضافه کردن ساختمان جدید",
           style: Theme.of(context)
               .textTheme
               .headline6!
@@ -133,6 +166,81 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
                   }
                 },
                 textEditingController: nameController,
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        showModalBottomSheet(
+                          context: _scaffoldKey.currentContext!,
+                          builder: (context) {
+                            return NESelectList(
+                              data: timeOfDayDataTuple,
+                              fnWithOneParam: (value) {
+                                timeRangeController.text =
+                                    timeOfDayDataTuple[value].item1;
+                              },
+                              defualtIndex: widget.dayOfWeek ?? 0,
+                            );
+                          },
+                        );
+                      },
+                      child: IgnorePointer(
+                        child: NEFormTextInput(
+                          label: "محدوده مراجعه*",
+                          hint: "محدوده مراجعه",
+                          isReadOnly: true,
+                          showClearButton: false,
+                          textEditingController: timeRangeController,
+                          textInputFormatter: const [],
+                          validator: (value) {
+                            if (value == null) {
+                              return "محدوده مراجعه نمی تواند خالی باشد";
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        showModalBottomSheet(
+                          context: _scaffoldKey.currentContext!,
+                          builder: (context) {
+                            return NESelectList(
+                              data: weekDataTuple,
+                              fnWithOneParam: (value) {
+                                selectedDayController.text =
+                                    weekDataTuple[value].item1;
+                              },
+                              defualtIndex: widget.dayOfWeek ?? 0,
+                            );
+                          },
+                        );
+                      },
+                      child: IgnorePointer(
+                        child: NEFormTextInput(
+                          label: "روز هفته*",
+                          isReadOnly: true,
+                          hint: "(مثلا شنبه)",
+                          showClearButton: false,
+                          textEditingController: selectedDayController,
+                          textInputFormatter: const [],
+                          validator: (value) {
+                            if (value == null || value == "") {
+                              return "مقدار پلاک نمیتواند خالی باشد";
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 12),
               Row(
@@ -180,152 +288,135 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
                 ],
               ),
               const SizedBox(height: 12),
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: InkWell(
-                      onTap: () {
-                        showTimeRangePicker(
-                          context: _scaffoldKey.currentContext!,
-                          onStartChange: (start) {
-                            timeRange = timeRange.withItem1(start);
-                            timeRangeController.text = rangeToString(timeRange);
-                            setState(() {});
-                          },
-                          onEndChange: (end) {
-                            timeRange = timeRange.withItem2(end);
-                            timeRangeController.text = rangeToString(timeRange);
-                            setState(() {});
-                          },
-                          interval: const Duration(minutes: 15),
-                          use24HourFormat: false,
-                          padding: 30,
-                          start: timeRange.item1,
-                          end: timeRange.item2,
-                          disabledTime: TimeRange(
-                            startTime: const TimeOfDay(hour: 21, minute: 0),
-                            endTime: const TimeOfDay(hour: 9, minute: 0),
+              SizedBox(
+                height: 60,
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: DropdownSearch<ProvinceModel>(
+                        mode: Mode.BOTTOM_SHEET,
+                        showSearchBox: true,
+                        label: "انتخاب استان*",
+                        loadingBuilder: (context, searchEntry) => const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        itemAsString: (item) => item?.name ?? "",
+                        onFind: (text) async {
+                          final province = await context
+                              .read<CityProvinceDataCubit>()
+                              .getProvince();
+                          return province
+                              .where((element) =>
+                                  element.name.contains(text ?? ""))
+                              .toList();
+                        },
+                        dropdownSearchDecoration: data(),
+                        searchFieldProps: TextFieldProps(
+                          decoration: data().copyWith(
+                            hintText: "مثلا مازندران",
+                            labelText: "نام استان",
+                            prefixIcon: const Icon(Icons.search),
                           ),
-                          disabledColor: Colors.red.withOpacity(0.5),
-                          strokeWidth: 4,
-                          handlerRadius: 8,
-                          strokeColor: yellowDarken,
-                          handlerColor: yellowDarken,
-                          selectedColor: mainYellow,
-                          backgroundColor: Colors.white,
-                          ticks: 24,
-                          ticksColor: yellowSemiDarken,
-                          snap: true,
-                          labels: List.generate(
-                            12,
-                            (index) => (index * 2).toString(),
-                          ).asMap().entries.map((e) {
-                            return ClockLabel.fromIndex(
-                              idx: e.key,
-                              length: 12,
-                              text: e.value,
-                            );
-                          }).toList(),
-                          labelOffset: -30,
-                          labelStyle: const TextStyle(
-                            fontSize: 22,
-                            color: Colors.grey,
-                            fontWeight: FontWeight.bold,
+                        ),
+                        emptyBuilder: (context, searchEntry) => const Center(
+                          child: Text("استان با این مشخصات موجود نیست"),
+                        ),
+                        popupItemBuilder: (context, item, isSelected) => Card(
+                          shadowColor: yellowDarken.withAlpha(150),
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                              color: item == selectedProvince
+                                  ? yellowDarken.withAlpha(150)
+                                  : Colors.transparent,
+                              width: 2,
+                              style: BorderStyle.solid,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
                           ),
-                          timeTextStyle: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 24,
-                              fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold),
-                          activeTimeTextStyle: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 26,
-                            fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.bold,
+                          child: ListTile(
+                            selected: item == selectedProvince,
+                            title: Text(item.name),
                           ),
-                          fromText: "از",
-                          toText: "تا",
-                          clockRotation: 180,
-                          ticksWidth: 3,
-                          rotateLabels: false,
-                          backgroundWidget: LayoutBuilder(
-                            builder: (context, constraints) {
-                              return Center(
-                                child: SizedBox(
-                                  width: constraints.maxWidth / 2,
-                                  child: const Text(
-                                    "محدوده ساعت انتخابی خود را مشخص کنید",
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
+                        ),
+                        onChanged: (value) {
+                          if (selectedProvince == null ||
+                              selectedProvince!.id != value?.id) {
+                            selectedCity = null;
+                          }
+                          selectedProvince = value;
+                          setState(() {});
+                        },
+                        dropDownButton: const SizedBox(),
+                        selectedItem: selectedProvince,
+                        hint: "لطفا نام شهر را وارد کنید",
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: DropdownSearch<CityModel>(
+                        mode: Mode.BOTTOM_SHEET,
+                        key: ValueKey(selectedProvince?.id),
+                        showSearchBox: true,
+                        label: "انتخاب شهر*",
+                        loadingBuilder: (context, searchEntry) => const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        itemAsString: (item) => item?.name ?? "",
+                        onFind: (text) async {
+                          final province = await context
+                              .read<CityProvinceDataCubit>()
+                              .getCitiesProvince(
+                                provinceId: selectedProvince?.id ?? "شسیشسی",
                               );
-                            },
+
+                          return province
+                              .where((element) =>
+                                  element.name.contains(text ?? ""))
+                              .toList();
+                        },
+                        dropdownSearchDecoration: data(),
+                        searchFieldProps: TextFieldProps(
+                          decoration: data().copyWith(
+                            hintText: "مثلا محمودآباد",
+                            labelText: "نام شهر",
+                            prefixIcon: const Icon(Icons.search),
                           ),
-                        );
-                      },
-                      child: IgnorePointer(
-                        child: NEFormTextInput(
-                          label: "ساعت مراجعه*",
-                          hint: "ساعت مراجعه",
-                          isReadOnly: true,
-                          showClearButton: false,
-                          textEditingController: timeRangeController,
-                          textInputFormatter: const [],
-                          validator: (value) {
-                            if (value == null || value == "") {
-                              return "مقدار روز هفته نمیتواند خالی باشد";
-                            }
-                            final distance =
-                                (timeRange.item2.hour - timeRange.item1.hour) *
-                                        60 +
-                                    (timeRange.item2.minute -
-                                        timeRange.item1.minute);
-                            if (distance < 60) {
-                              return "فاصله بیش از 1 ساعت باشد";
-                            }
-                          },
                         ),
+                        enabled: selectedProvince != null,
+                        emptyBuilder: (context, searchEntry) => const Center(
+                          child: Text("شهری با این مشخصات موجود نیست"),
+                        ),
+                        popupItemBuilder: (context, item, isSelected) => Card(
+                          shadowColor: yellowDarken.withAlpha(150),
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                              color: item == selectedCity
+                                  ? yellowDarken.withAlpha(150)
+                                  : Colors.transparent,
+                              width: 2,
+                              style: BorderStyle.solid,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: ListTile(
+                            selected: item == selectedCity,
+                            title: Text(item.name),
+                          ),
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            selectedCity = value;
+                          });
+                        },
+                        dropDownButton: const SizedBox(),
+                        selectedItem: selectedCity,
+                        hint: "لطفا نام شهر را وارد کنید",
                       ),
                     ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: InkWell(
-                      onTap: () {
-                        showModalBottomSheet(
-                          context: _scaffoldKey.currentContext!,
-                          builder: (context) {
-                            return NESelectList(
-                              data: weekDataTuple,
-                              fnWithOneParam: (value) {
-                                selectedDayController.text =
-                                    weekDataTuple[value].item1;
-                              },
-                              defualtIndex: widget.dayOfWeek ?? 0,
-                            );
-                          },
-                        );
-                      },
-                      child: IgnorePointer(
-                        child: NEFormTextInput(
-                          label: "روز هفته*",
-                          isReadOnly: true,
-                          hint: "(مثلا شنبه)",
-                          showClearButton: false,
-                          textEditingController: selectedDayController,
-                          textInputFormatter: const [],
-                          validator: (value) {
-                            if (value == null || value == "") {
-                              return "مقدار پلاک نمیتواند خالی باشد";
-                            }
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               const SizedBox(height: 12),
               NEFormTextInput(

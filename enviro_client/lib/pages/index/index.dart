@@ -10,7 +10,7 @@ const List<Tuple3<String, Widget, BottomNavigationBarItem>> pageList =
     "آموزش",
     Tutorials(),
     BottomNavigationBarItem(
-      icon: Icon(CupertinoIcons.house),
+      icon: Icon(Icons.language),
       label: 'آموزش',
       tooltip: 'آموزش',
     ),

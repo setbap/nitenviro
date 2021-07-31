@@ -5,4 +5,6 @@ class Endpoints {
   static String authRefreshPath() => '/Auth/Refresh';
   static String userGetInfoPath() => '/User';
   static String userPatchInfoPath() => '/User';
+  static String provincePath() => '/Province';
+  static String citiesPath() => '/City';
 }

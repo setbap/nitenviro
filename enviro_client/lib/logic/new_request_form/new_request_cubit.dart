@@ -10,7 +10,7 @@ class NewRequestCubit extends Cubit<CollectingRequest> {
     emit(state.copyWith(comment: comment));
   }
 
-  void  changeBuilding(int selectedBuilding) {
+  void changeBuilding(int selectedBuilding) {
     emit(state.copyWith(selectedBuilding: selectedBuilding));
   }
 

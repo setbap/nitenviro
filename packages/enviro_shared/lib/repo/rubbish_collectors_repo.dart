@@ -44,4 +44,16 @@ class RubbishCollectorsApi {
     );
     return items;
   }
+
+  Future<GenericResult<List<ProvinceModel>>> getAllProvince() async {
+    final items = await _rubbishCollectorsClient.getProvince();
+    return items;
+  }
+
+  Future<GenericResult<List<CityModel>>> getCitiesOfProvince(
+      {required String provinceId}) async {
+    final items = await _rubbishCollectorsClient.getCitiesOfProvince(
+        provinceId: provinceId);
+    return items;
+  }
 }

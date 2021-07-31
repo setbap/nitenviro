@@ -44,6 +44,8 @@ dependencies:
   enviro_shared:
     path: ../packages/enviro_shared
 
+  dropdown_search: ^1.0.0-beta2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -65,7 +65,9 @@ class AddLocation extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return const AddBuildingForm();
+                        return const AddBuildingForm(
+                          id: null,
+                        );
                       },
                     ),
                   );
@@ -158,13 +160,7 @@ class AddLocation extends StatelessWidget {
                           Text("شنبه"),
                           Text("ها"),
                           SizedBox(width: 8),
-                          Text("از ساعت"),
-                          SizedBox(width: 2),
-                          Text("09:00"),
-                          SizedBox(width: 10),
-                          Text("تا ساعت"),
-                          SizedBox(width: 2),
-                          Text("21:00"),
+                          Text("صبح"),
                         ],
                       ),
                       trailing: IconButton(

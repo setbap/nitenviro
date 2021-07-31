@@ -63,21 +63,23 @@ class _NewRequestState extends State<NewRequest>
             const SizedBox(height: 24),
             const NERequestTitle(
               imagePath: "assets/cal.png",
-              title: "زمان",
-            ),
-            // NETimPicker(
-            //   onConfirm: (year, month, day) {
-            //     requestCubit.changeTime("$year-$month-$day");
-            //     FocusScope.of(context).unfocus();
-            //   },
-            // ),
-            const SizedBox(height: 24),
-            const NERequestTitle(
-              imagePath: "assets/alert.png",
-              title: "یادآوری",
+              title: "روز جمع آوری",
             ),
             NEReminderTime(
               data: weekDataTuple,
+              fnWithOneParam: (int value) {
+                requestCubit.changeReminer(value);
+                FocusScope.of(context).unfocus();
+              },
+            ),
+            const SizedBox(height: 24),
+
+            const NERequestTitle(
+              imagePath: "assets/alert.png",
+              title: "محدوده زمانی",
+            ),
+            NEReminderTime(
+              data: timeOfDayDataTuple,
               fnWithOneParam: (int value) {
                 requestCubit.changeReminer(value);
                 FocusScope.of(context).unfocus();

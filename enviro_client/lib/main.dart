@@ -1,12 +1,11 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:nitenviro/logic/city_province_data/city_province_data.dart';
 import 'package:public_nitenviro/public_nitenviro.dart';
 import 'package:rubbish_collectors/rubbish_collectors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:nitenviro/logic/logic.dart';
 import 'package:nitenviro/pages/pages.dart';
 import 'package:nitenviro/repo/repo.dart';
@@ -71,6 +70,11 @@ class MyApp extends StatelessWidget {
               publicNitEnviroApi: context.read<PublicNitEnviroApi>(),
             )..getAllItems(),
             lazy: false,
+          ),
+          BlocProvider<CityProvinceDataCubit>(
+            create: (context) => CityProvinceDataCubit(
+              rubbishCollectorsApi: context.read<RubbishCollectorsApi>(),
+            ),
           ),
           BlocProvider<VideoTutorialsCubit>(
             create: (context) => VideoTutorialsCubit(

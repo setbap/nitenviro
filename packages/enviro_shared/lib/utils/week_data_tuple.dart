@@ -30,3 +30,18 @@ const weekDataTuple = [
     6,
   ),
 ];
+
+const timeOfDayDataTuple = [
+  Tuple2<String, int>(
+    "صبح",
+    0,
+  ),
+  Tuple2<String, int>(
+    "ظهر",
+    1,
+  ),
+  Tuple2<String, int>(
+    "بعد از ظهر",
+    2,
+  ),
+];

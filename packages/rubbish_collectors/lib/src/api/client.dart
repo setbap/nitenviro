@@ -134,4 +134,43 @@ class RubbishCollectorsClient {
     );
     return userResult;
   }
+
+  Future<GenericResult<List<ProvinceModel>>> getProvince() async {
+    var provinceReponse = await dio.get(
+      Endpoints.provincePath(),
+    );
+
+    final provinceResult = GenericResult<List<ProvinceModel>>.fromJson(
+      provinceReponse.data,
+      (dynamic json) {
+        final list = <ProvinceModel>[];
+        for (var i = 0; i < json.length; i++) {
+          list.add(ProvinceModel.fromJson(json[i]));
+        }
+        return list;
+      },
+    );
+    return provinceResult;
+  }
+
+  Future<GenericResult<List<CityModel>>> getCitiesOfProvince(
+      {required String provinceId}) async {
+    log(provinceId);
+    var citiesOfProvinceReponse = await dio.get(
+      Endpoints.citiesPath(),
+      queryParameters: {"ProvinceId": provinceId},
+    );
+
+    final provinceResult = GenericResult<List<CityModel>>.fromJson(
+      citiesOfProvinceReponse.data,
+      (dynamic json) {
+        final list = <CityModel>[];
+        for (var i = 0; i < json.length; i++) {
+          list.add(CityModel.fromJson(json[i]));
+        }
+        return list;
+      },
+    );
+    return provinceResult;
+  }
 }

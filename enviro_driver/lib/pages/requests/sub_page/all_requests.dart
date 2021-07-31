@@ -22,7 +22,7 @@ class AllReuqest extends StatelessWidget {
       itemBuilder: (context, index) {
         return RequestItemCard(
           detailBTNText: "مشاهده جزییات",
-          acceptBTNText: "ثبت دریافت",
+          acceptBTNText: "آغاز فرآیند دریافت",
           time: times[index % 3],
           address: text,
           onDetailPress: () {
@@ -46,7 +46,7 @@ class AllReuqest extends StatelessWidget {
           },
           onAcceptPress: () {
             // TODO : remove this line and get in init state
-            context.read<GetRequestWithLocation>().getCurrentLocation();
+            // context.read<GetRequestWithLocation>().getCurrentLocation();
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text("درخواست به لیست در حال اجرا اضافه شد"),

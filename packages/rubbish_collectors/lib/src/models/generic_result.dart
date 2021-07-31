@@ -90,7 +90,7 @@ class GenericResult<T> {
       value: jsonRes['value'] == null
           ? null
           : converterToJson(
-              asT<Map<String, dynamic>>(jsonRes['value'])!,
+              (jsonRes['value'])!,
             ),
       isFailed: asT<bool>(jsonRes['isFailed'])!,
       isSuccess: asT<bool>(jsonRes['isSuccess'])!,
