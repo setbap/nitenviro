@@ -163,6 +163,7 @@ class Building {
 }
 
 class BuildingCreateModel {
+  final String? id;
   final String name;
   final String address;
   final double latitude;
@@ -173,8 +174,8 @@ class BuildingCreateModel {
   final int weekDay;
   final int timeOfDay;
   final String cityId;
-
-  const BuildingCreateModel({
+  BuildingCreateModel({
+    this.id,
     required this.name,
     required this.address,
     required this.latitude,
@@ -188,6 +189,7 @@ class BuildingCreateModel {
   });
 
   BuildingCreateModel copyWith({
+    String? id,
     String? name,
     String? address,
     double? latitude,
@@ -200,6 +202,7 @@ class BuildingCreateModel {
     String? cityId,
   }) {
     return BuildingCreateModel(
+      id: id ?? this.id,
       name: name ?? this.name,
       address: address ?? this.address,
       latitude: latitude ?? this.latitude,
@@ -215,6 +218,7 @@ class BuildingCreateModel {
 
   Map<String, dynamic> toMap() {
     return {
+      'buildingId': id,
       'name': name,
       'address': address,
       'latitude': latitude,
@@ -228,11 +232,30 @@ class BuildingCreateModel {
     };
   }
 
+  factory BuildingCreateModel.fromMap(Map<String, dynamic> map) {
+    return BuildingCreateModel(
+      id: map['id'],
+      name: map['name'],
+      address: map['address'],
+      latitude: map['latitude'],
+      longitude: map['longitude'],
+      plaque: map['plaque'],
+      postalCode: map['postalCode'],
+      description: map['description'],
+      weekDay: map['weekDay'],
+      timeOfDay: map['timeOfDay'],
+      cityId: map['cityId'],
+    );
+  }
+
   String toJson() => json.encode(toMap());
+
+  factory BuildingCreateModel.fromJson(String source) =>
+      BuildingCreateModel.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'BuildingCreateModel(name: $name, address: $address, latitude: $latitude, longitude: $longitude, plaque: $plaque, postalCode: $postalCode, description: $description, weekDay: $weekDay, timeOfDay: $timeOfDay, cityId: $cityId)';
+    return 'BuildingCreateModel(id: $id, name: $name, address: $address, latitude: $latitude, longitude: $longitude, plaque: $plaque, postalCode: $postalCode, description: $description, weekDay: $weekDay, timeOfDay: $timeOfDay, cityId: $cityId)';
   }
 
   @override
@@ -240,6 +263,7 @@ class BuildingCreateModel {
     if (identical(this, other)) return true;
 
     return other is BuildingCreateModel &&
+        other.id == id &&
         other.name == name &&
         other.address == address &&
         other.latitude == latitude &&
@@ -254,7 +278,8 @@ class BuildingCreateModel {
 
   @override
   int get hashCode {
-    return name.hashCode ^
+    return id.hashCode ^
+        name.hashCode ^
         address.hashCode ^
         latitude.hashCode ^
         longitude.hashCode ^

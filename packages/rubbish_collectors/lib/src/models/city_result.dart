@@ -1,5 +1,3 @@
-import 'package:rubbish_collectors/src/models/models.dart';
-
 class CityModel extends CityProvinceBase {
   final String id;
 

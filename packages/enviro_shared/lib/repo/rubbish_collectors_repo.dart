@@ -41,6 +41,24 @@ class RubbishCollectorsApi {
     return items;
   }
 
+  Future<GenericResult<Building>> updateNewBuildin({
+    required BuildingCreateModel buildingCreateModel,
+  }) async {
+    final items = await _rubbishCollectorsClient.updateBuilding(
+      buildingCreateModel: buildingCreateModel,
+    );
+    return items;
+  }
+
+  Future<GenericResult<bool>> deleteBuilding({
+    required String buildingId,
+  }) async {
+    final items = await _rubbishCollectorsClient.deleteBuilding(
+      buildingId: buildingId,
+    );
+    return items;
+  }
+
   Future<GenericResult<UserInfoResult>> updateUserInfo({
     String? name,
     String? email,

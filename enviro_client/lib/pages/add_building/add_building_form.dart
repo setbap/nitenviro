@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:enviro_shared/enviro_shared.dart';
 import 'package:enviro_shared/shared_widget/shared_widget.dart';
@@ -8,8 +10,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:nitenviro/logic/city_province_data/city_province_data.dart';
 import 'package:rubbish_collectors/rubbish_collectors.dart';
-import 'package:enviro_shared/enviro_shared.dart';
-import 'package:tuple/tuple.dart';
 import 'package:latlong2/latlong.dart';
 import 'show_map.dart';
 
@@ -118,7 +118,7 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
     );
 
     selectedDayController = TextEditingController(
-      text: weekDataTuple[widget.dayOfWeek ?? 0].item2.toString(),
+      text: weekDataTuple[widget.dayOfWeek ?? 0].item1,
     );
     addressController = TextEditingController(
       text: widget.address,
@@ -190,7 +190,7 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
                               data: timeOfDayDataTuple,
                               fnWithOneParam: (value) {
                                 timeRangeController.text =
-                                    timeOfDayDataTuple[value].item2.toString();
+                                    timeOfDayDataTuple[value].item1;
                               },
                               defualtIndex: widget.dayOfWeek ?? 0,
                             );
@@ -225,7 +225,7 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
                               data: weekDataTuple,
                               fnWithOneParam: (value) {
                                 selectedDayController.text =
-                                    weekDataTuple[value].item2.toString();
+                                    weekDataTuple[value].item1;
                               },
                               defualtIndex: widget.dayOfWeek ?? 0,
                             );
@@ -580,61 +580,105 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
                 ),
               ),
               const SizedBox(height: 12),
-              NESendButton(
-                onTap: () async {
-                  if (_formKey.currentState!.validate() &&
-                      latLng != null &&
-                      selectedCity != null &&
-                      selectedProvince != null) {
-                    if (widget.id == null) {
-                      final BuildingCreateModel b = BuildingCreateModel(
-                        address: addressController.text,
-                        cityId: selectedCity!.id,
-                        description: "",
-                        latitude: latLng!.latitude,
-                        longitude: latLng!.longitude,
-                        name: nameController.text,
-                        plaque: int.tryParse(plaqueController.text) ?? 0,
-                        postalCode: postalCodeController.text,
-                        timeOfDay: int.tryParse(timeRangeController.text)!,
-                        weekDay: int.tryParse(selectedDayController.text)!,
-                      );
-                      await context
-                          .read<UserInfoCubit>()
-                          .addUserBuilding(buildingCreateModel: b);
-                    }
-                    ScaffoldMessenger.of(_scaffoldKey.currentContext!)
-                        .showSnackBar(
-                      const SnackBar(
-                        content: Text(
-                          "موفقیت در ثبت خانه",
-                        ),
-                        behavior: SnackBarBehavior.floating,
-                        elevation: 0,
-                        shape: StadiumBorder(),
-                      ),
-                    );
-                  } else {
-                    ScaffoldMessenger.of(_scaffoldKey.currentContext!)
-                        .showSnackBar(
-                      const SnackBar(
-                        content: Text(
-                          "ارور در ثبت خانه",
-                        ),
-                        behavior: SnackBarBehavior.floating,
-                        elevation: 0,
-                        shape: StadiumBorder(),
-                      ),
-                    );
-                  }
+              BlocBuilder<UserInfoCubit, UserInfoState>(
+                builder: (context, state) {
+                  return NESendButton(
+                    loading: state is UserInfoLoading,
+                    onTap: () async {
+                      log("message");
+                      await createAndUpdateBuilding(state);
+                    },
+                    title: widget.id == null
+                        ? "ثبت خانه جدید"
+                        : "به روز رسانی خانه",
+                  );
                 },
-                title: "ثبت خانه جدید",
               ),
-              const SizedBox(height: 80)
+              const SizedBox(height: 20)
             ],
           );
         }),
       ),
     );
+  }
+
+  createAndUpdateBuilding(UserInfoState state) async {
+    if (_formKey.currentState!.validate() &&
+        latLng != null &&
+        selectedCity != null &&
+        selectedProvince != null) {
+      final weekIndex = weekDataTuple.indexWhere(
+        (element) => element.item1 == selectedDayController.text,
+      );
+      final timeOfDayIndex = timeOfDayDataTuple.indexWhere(
+        (element) => element.item1 == timeRangeController.text,
+      );
+      var b = BuildingCreateModel(
+        address: addressController.text,
+        cityId: selectedCity!.id,
+        description: "",
+        latitude: latLng!.latitude,
+        longitude: latLng!.longitude,
+        name: nameController.text,
+        plaque: int.tryParse(plaqueController.text) ?? 0,
+        postalCode: postalCodeController.text,
+        timeOfDay: timeOfDayIndex,
+        weekDay: weekIndex,
+      );
+      if (widget.id == null) {
+        await context
+            .read<UserInfoCubit>()
+            .addUserBuilding(buildingCreateModel: b);
+        ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
+          SnackBar(
+            content: const Text("خانه با موفقیت ثبت شد"),
+            behavior: SnackBarBehavior.floating,
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+          ),
+        );
+        Future.delayed(
+            const Duration(
+              milliseconds: 300,
+            ), () {
+          Navigator.pop(context);
+        });
+      } else {
+        b = b.copyWith(id: widget.id);
+
+        await context
+            .read<UserInfoCubit>()
+            .updateUserBuilding(buildingCreateModel: b);
+        ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
+          SnackBar(
+            content: const Text("خانه با موفقیت به روز رسانی شد"),
+            behavior: SnackBarBehavior.floating,
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+          ),
+        );
+        Future.delayed(
+            const Duration(
+              milliseconds: 300,
+            ), () {
+          Navigator.pop(context);
+        });
+      }
+    } else {
+      ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
+        const SnackBar(
+          content: Text(
+            "خطا در ثبت خانه",
+          ),
+          behavior: SnackBarBehavior.floating,
+          elevation: 0,
+          shape: StadiumBorder(),
+        ),
+      );
+    }
   }
 }

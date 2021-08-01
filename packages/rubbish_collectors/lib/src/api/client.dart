@@ -121,10 +121,47 @@ class RubbishCollectorsClient {
         Endpoints.buildingCreatePath(),
         data: buildingCreateModel.toMap(),
       );
-      // TODO : building craete successfull but throw error :)))
       final createBuildingResult = GenericResult<Building>.fromJson(
         refreshRawResponse.data,
         (dynamic json) => Building.fromMap(json),
+      );
+      return createBuildingResult;
+    } catch (e) {
+      log(e.toString());
+      throw ServerException();
+    }
+  }
+
+  Future<GenericResult<Building>> updateBuilding({
+    required BuildingCreateModel buildingCreateModel,
+  }) async {
+    try {
+      var refreshRawResponse = await dio.patch(
+        Endpoints.buildingCreatePath(),
+        data: buildingCreateModel.toMap(),
+      );
+      final createBuildingResult = GenericResult<Building>.fromJson(
+        refreshRawResponse.data,
+        (dynamic json) => Building.fromMap(json),
+      );
+      return createBuildingResult;
+    } catch (e) {
+      log(e.toString());
+      throw ServerException();
+    }
+  }
+
+  Future<GenericResult<bool>> deleteBuilding({
+    required String buildingId,
+  }) async {
+    try {
+      var deleteBuildingResponse = await dio.delete(
+        Endpoints.buildingCreatePath(),
+        data: {"buildingId": buildingId},
+      );
+      final createBuildingResult = GenericResult<bool>.fromJson(
+        deleteBuildingResponse.data,
+        (dynamic json) => json == true,
       );
       return createBuildingResult;
     } catch (e) {

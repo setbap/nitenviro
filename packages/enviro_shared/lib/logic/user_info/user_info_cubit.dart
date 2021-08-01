@@ -14,13 +14,16 @@ class UserInfoCubit extends Cubit<UserInfoState> {
   UserInfoCubit({
     required RubbishCollectorsApi rubbishCollectorsApi,
   })  : _rubbishCollectorsApi = rubbishCollectorsApi,
-        super(UserInfoInitial(
+        super(
+          UserInfoInitial(
             user: UserInfoResult(
-          createdAt: "",
-          id: "",
-          phone: "",
-          buildings: [],
-        )));
+              createdAt: "",
+              id: "",
+              phone: "",
+              buildings: [],
+            ),
+          ),
+        );
 
   Future<bool?> getUserInfo() async {
     emit(UserInfoLoading(user: state.user));
@@ -41,7 +44,9 @@ class UserInfoCubit extends Cubit<UserInfoState> {
     } catch (e) {
       log("getUserInfo:isSuccess:err");
       emit(UserInfoError(
-          user: state.user, message: "مشکلی در ارتباط با اینترنت"));
+        user: state.user,
+        message: "مشکلی در ارتباط با اینترنت",
+      ));
     }
   }
 
@@ -90,7 +95,6 @@ class UserInfoCubit extends Cubit<UserInfoState> {
       if (newBuilding.isSuccess) {
         log("add User Builing:isSuccess");
         final building = newBuilding.value!;
-
         state.user.buildings.add(building);
         emit(UserInfoSuccess(user: state.user));
       } else {
@@ -105,7 +109,87 @@ class UserInfoCubit extends Cubit<UserInfoState> {
     } catch (e) {
       log("getUserInfo:isSuccess:err");
       emit(UserInfoError(
-          user: state.user, message: "مشکلی در ارتباط با اینترنت"));
+        user: state.user,
+        message: "مشکلی در ارتباط با اینترنت",
+      ));
+    }
+  }
+
+  Future<void> updateUserBuilding({
+    required BuildingCreateModel buildingCreateModel,
+  }) async {
+    emit(UserInfoLoading(user: state.user));
+    try {
+      log("update user Builing");
+      final updatedBuilding = await _rubbishCollectorsApi.updateNewBuildin(
+        buildingCreateModel: buildingCreateModel,
+      );
+      if (updatedBuilding.isSuccess) {
+        log("update user Builing:isSuccess");
+        final building = updatedBuilding.value!;
+        final buildingIndex = state.user.buildings
+            .indexWhere((element) => element.id == building.id);
+        if (buildingIndex > -1) {
+          state.user.buildings[buildingIndex] = building;
+          emit(UserInfoSuccess(user: state.user));
+          return;
+        }
+      } else {
+        log("update user Builing:false");
+        emit(UserInfoError(
+          user: state.user,
+          message: updatedBuilding.errors[0].message,
+        ));
+        return;
+      }
+    } on ServerException catch (_) {
+      rethrow;
+    } catch (e) {
+      log("update user Builing:isSuccess:err");
+      emit(UserInfoError(
+        user: state.user,
+        message: "مشکلی در ارتباط با اینترنت",
+      ));
+    }
+  }
+
+  Future<bool> deleteUserBuilding({
+    required String buildingId,
+  }) async {
+    emit(UserInfoLoading(user: state.user));
+    try {
+      log("update user Builing");
+      final deleteBuilding = await _rubbishCollectorsApi.deleteBuilding(
+        buildingId: buildingId,
+      );
+      if (deleteBuilding.isSuccess) {
+        log("update user Builing:isSuccess");
+
+        final buildingIndex = state.user.buildings
+            .indexWhere((element) => element.id == buildingId);
+        if (buildingIndex > -1) {
+          state.user.buildings.removeAt(buildingIndex);
+          emit(UserInfoSuccess(user: state.user));
+
+          return true;
+        }
+      } else {
+        log("update user Builing:false");
+        emit(UserInfoError(
+          user: state.user,
+          message: deleteBuilding.errors[0].message,
+        ));
+      }
+      return false;
+    } on ServerException catch (_) {
+      rethrow;
+    } catch (e) {
+      log("update user Builing:isSuccess:err");
+      emit(UserInfoError(
+        user: state.user,
+        message: "مشکلی در ارتباط با اینترنت",
+      ));
+      return false;
     }
   }
 }

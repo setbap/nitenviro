@@ -41,7 +41,7 @@ const timeOfDayDataTuple = [
     1,
   ),
   Tuple2<String, int>(
-    "بعد از ظهر",
+    "عصر",
     2,
   ),
 ];
