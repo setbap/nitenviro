@@ -113,6 +113,26 @@ class RubbishCollectorsClient {
     }
   }
 
+  Future<GenericResult<Building>> craeteBuilding({
+    required BuildingCreateModel buildingCreateModel,
+  }) async {
+    try {
+      var refreshRawResponse = await dio.post(
+        Endpoints.buildingCreatePath(),
+        data: buildingCreateModel.toMap(),
+      );
+      // TODO : building craete successfull but throw error :)))
+      final createBuildingResult = GenericResult<Building>.fromJson(
+        refreshRawResponse.data,
+        (dynamic json) => Building.fromMap(json),
+      );
+      return createBuildingResult;
+    } catch (e) {
+      log(e.toString());
+      throw ServerException();
+    }
+  }
+
   Future<GenericResult<UserInfoResult>> userSetInfo({
     String? name,
     String? email,

@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:nitenviro/logic/city_province_data/city_province_data.dart';
 import 'package:rubbish_collectors/rubbish_collectors.dart';
+import 'package:enviro_shared/enviro_shared.dart';
 import 'package:tuple/tuple.dart';
 import 'package:latlong2/latlong.dart';
 import 'show_map.dart';
@@ -15,23 +16,31 @@ import 'show_map.dart';
 class AddBuildingForm extends StatefulWidget {
   final String? name;
   final String? postalCode;
-  final String? pelak;
+  final int? plaque;
   final int? timeRange;
   final int? dayOfWeek;
   final String? address;
   final LatLng? latLng;
   final String? id;
+  final String? cityName;
+  final String? cityId;
+  final String? provinceName;
+  final String? provinceId;
 
   const AddBuildingForm({
     Key? key,
     this.id,
     this.name,
     this.postalCode,
-    this.pelak,
+    this.plaque,
     this.timeRange,
     this.dayOfWeek,
     this.address,
     this.latLng,
+    this.cityName,
+    this.cityId,
+    this.provinceName,
+    this.provinceId,
   }) : super(key: key);
 
   @override
@@ -42,8 +51,8 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late final TextEditingController nameController;
   late final TextEditingController postalCodeController;
-  late final TextEditingController pelakController;
-  late Tuple2<TimeOfDay, TimeOfDay> timeRange;
+  late final TextEditingController plaqueController;
+
   late final TextEditingController selectedDayController;
   late final TextEditingController timeRangeController;
   late final TextEditingController addressController;
@@ -83,13 +92,13 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
   void initState() {
     super.initState();
 
-    selectedCity = const CityModel(
-      provinceId: "9f8ddce9-bd3d-4e79-bc94-56d6ded8bfdf",
-      name: "بابل",
-      id: "83e3b69a-3a85-4629-97f4-b7540c4433d4",
+    selectedCity = CityModel(
+      provinceId: widget.provinceId ?? "9f8ddce9-bd3d-4e79-bc94-56d6ded8bfdf",
+      name: widget.cityName ?? "بابل",
+      id: widget.cityId ?? "83e3b69a-3a85-4629-97f4-b7540c4433d4",
     );
-    selectedProvince = const ProvinceModel(
-      id: "9f8ddce9-bd3d-4e79-bc94-56d6ded8bfdf",
+    selectedProvince = ProvinceModel(
+      id: widget.provinceId ?? "9f8ddce9-bd3d-4e79-bc94-56d6ded8bfdf",
       name: "مازندران",
     );
 
@@ -100,8 +109,8 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
     postalCodeController = TextEditingController(
       text: widget.postalCode,
     );
-    pelakController = TextEditingController(
-      text: widget.pelak,
+    plaqueController = TextEditingController(
+      text: widget.plaque == null ? null : widget.plaque.toString(),
     );
 
     timeRangeController = TextEditingController(
@@ -109,7 +118,7 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
     );
 
     selectedDayController = TextEditingController(
-      text: weekDataTuple[widget.dayOfWeek ?? 0].item1,
+      text: weekDataTuple[widget.dayOfWeek ?? 0].item2.toString(),
     );
     addressController = TextEditingController(
       text: widget.address,
@@ -121,7 +130,7 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
   @override
   void dispose() {
     nameController.dispose();
-    pelakController.dispose();
+    plaqueController.dispose();
     selectedDayController.dispose();
     timeRangeController.dispose();
     addressController.dispose();
@@ -181,7 +190,7 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
                               data: timeOfDayDataTuple,
                               fnWithOneParam: (value) {
                                 timeRangeController.text =
-                                    timeOfDayDataTuple[value].item1;
+                                    timeOfDayDataTuple[value].item2.toString();
                               },
                               defualtIndex: widget.dayOfWeek ?? 0,
                             );
@@ -216,7 +225,7 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
                               data: weekDataTuple,
                               fnWithOneParam: (value) {
                                 selectedDayController.text =
-                                    weekDataTuple[value].item1;
+                                    weekDataTuple[value].item2.toString();
                               },
                               defualtIndex: widget.dayOfWeek ?? 0,
                             );
@@ -269,7 +278,7 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
                   Expanded(
                     child: NEFormTextInput(
                       label: "پلاک*",
-                      textEditingController: pelakController,
+                      textEditingController: plaqueController,
                       hint: "(مثلا 219)",
                       textInputFormatter: [
                         FilteringTextInputFormatter.digitsOnly
@@ -572,8 +581,28 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
               ),
               const SizedBox(height: 12),
               NESendButton(
-                onTap: () {
-                  if (_formKey.currentState!.validate() && latLng != null) {
+                onTap: () async {
+                  if (_formKey.currentState!.validate() &&
+                      latLng != null &&
+                      selectedCity != null &&
+                      selectedProvince != null) {
+                    if (widget.id == null) {
+                      final BuildingCreateModel b = BuildingCreateModel(
+                        address: addressController.text,
+                        cityId: selectedCity!.id,
+                        description: "",
+                        latitude: latLng!.latitude,
+                        longitude: latLng!.longitude,
+                        name: nameController.text,
+                        plaque: int.tryParse(plaqueController.text) ?? 0,
+                        postalCode: postalCodeController.text,
+                        timeOfDay: int.tryParse(timeRangeController.text)!,
+                        weekDay: int.tryParse(selectedDayController.text)!,
+                      );
+                      await context
+                          .read<UserInfoCubit>()
+                          .addUserBuilding(buildingCreateModel: b);
+                    }
                     ScaffoldMessenger.of(_scaffoldKey.currentContext!)
                         .showSnackBar(
                       const SnackBar(

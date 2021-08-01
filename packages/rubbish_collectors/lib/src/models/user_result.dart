@@ -1,3 +1,5 @@
+import 'package:rubbish_collectors/src/models/building.dart';
+
 class UserInfoResult {
   final String id;
   final String phone;
@@ -8,6 +10,7 @@ class UserInfoResult {
   final int? type;
   final bool? isActive;
   final String createdAt;
+  final List<Building> buildings;
 
   UserInfoResult({
     required this.id,
@@ -18,6 +21,7 @@ class UserInfoResult {
     this.credit = 0,
     this.type,
     this.isActive,
+    required this.buildings,
     required this.createdAt,
   });
 
@@ -32,6 +36,9 @@ class UserInfoResult {
       type: map['type'] as int,
       isActive: map['isActive'] as bool,
       createdAt: map['createdAt'] as String,
+      buildings: (map['buildings'] as List<dynamic>).map<Building>((b) {
+        return Building.fromMap(b);
+      }).toList(),
     );
   }
 }

@@ -7,4 +7,5 @@ class Endpoints {
   static String userPatchInfoPath() => '/User';
   static String provincePath() => '/Province';
   static String citiesPath() => '/City';
+  static String buildingCreatePath() => '/Building';
 }

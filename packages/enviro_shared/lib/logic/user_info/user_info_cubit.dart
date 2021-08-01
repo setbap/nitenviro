@@ -19,6 +19,7 @@ class UserInfoCubit extends Cubit<UserInfoState> {
           createdAt: "",
           id: "",
           phone: "",
+          buildings: [],
         )));
 
   Future<bool?> getUserInfo() async {
@@ -75,5 +76,36 @@ class UserInfoCubit extends Cubit<UserInfoState> {
 
   void setUserInfo(UserInfoResult userInfo) {
     emit(UserInfoSuccess(user: userInfo));
+  }
+
+  Future<void> addUserBuilding({
+    required BuildingCreateModel buildingCreateModel,
+  }) async {
+    emit(UserInfoLoading(user: state.user));
+    try {
+      log("add User Builing");
+      final newBuilding = await _rubbishCollectorsApi.createNewBuildin(
+        buildingCreateModel: buildingCreateModel,
+      );
+      if (newBuilding.isSuccess) {
+        log("add User Builing:isSuccess");
+        final building = newBuilding.value!;
+
+        state.user.buildings.add(building);
+        emit(UserInfoSuccess(user: state.user));
+      } else {
+        log("add User Builing:isSuccess:false");
+        emit(UserInfoError(
+          user: state.user,
+          message: newBuilding.errors[0].message,
+        ));
+      }
+    } on ServerException catch (_) {
+      rethrow;
+    } catch (e) {
+      log("getUserInfo:isSuccess:err");
+      emit(UserInfoError(
+          user: state.user, message: "مشکلی در ارتباط با اینترنت"));
+    }
   }
 }
