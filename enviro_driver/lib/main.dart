@@ -83,6 +83,11 @@ class MyApp extends StatelessWidget {
               rubbishCollectorsApi: context.read<RubbishCollectorsApi>(),
             ),
           ),
+          BlocProvider<TodayBuildingCubit>(
+            create: (context) => TodayBuildingCubit(
+              rubbishCollectorsApi: context.read<RubbishCollectorsApi>(),
+            ),
+          ),
         ],
         child: MaterialApp(
           navigatorKey: navigatorKey,
@@ -166,7 +171,6 @@ class MyApp extends StatelessWidget {
                 );
             }
           },
-          // home: const Index(),
         ),
       ),
     );

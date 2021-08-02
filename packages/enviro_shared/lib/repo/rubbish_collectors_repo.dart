@@ -50,6 +50,18 @@ class RubbishCollectorsApi {
     return items;
   }
 
+  Future<GenericResult<List<Building>>> getTodayBuilding({
+    required double? sourceLatitude,
+    required double? sourceLongitude,
+  }) async {
+    final items = await _rubbishCollectorsClient.todayBuilding(
+      sourceLatitude: sourceLatitude,
+      sourceLongitude: sourceLongitude,
+    );
+
+    return items;
+  }
+
   Future<GenericResult<bool>> deleteBuilding({
     required String buildingId,
   }) async {

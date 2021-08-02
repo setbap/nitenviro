@@ -110,7 +110,7 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
       text: widget.postalCode,
     );
     plaqueController = TextEditingController(
-      text: widget.plaque == null ? null : widget.plaque.toString(),
+      text: widget.plaque?.toString(),
     );
 
     timeRangeController = TextEditingController(

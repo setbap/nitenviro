@@ -11,7 +11,7 @@ const List<String> times = [
 class RequestCardDetailModal extends StatelessWidget {
   final String desc;
   final int plak;
-  final int postalCode;
+  final String postalCode;
   final int time;
   final String address;
   final double lat;
@@ -70,7 +70,7 @@ class RequestCardDetailModal extends StatelessWidget {
             ),
             color: lightBorder,
           ),
-          child: Center(child: Text(times[time])),
+          child: Center(child: Text(timeOfDayDataTuple[time].item1)),
         ),
         const SizedBox(height: 16),
         const NERequestTitle(

@@ -4,11 +4,18 @@ import 'package:flutter/material.dart';
 
 const double _kTabHeight = 46.0;
 
-class Requests extends StatelessWidget {
+class Requests extends StatefulWidget {
   const Requests({Key? key}) : super(key: key);
 
   @override
+  State<Requests> createState() => _RequestsState();
+}
+
+class _RequestsState extends State<Requests>
+    with AutomaticKeepAliveClientMixin<Requests> {
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return DefaultTabController(
       length: 2,
       initialIndex: 0,
@@ -61,4 +68,7 @@ class Requests extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

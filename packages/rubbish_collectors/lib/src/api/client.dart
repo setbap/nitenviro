@@ -230,4 +230,28 @@ class RubbishCollectorsClient {
     );
     return provinceResult;
   }
+
+  Future<GenericResult<List<Building>>> todayBuilding({
+    required double? sourceLatitude,
+    required double? sourceLongitude,
+  }) async {
+    try {
+      var refreshRawResponse =
+          await dio.get(Endpoints.todayBuildingsPath(), queryParameters: {
+        "SourceLatitude": sourceLatitude,
+        "SourceLongitude": sourceLongitude,
+      });
+      final todayBuildingResults = GenericResult<List<Building>>.fromJson(
+        refreshRawResponse.data,
+        (dynamic json) => (json['data'] as List<dynamic>).map<Building>((b) {
+          return Building.fromMap(b);
+        }).toList(),
+      );
+
+      return todayBuildingResults;
+    } catch (e) {
+      log(e.toString());
+      throw ServerException();
+    }
+  }
 }

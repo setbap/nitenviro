@@ -1,5 +1,6 @@
 import 'package:enviro_shared/enviro_shared.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:url_launcher/url_launcher.dart' as url_launcher;
 import 'package:flutter/material.dart';
 
 class RequestItemCard extends StatelessWidget {
@@ -8,6 +9,7 @@ class RequestItemCard extends StatelessWidget {
   final String detailBTNText;
   final String acceptBTNText;
   final bool isSpectial;
+  final String? phoneNumber;
   final VoidCallback? onDetailPress;
   final VoidCallback? onAcceptPress;
 
@@ -20,12 +22,13 @@ class RequestItemCard extends StatelessWidget {
     required this.isSpectial,
     this.onDetailPress,
     this.onAcceptPress,
+    this.phoneNumber,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 170,
+      height: phoneNumber != null ? 200 : 160,
       margin: const EdgeInsets.only(bottom: 16),
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
@@ -49,6 +52,7 @@ class RequestItemCard extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 RequestItemDataRow(
                   name: "مکان",
@@ -73,7 +77,7 @@ class RequestItemCard extends StatelessWidget {
                         ),
                         onPressed: onDetailPress,
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          padding: const EdgeInsets.symmetric(vertical: 8),
                           child: Text(
                             detailBTNText,
                             style: const TextStyle(
@@ -99,7 +103,7 @@ class RequestItemCard extends StatelessWidget {
                         ),
                         onPressed: onAcceptPress,
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          padding: const EdgeInsets.symmetric(vertical: 8),
                           child: Text(
                             acceptBTNText,
                             style: const TextStyle(
@@ -110,7 +114,38 @@ class RequestItemCard extends StatelessWidget {
                       ),
                     ),
                   ],
-                )
+                ),
+                if (phoneNumber != null)
+                  const SizedBox(
+                    width: 16,
+                  ),
+                if (phoneNumber != null)
+                  OutlinedButton.icon(
+                    style: OutlinedButton.styleFrom(
+                      shape: const StadiumBorder(
+                        side: BorderSide(
+                          color: Colors.red,
+                          width: 4,
+                        ),
+                      ),
+                    ),
+                    onPressed: () {
+                      url_launcher.launch('tel:$phoneNumber');
+                    },
+                    icon: const Icon(
+                      Icons.phone_enabled_outlined,
+                      color: Colors.red,
+                    ),
+                    label: const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8),
+                      child: Text(
+                        "برقرار تماس",
+                        style: TextStyle(
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
+                  ),
               ],
             ),
           )

@@ -1,5 +1,28 @@
 import 'dart:convert';
 
+class BuildingUser {
+  final String? name;
+  final String? email;
+  final String? avatar;
+  final String phone;
+
+  const BuildingUser({
+    this.name,
+    this.email,
+    this.avatar,
+    required this.phone,
+  });
+
+  factory BuildingUser.fromMap(Map<String, dynamic> map) {
+    return BuildingUser(
+      name: map['name'],
+      email: map['email'],
+      avatar: map['avatar'],
+      phone: map['phone'],
+    );
+  }
+}
+
 class Building {
   final String id;
   final String name;
@@ -16,7 +39,9 @@ class Building {
   final String timeOfDayPersian;
   final String cityId;
   final String cityName;
-  Building({
+  final BuildingUser? user;
+
+  const Building({
     required this.id,
     required this.name,
     required this.createdAt,
@@ -26,6 +51,7 @@ class Building {
     required this.plaque,
     required this.postalCode,
     this.description,
+    this.user,
     required this.weekDay,
     required this.weekDayPersian,
     required this.timeOfDay,
@@ -66,6 +92,7 @@ class Building {
       timeOfDay: timeOfDay ?? this.timeOfDay,
       timeOfDayPersian: timeOfDayPersian ?? this.timeOfDayPersian,
       cityId: cityId ?? this.cityId,
+      user: user,
       cityName: cityName ?? this.cityName,
     );
   }
@@ -107,6 +134,7 @@ class Building {
       timeOfDayPersian: map['timeOfDayPersian'],
       cityId: map['cityId'],
       cityName: map['cityName'],
+      user: map['user'] == null ? null : BuildingUser.fromMap(map['user']),
     );
   }
 

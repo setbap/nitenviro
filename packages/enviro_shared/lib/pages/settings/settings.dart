@@ -111,8 +111,8 @@ class SettingsPage extends StatelessWidget {
                       title: "نمایش وب سایت",
                       onPressed: () async {
                         const _url = "https://www.nitenviro.ir";
-                        //TODO:check for url_launcher update
-                        final canShow = await canLaunch(_url) || true;
+
+                        final canShow = await canLaunch(_url);
                         if (canShow) {
                           await launch(_url);
                         } else {

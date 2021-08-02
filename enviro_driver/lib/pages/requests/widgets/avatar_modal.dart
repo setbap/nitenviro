@@ -7,7 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class AvatarBottomSheet extends StatelessWidget {
-  final String? imageUrl;
+  final String? avatarUrl;
   final String? name;
   final Widget child;
   final Animation<double> animation;
@@ -17,7 +17,7 @@ class AvatarBottomSheet extends StatelessWidget {
     required this.child,
     required this.animation,
     this.name,
-    this.imageUrl,
+    this.avatarUrl,
   }) : super(key: key);
 
   @override
@@ -49,7 +49,9 @@ class AvatarBottomSheet extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: Center(
                             child: Text(
-                              name ?? "حافظ محیط زیست",
+                              (name == null || name!.isEmpty)
+                                  ? "حافظ محیط زیست"
+                                  : name!,
                               style: Theme.of(context).textTheme.subtitle2,
                             ),
                           ),
@@ -63,11 +65,11 @@ class AvatarBottomSheet extends StatelessWidget {
                         ),
                         const SizedBox(width: 8),
                         CircleAvatar(
-                          child: imageUrl == null
+                          child: avatarUrl == null
                               ? const Icon(
                                   CupertinoIcons.person,
                                 )
-                              : Image.network(imageUrl!),
+                              : Image.network(avatarUrl!),
                           radius: 24,
                         ),
                       ],
@@ -110,7 +112,7 @@ class AvatarBottomSheet extends StatelessWidget {
 Future<T?> showAvatarModalBottomSheet<T>({
   required BuildContext context,
   required WidgetBuilder builder,
-  String? imageUrl,
+  String? avatarUrl,
   String? name,
   Color? backgroundColor,
   double? elevation,
@@ -132,7 +134,7 @@ Future<T?> showAvatarModalBottomSheet<T>({
     builder: builder,
     containerBuilder: (_, animation, child) => AvatarBottomSheet(
       child: child,
-      imageUrl: imageUrl,
+      avatarUrl: avatarUrl,
       name: name,
       animation: animation,
     ),
