@@ -38,104 +38,109 @@ class _NewRequestState extends State<NewRequest>
           currentFocus.focusedChild?.unfocus();
         }
       },
-      child: Form(
-        key: _formKey,
-        child: ListView(
-          padding: const EdgeInsets.all(16),
-          physics: const BouncingScrollPhysics(),
-          children: [
-            SizedBox(
-              height: 80,
-              child: NETextField(
-                hint: "توضیحات",
-                textEditingController: commentController,
-              ),
-            ),
-            const NERequestTitle(
-              imagePath: "assets/building.png",
-              title: "انتخاب ساختمان",
-            ),
-            HomeItem(
-              onSelect: (selectedHome) {
-                requestCubit.changeBuilding(selectedHome);
-              },
-            ),
-            const SizedBox(height: 24),
-            const NERequestTitle(
-              imagePath: "assets/cal.png",
-              title: "روز جمع آوری",
-            ),
-            NEReminderTime(
-              data: weekDataTuple,
-              fnWithOneParam: (int value) {
-                requestCubit.changeReminer(value);
-                FocusScope.of(context).unfocus();
-              },
-            ),
-            const SizedBox(height: 24),
-
-            const NERequestTitle(
-              imagePath: "assets/alert.png",
-              title: "محدوده زمانی",
-            ),
-            NEReminderTime(
-              data: timeOfDayDataTuple,
-              fnWithOneParam: (int value) {
-                requestCubit.changeReminer(value);
-                FocusScope.of(context).unfocus();
-              },
-            ),
-            const SizedBox(height: 24),
-            const NERequestTitle(
-              imagePath: "assets/location.png",
-              title: "مکان",
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  HeroLocationRoute(
-                    builder: (context, animation) {
-                      return const BluredSimpleMap(
-                        lat: 36.37,
-                        lng: 52.264,
-                      );
-                    },
-                  ),
-                );
-              },
-              child: AbsorbPointer(
-                child: Hero(
-                  tag: "main_simple_map_hero",
-                  child: SimpleLocation(
-                    key: const ValueKey("locationKey"),
-                    latLng: LatLng(36.37, 52.264),
+      child: BlocBuilder<UserInfoCubit, UserInfoState>(
+        builder: (context, state) {
+          return Form(
+            key: _formKey,
+            child: ListView(
+              padding: const EdgeInsets.all(16),
+              physics: const BouncingScrollPhysics(),
+              children: [
+                SizedBox(
+                  height: 80,
+                  child: NETextField(
+                    hint: "توضیحات",
+                    textEditingController: commentController,
                   ),
                 ),
-              ),
+                const NERequestTitle(
+                  imagePath: "assets/building.png",
+                  title: "انتخاب ساختمان",
+                ),
+                HomeItem(
+                  onSelect: (selectedHome) {
+                    requestCubit.changeBuilding(selectedHome);
+                  },
+                  buildings: state.user.buildings,
+                ),
+                const SizedBox(height: 24),
+                const NERequestTitle(
+                  imagePath: "assets/cal.png",
+                  title: "روز جمع آوری",
+                ),
+                NEReminderTime(
+                  data: weekDataTuple,
+                  fnWithOneParam: (int value) {
+                    requestCubit.changeReminer(value);
+                    FocusScope.of(context).unfocus();
+                  },
+                ),
+                const SizedBox(height: 24),
+
+                const NERequestTitle(
+                  imagePath: "assets/alert.png",
+                  title: "محدوده زمانی",
+                ),
+                NEReminderTime(
+                  data: timeOfDayDataTuple,
+                  fnWithOneParam: (int value) {
+                    requestCubit.changeReminer(value);
+                    FocusScope.of(context).unfocus();
+                  },
+                ),
+                const SizedBox(height: 24),
+                const NERequestTitle(
+                  imagePath: "assets/location.png",
+                  title: "مکان",
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      HeroLocationRoute(
+                        builder: (context, animation) {
+                          return const BluredSimpleMap(
+                            lat: 36.37,
+                            lng: 52.264,
+                          );
+                        },
+                      ),
+                    );
+                  },
+                  child: AbsorbPointer(
+                    child: Hero(
+                      tag: "main_simple_map_hero",
+                      child: SimpleLocation(
+                        key: const ValueKey("locationKey"),
+                        latLng: LatLng(36.37, 52.264),
+                      ),
+                    ),
+                  ),
+                ),
+                SpectialRequest(
+                  textEditingController: spectialCommentController,
+                ),
+                const SizedBox(height: 32),
+                NESendButton(
+                  title: "ثبت درخواست",
+                  onTap: () {
+                    debugPrint(commentController.text);
+                    commentController.text = "";
+                    debugPrint(spectialCommentController.value.text);
+                  },
+                ),
+                // BlocBuilder<NewRequestCubit, CollectingRequest>(
+                //   builder: (context, state) {
+                //     return Text(state.toString());
+                //   },
+                // ),
+                const SizedBox(
+                  height: 70,
+                ),
+              ],
             ),
-            SpectialRequest(
-              textEditingController: spectialCommentController,
-            ),
-            const SizedBox(height: 32),
-            NESendButton(
-              title: "ثبت درخواست",
-              onTap: () {
-                debugPrint(commentController.text);
-                commentController.text = "";
-                debugPrint(spectialCommentController.value.text);
-              },
-            ),
-            // BlocBuilder<NewRequestCubit, CollectingRequest>(
-            //   builder: (context, state) {
-            //     return Text(state.toString());
-            //   },
-            // ),
-            const SizedBox(
-              height: 70,
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

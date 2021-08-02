@@ -48,10 +48,18 @@ class NEBuildingButton extends StatelessWidget {
             ),
           ),
           child: Center(
-            child: Text(
-              title,
-              style: textTheme.headline6!.copyWith(
-                color: Colors.white,
+            child: Container(
+              margin: const EdgeInsets.all(4),
+              child: Text(
+                title,
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                style: textTheme.subtitle2!.copyWith(
+                  color: Colors.white,
+                  fontSize: 18,
+                  overflow: TextOverflow.ellipsis,
+                  textBaseline: TextBaseline.alphabetic,
+                ),
               ),
             ),
           ),

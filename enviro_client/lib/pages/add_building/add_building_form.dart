@@ -170,8 +170,8 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
                   if (value == null || value == "") {
                     return "مقدار نام نمیتواند خالی باشد";
                   }
-                  if (value.length < 3 || value.length > 10) {
-                    return "نام باید بیشتر از 2 حرف و کمتر از 8 حرف باشد";
+                  if (value.length < 3 || value.length > 16) {
+                    return "نام باید بیشتر از 2 حرف و کمتر از 16 حرف باشد";
                   }
                 },
                 textEditingController: nameController,
@@ -242,7 +242,7 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
                           textInputFormatter: const [],
                           validator: (value) {
                             if (value == null || value == "") {
-                              return "مقدار پلاک نمیتواند خالی باشد";
+                              return "مقدار روز هفته نمیتواند خالی باشد";
                             }
                           },
                         ),
@@ -288,8 +288,8 @@ class _AddBuildingFormState extends State<AddBuildingForm> {
                           return "مقدار پلاک نمیتواند خالی باشد";
                         }
 
-                        if (value.length > 3) {
-                          return "کد پستی باید 10 رقمی باشد";
+                        if (value.length > 10000) {
+                          return "پلاک باید کمتر از 10000  باشد";
                         }
                       },
                     ),

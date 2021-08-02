@@ -49,7 +49,6 @@ class AddLocation extends StatelessWidget {
           await context.read<UserInfoCubit>().getUserInfo();
         },
         child: CustomScrollView(
-          physics: const BouncingScrollPhysics(),
           slivers: [
             SliverToBoxAdapter(
               child: Container(
@@ -65,9 +64,10 @@ class AddLocation extends StatelessWidget {
                   left: 12,
                   right: 12,
                 ),
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(16),
-                  onTap: () {
+                child: MaterialButton(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16)),
+                  onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -102,6 +102,34 @@ class AddLocation extends StatelessWidget {
               sliver: BlocBuilder<UserInfoCubit, UserInfoState>(
                 builder: (context, state) {
                   final buildings = state.user.buildings;
+                  if (state.user.buildings.isEmpty) {
+                    return SliverToBoxAdapter(
+                      child: Container(
+                        height: 70,
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 16,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(
+                            color: lightBorder.withAlpha(150),
+                            width: 2,
+                          ),
+                        ),
+                        width: double.infinity,
+                        child: Center(
+                          child: Text(
+                            "ساختمانی ایجاد نشده است",
+                            style:
+                                Theme.of(context).textTheme.headline6!.copyWith(
+                                      color: Colors.redAccent,
+                                    ),
+                          ),
+                        ),
+                      ),
+                    );
+                  }
                   return SliverList(
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
