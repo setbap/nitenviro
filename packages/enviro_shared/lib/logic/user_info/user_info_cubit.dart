@@ -55,27 +55,43 @@ class UserInfoCubit extends Cubit<UserInfoState> {
     String? email,
     File? avatar,
   }) async {
-    if (state is UserInfoSuccess) {
-      emit(UserInfoLoading(user: (state as UserInfoSuccess).user));
-      try {
-        final userInfo = await _rubbishCollectorsApi.updateUserInfo(
-          avatar: avatar,
-          email: email,
-          name: name,
+    log("start");
+
+    log("start2");
+    emit(UserInfoLoading(user: state.user));
+    try {
+      final userInfo = await _rubbishCollectorsApi.updateUserInfo(
+        avatar: avatar,
+        email: email,
+        name: name,
+      );
+      if (userInfo.isSuccess) {
+        final UserInfoResult user = state.user;
+        final newUser = userInfo.value;
+        final updatedUser = user.copyWith(
+          avatarUrl: newUser?.avatarUrl,
+          name: newUser?.name,
+          phone: newUser?.phone,
+          email: newUser?.email,
         );
-        if (userInfo.isSuccess) {
-          emit(UserInfoSuccess(user: userInfo.value!));
-          return true;
-        } else {
-          emit(UserInfoError(
-            user: state.user,
-            message: userInfo.errors[0].message,
-          ));
-        }
-      } catch (e) {
+        emit(UserInfoSuccess(user: updatedUser));
+        return true;
+      } else {
         emit(UserInfoError(
-            user: state.user, message: "مشکلی در ارتباط با اینترنت"));
+          user: state.user,
+          message: userInfo.errors[0].message,
+        ));
+        log("message");
       }
+      log("test");
+    } catch (e) {
+      log(e.toString());
+      emit(
+        UserInfoError(
+          user: state.user,
+          message: "مشکلی در ارتباط با اینترنت",
+        ),
+      );
     }
   }
 

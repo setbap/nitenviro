@@ -1,6 +1,7 @@
 // import 'package:enviro_driver/logic/logic.dart';
 import 'package:enviro_driver/logic/logic.dart';
 import 'package:enviro_driver/pages/requests/widgets/widgets.dart';
+import 'package:enviro_driver/repo/repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -93,7 +94,7 @@ class _IngoinRequestState extends State<IngoinRequest>
               return RequestItemCard(
                 detailBTNText: "جزییات",
                 acceptBTNText: "تایید دریافت",
-                time: times[index % 3],
+                time: timeOfDayDataTuple[building.timeOfDay % 3].item1,
                 phoneNumber: building.user?.phone,
                 address: building.address,
                 onDetailPress: () {

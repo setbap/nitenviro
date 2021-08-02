@@ -2,12 +2,6 @@ import 'package:enviro_driver/repo/repo.dart';
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 
-const List<String> times = [
-  "از 9  تا 12 ",
-  "از 12 تا 15 ",
-  "از 15 تا 18",
-];
-
 class RequestCardDetailModal extends StatelessWidget {
   final String desc;
   final int plak;
@@ -115,9 +109,9 @@ class RequestCardDetailModal extends StatelessWidget {
                 context,
                 HeroLocationRoute(
                   builder: (context, animation) {
-                    return const BluredSimpleMap(
-                      lat: 36.37,
-                      lng: 52.264,
+                    return BluredSimpleMap(
+                      lat: lat,
+                      lng: lng,
                     );
                   },
                 ),

@@ -1,16 +1,12 @@
 // import 'package:enviro_driver/logic/logic.dart';
 import 'package:enviro_driver/logic/logic.dart';
 import 'package:enviro_driver/pages/requests/widgets/widgets.dart';
+import 'package:enviro_driver/repo/repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 const String imageUrl =
     "https://www.royalmobl.ir/wp-content/uploads/2019/11/04.jpg";
-
-const text =
-    "با این وجود بلومبرگ در گزارش خود به این موضوع اشاره می‌کند که این نخستین باری نیست که استیبل کوین تتر مورد اتهام قرار گرفته‌ و وضعیت فعالیت‌ آن‌ها مورد بررسی قرار می‌گیرد.  پیش از این نیز مقامات آمریکایی فعالیت‌های مربوط به تتر را مورد بازرسی قرار داده بودند.";
-
-const place = "محمودآباد . خیابان امام بن بست امید";
 
 class AllReuqest extends StatefulWidget {
   const AllReuqest({Key? key}) : super(key: key);
@@ -101,7 +97,7 @@ class _AllReuqestState extends State<AllReuqest>
               return RequestItemCard(
                 detailBTNText: "مشاهده جزییات",
                 acceptBTNText: "آغاز فرآیند دریافت",
-                time: times[index % 3],
+                time: timeOfDayDataTuple[building.timeOfDay % 3].item1,
                 address: building.address,
                 onDetailPress: () {
                   showAvatarModalBottomSheet(

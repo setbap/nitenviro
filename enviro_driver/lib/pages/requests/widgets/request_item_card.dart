@@ -116,10 +116,6 @@ class RequestItemCard extends StatelessWidget {
                   ],
                 ),
                 if (phoneNumber != null)
-                  const SizedBox(
-                    width: 16,
-                  ),
-                if (phoneNumber != null)
                   OutlinedButton.icon(
                     style: OutlinedButton.styleFrom(
                       shape: const StadiumBorder(
@@ -134,14 +130,14 @@ class RequestItemCard extends StatelessWidget {
                     },
                     icon: const Icon(
                       Icons.phone_enabled_outlined,
-                      color: Colors.red,
+                      color: yellowDarken,
                     ),
                     label: const Padding(
                       padding: EdgeInsets.symmetric(vertical: 8),
                       child: Text(
                         "برقرار تماس",
                         style: TextStyle(
-                          color: Colors.red,
+                          color: yellowDarken,
                         ),
                       ),
                     ),

@@ -3,6 +3,7 @@ import 'package:enviro_driver/models/collected_rubbish.dart';
 import 'package:enviro_driver/repo/repo.dart';
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class HistoryDetail extends StatelessWidget {
   final CollectedRubish rubish;
@@ -33,11 +34,20 @@ class HistoryDetail extends StatelessWidget {
             borderRadius: const BorderRadius.vertical(
               bottom: Radius.circular(16),
             ),
-            child: AbsorbPointer(
-              child: Hero(
-                tag: "main_simple_image_hero",
-                child: Image.network(
-                  rubish.imageUrl,
+            child: AspectRatio(
+              aspectRatio: 1.618,
+              child: Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [blueGradient, greenGradient],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
+                ),
+                child: CachedNetworkImage(
+                  imageUrl: rubish.imageUrl,
+                  placeholder: (context, url) => const Center(),
+                  fit: BoxFit.contain,
                 ),
               ),
             ),
