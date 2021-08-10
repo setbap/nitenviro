@@ -236,11 +236,13 @@ class RubbishCollectorsClient {
     required double? sourceLongitude,
   }) async {
     try {
-      var refreshRawResponse =
-          await dio.get(Endpoints.todayBuildingsPath(), queryParameters: {
-        "SourceLatitude": sourceLatitude,
-        "SourceLongitude": sourceLongitude,
-      });
+      var refreshRawResponse = await dio.get(
+        Endpoints.todayBuildingsPath(),
+        queryParameters: {
+          "SourceLatitude": sourceLatitude,
+          "SourceLongitude": sourceLongitude,
+        },
+      );
       final todayBuildingResults = GenericResult<List<Building>>.fromJson(
         refreshRawResponse.data,
         (dynamic json) => (json['data'] as List<dynamic>).map<Building>((b) {

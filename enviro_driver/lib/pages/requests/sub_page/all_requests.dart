@@ -81,6 +81,16 @@ class _AllReuqestState extends State<AllReuqest>
                       state.message,
                       style: Theme.of(context).textTheme.headline6,
                     ),
+                    const SizedBox(height: 32),
+                    OutlinedButton(
+                      onPressed: () {
+                        context.read<TodayBuildingCubit>().getTodayBuilding();
+                      },
+                      child: Text(
+                        "تلاش دوباره",
+                        style: Theme.of(context).textTheme.subtitle2,
+                      ),
+                    ),
                   ],
                 ),
               );

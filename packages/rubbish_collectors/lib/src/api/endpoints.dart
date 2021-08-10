@@ -8,5 +8,5 @@ class Endpoints {
   static String provincePath() => '/Province';
   static String citiesPath() => '/City';
   static String buildingCreatePath() => '/Building';
-  static String todayBuildingsPath() => '/Building/TodayBuildings';
+  static String todayBuildingsPath() => '/Driver/Building/TodayBuildings';
 }

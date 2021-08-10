@@ -153,6 +153,7 @@ class MyApp extends StatelessWidget {
                 return MaterialPageRoute(
                   builder: (context) => BlocProvider<AuthLoginInputCubit>(
                     create: (context) => AuthLoginInputCubit(
+                      userType: 0,
                       keyValueStorage: keyValueStorage,
                       rubbishCollectorsApi:
                           context.read<RubbishCollectorsApi>(),
