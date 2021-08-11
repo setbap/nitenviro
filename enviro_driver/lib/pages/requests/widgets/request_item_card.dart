@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 class RequestItemCard extends StatelessWidget {
   final String address;
   final String time;
+  final double? lat;
+  final double? lng;
   final String detailBTNText;
   final String acceptBTNText;
   final bool isSpectial;
@@ -23,6 +25,8 @@ class RequestItemCard extends StatelessWidget {
     this.onDetailPress,
     this.onAcceptPress,
     this.phoneNumber,
+    this.lat,
+    this.lng,
   }) : super(key: key);
 
   @override
@@ -115,32 +119,68 @@ class RequestItemCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                if (phoneNumber != null)
-                  OutlinedButton.icon(
-                    style: OutlinedButton.styleFrom(
-                      shape: const StadiumBorder(
-                        side: BorderSide(
-                          color: Colors.red,
-                          width: 4,
+                if (phoneNumber != null && lng != null && lat != null)
+                  Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton.icon(
+                          style: OutlinedButton.styleFrom(
+                            shape: const StadiumBorder(
+                              side: BorderSide(
+                                color: yellowDarken,
+                                width: 1,
+                              ),
+                            ),
+                          ),
+                          onPressed: () {
+                            url_launcher.launch('tel:$phoneNumber');
+                          },
+                          icon: const Icon(
+                            Icons.phone_enabled_outlined,
+                            color: yellowDarken,
+                          ),
+                          label: const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 8),
+                            child: Text(
+                              "برقرار تماس",
+                              style: TextStyle(
+                                color: yellowDarken,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                    onPressed: () {
-                      url_launcher.launch('tel:$phoneNumber');
-                    },
-                    icon: const Icon(
-                      Icons.phone_enabled_outlined,
-                      color: yellowDarken,
-                    ),
-                    label: const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 8),
-                      child: Text(
-                        "برقرار تماس",
-                        style: TextStyle(
-                          color: yellowDarken,
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: ElevatedButton.icon(
+                          style: ElevatedButton.styleFrom(
+                            shape: const StadiumBorder(),
+                            elevation: 0,
+                          ),
+                          onPressed: () {
+                            url_launcher.launch(
+                              // "geo:$lat,$lng",
+                              // "geo:37.423156,-122.084917?q=37.423156,-122.084917",
+                              // "http://maps.google.com/maps?daddr=$lat,$lng",
+                              "https://www.google.com/maps/dir/?api=1&destination=$lat,$lng",
+                            );
+                          },
+                          icon: const Icon(
+                            Icons.directions,
+                            color: Colors.white,
+                          ),
+                          label: const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 8),
+                            child: Text(
+                              "مسیربابی",
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
               ],
             ),

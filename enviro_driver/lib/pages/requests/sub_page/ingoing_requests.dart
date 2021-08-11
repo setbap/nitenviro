@@ -97,6 +97,8 @@ class _IngoinRequestState extends State<IngoinRequest>
                 time: timeOfDayDataTuple[building.timeOfDay % 3].item1,
                 phoneNumber: building.user?.phone,
                 address: building.address,
+                lat: building.latitude,
+                lng: building.longitude,
                 onDetailPress: () {
                   showAvatarModalBottomSheet(
                     builder: (context) {
