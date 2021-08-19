@@ -49,7 +49,10 @@ class PublicNitenviroClient {
 
 //
   Future<List<RecyclableItems>> items() async {
-    final rawItems = await _genericGet(path: Endpoints.items());
+    final rawItems = await _genericGet(
+      path: Endpoints.items(),
+      queryParameters: {"_limit": 500},
+    );
     var my_item = <RecyclableItems>[];
     for (var element in rawItems) {
       final simplePrice = RecyclableItems.fromJson(element);
@@ -59,7 +62,10 @@ class PublicNitenviroClient {
   }
 
   Future<List<PostModel>> posts() async {
-    final rawItems = await _genericGet(path: Endpoints.posts());
+    final rawItems = await _genericGet(
+      path: Endpoints.posts(),
+      queryParameters: {"_limit": 500},
+    );
     var my_item = <PostModel>[];
     for (var element in rawItems) {
       final simplePrice = PostModel.fromJson(element);
