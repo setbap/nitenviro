@@ -1,22 +1,16 @@
-import 'dart:convert';
+import 'package:dio/dio.dart';
 
-import 'package:http/http.dart' as http;
 import 'package:public_nitenviro/public_nitenviro.dart';
 import 'package:public_nitenviro/src/models/post_model.dart';
 
 class PublicNitenviroClient {
-  final _client = http.Client();
-  final _host = 'geonitenviro.nit.ac.ir';
-  Uri _uri({
-    required String path,
-    Map<String, dynamic>? queryParameters,
-  }) =>
-      Uri(
-        scheme: 'https',
-        host: _host,
-        path: '/api$path',
-        queryParameters: queryParameters,
-      );
+  final Dio dio;
+  PublicNitenviroClient()
+      : dio = Dio(
+          BaseOptions(
+            baseUrl: Endpoints.baseUrl(),
+          ),
+        );
 
   // Map<String, dynamic> _mapCleaner(Map<String, dynamic> map) {
   //   map.removeWhere((key, value) => value == null);
@@ -27,21 +21,23 @@ class PublicNitenviroClient {
     required String path,
     Map<String, dynamic>? queryParameters,
   }) async {
-    print(_uri(
-      path: path,
-      queryParameters: queryParameters,
-    ).toString());
     try {
-      final pingData = await _client.get(_uri(
-        path: path,
+      final pingData = await dio.get(
+        path,
         queryParameters: queryParameters,
-      ));
+      );
+      print(pingData);
       if (pingData.statusCode == 200) {
-        return jsonDecode(pingData.body);
+        print("object - n");
+        print(pingData.data);
+        return pingData.data;
       } else {
+        print("object - n");
+        print(pingData.data);
         throw ServerException();
       }
     } catch (e) {
+      print("object");
       print(e);
       throw InternetConnetionException();
     }

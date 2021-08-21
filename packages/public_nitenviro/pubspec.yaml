@@ -8,7 +8,7 @@ environment:
   flutter: ">=2.0.0"
 
 dependencies:
-  http: ^0.13.3
+  dio: ^4.0.0
   freezed: ^0.14.2
 
 dev_dependencies:
