@@ -3,38 +3,37 @@ import 'package:dotted_decoration/dotted_decoration.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:nitenviro/logic/new_request_form/new_request_cubit.dart';
 import 'package:nitenviro/repo/repo.dart';
 import 'package:nitenviro/utils/utils.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SpectialRequest extends StatefulWidget {
+  final File? image;
+  final FnWithOneParam<File> onSelectImage;
+
   const SpectialRequest({
     Key? key,
+    this.image,
+    required this.onSelectImage,
   }) : super(key: key);
 
   @override
-  SpectialRequestState createState() => SpectialRequestState();
+  State<SpectialRequest> createState() => _SpectialRequestState();
 }
 
-class SpectialRequestState extends State<SpectialRequest> {
-  File? _image;
-  final picker = ImagePicker();
-
+class _SpectialRequestState extends State<SpectialRequest> {
+  final ImagePicker picker = ImagePicker();
   Future getImage() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-        final requestCubit = context.read<NewRequestCubit>();
-        requestCubit.changeImage(_image!);
-      }
-      // else {}
-    });
+    if (pickedFile != null) {
+      final _image = File(pickedFile.path);
+      widget.onSelectImage(_image);
+    }
+    // else {}
   }
 
   bool showItems = false;
+
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -66,9 +65,9 @@ class SpectialRequestState extends State<SpectialRequest> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        if (_image != null)
+                        if (widget.image != null)
                           Image.file(
-                            _image!,
+                            widget.image!,
                             height: 100,
                             width: 100,
                             fit: BoxFit.contain,

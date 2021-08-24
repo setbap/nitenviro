@@ -88,7 +88,6 @@ class _NewRequestState extends State<NewRequest>
                   buildWhen: (prev, current) =>
                       prev.selectedBuildingId != current.selectedBuildingId,
                   builder: (context, innerState) {
-                    log("start");
                     Building? selectedBuilding;
 
                     try {
@@ -161,13 +160,21 @@ class _NewRequestState extends State<NewRequest>
                   padding: const EdgeInsets.only(bottom: 16.0),
                   child: Text(
                     """
-جمع آوری حداقل 48 ساعت بعد از زمان انتخاب شده صورت می پذیرد. برای مثال اگر در روز شنبه باشید و زمان انتخابی شنبه یا یک شنبه باشد
+جمع آوری حد÷قل 48 ساعت بعد از زمان انتخاب شده صورت می پذیرد. برای مثال اگر در روز شنبه باشید و زمان انتخابی شنبه یا یک شنبه باشد
 جمع آوری در هفته آینده صورت  در صورتی که با انتخاب دیگر زمان ها جمع آوری در اولین زمان ممکن انجام می شود
 """,
                     style: Theme.of(context).textTheme.caption,
                   ),
                 ),
-                const SpectialRequest(),
+                BlocBuilder<NewRequestCubit, CollectingRequest>(
+                  builder: (context, innerState) {
+                    return SpectialRequest(
+                      image: innerState.spectialImage,
+                      onSelectImage:
+                          context.read<NewRequestCubit>().changeImage,
+                    );
+                  },
+                ),
                 const SizedBox(height: 32),
                 BlocBuilder<NewRequestCubit, CollectingRequest>(
                   builder: (context, innerState) {
@@ -182,7 +189,20 @@ class _NewRequestState extends State<NewRequest>
                             .read<NewRequestCubit>()
                             .changeSpectialDescription(commentController.text);
                         debugPrint(innerState.toString());
-                        context.read<NewRequestCubit>().sendData(() {});
+                        if (innerState.selectedBuildingId == null ||
+                            innerState.selectedBuildingId == "") {
+                          showSnackBar(
+                              context, "لطفا ساختمان مورد نظر انتخاب کنید");
+                          return;
+                        }
+                        context.read<NewRequestCubit>().sendData(
+                            onError: (errMsg) {
+                          showSnackBar(context, errMsg!);
+                        }, onSuccess: () {
+                          showSnackBar(context, "درخواست با موفقیت ایجاد شد");
+                          context.read<NewRequestCubit>().resetBuildings();
+                          commentController.text = "";
+                        });
                         // commentController.text = "";
                       },
                     );
@@ -195,6 +215,15 @@ class _NewRequestState extends State<NewRequest>
             ),
           );
         },
+      ),
+    );
+  }
+
+  showSnackBar(BuildContext ctx, String msg) {
+    ScaffoldMessenger.of(ctx).showSnackBar(
+      SnackBar(
+        content: Text(msg),
+        behavior: SnackBarBehavior.floating,
       ),
     );
   }

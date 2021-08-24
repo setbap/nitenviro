@@ -231,6 +231,30 @@ class RubbishCollectorsClient {
     return provinceResult;
   }
 
+  Future<GenericResult<int>> createPickUpSpecial({
+    required String buildingId,
+    String? specialDescription,
+    File? specialImageUrl,
+    required int specialWeekDay,
+  }) async {
+    var formData = FormData.fromMap({
+      'BuildingId': buildingId,
+      'SpecialDescription': specialDescription,
+      'SpecialImageUrl': specialImageUrl,
+      'SpecialWeekDay': specialWeekDay,
+    });
+    var citiesOfProvinceReponse = await dio.post(
+      Endpoints.pickUpCreateSpecial(),
+      data: formData,
+    );
+
+    final provinceResult = GenericResult<int>.fromJson(
+      citiesOfProvinceReponse.data,
+      (_) => 1,
+    );
+    return provinceResult;
+  }
+
   Future<GenericResult<List<Building>>> todayBuilding({
     required double? sourceLatitude,
     required double? sourceLongitude,

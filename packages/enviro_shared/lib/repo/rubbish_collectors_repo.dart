@@ -84,6 +84,21 @@ class RubbishCollectorsApi {
     return items;
   }
 
+  Future<GenericResult<int>> createPickUpSpecial({
+    required String buildingId,
+    String? specialDescription,
+    File? specialImageUrl,
+    required int specialWeekDay,
+  }) async {
+    final items = await _rubbishCollectorsClient.createPickUpSpecial(
+      buildingId: buildingId,
+      specialWeekDay: specialWeekDay,
+      specialDescription: specialDescription,
+      specialImageUrl: specialImageUrl,
+    );
+    return items;
+  }
+
   Future<GenericResult<List<ProvinceModel>>> getAllProvince() async {
     final items = await _rubbishCollectorsClient.getProvince();
     return items;
