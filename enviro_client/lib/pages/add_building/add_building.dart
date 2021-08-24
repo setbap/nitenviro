@@ -147,7 +147,11 @@ class AddLocation extends StatelessWidget {
                                 final res = await context
                                     .read<UserInfoCubit>()
                                     .deleteUserBuilding(
-                                        buildingId: building.id);
+                                      buildingId: building.id,
+                                      onDeleteSuccess: context
+                                          .read<NewRequestCubit>()
+                                          .clearIfSelected,
+                                    );
 
                                 return res;
                               default:

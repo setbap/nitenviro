@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:enviro_shared/enviro_shared.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rubbish_collectors/rubbish_collectors.dart';
@@ -171,15 +172,15 @@ class UserInfoCubit extends Cubit<UserInfoState> {
 
   Future<bool> deleteUserBuilding({
     required String buildingId,
+    required FnWithOneParam<String> onDeleteSuccess,
   }) async {
     emit(UserInfoLoading(user: state.user));
     try {
-      log("update user Builing");
       final deleteBuilding = await _rubbishCollectorsApi.deleteBuilding(
         buildingId: buildingId,
       );
       if (deleteBuilding.isSuccess) {
-        log("update user Builing:isSuccess");
+        onDeleteSuccess(buildingId);
 
         final buildingIndex = state.user.buildings
             .indexWhere((element) => element.id == buildingId);

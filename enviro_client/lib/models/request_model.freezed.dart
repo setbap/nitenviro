@@ -1,5 +1,6 @@
+// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'request_model.dart';
 
@@ -17,21 +18,17 @@ class _$CollectingRequestTearOff {
   const _$CollectingRequestTearOff();
 
   _CollectingRequest call(
-      {String comment = "",
-      int selectedBuilding = 0,
-      int selectedReminder = 0,
-      String requestedTime = "1400/04/04",
-      String commentOnSpecial = "",
-      File? spectialImage,
-      bool isSpectial = false}) {
+      {String specialDescription = "",
+      String? selectedBuildingId,
+      int specialWeekDay = 0,
+      bool isLoading = false,
+      File? spectialImage}) {
     return _CollectingRequest(
-      comment: comment,
-      selectedBuilding: selectedBuilding,
-      selectedReminder: selectedReminder,
-      requestedTime: requestedTime,
-      commentOnSpecial: commentOnSpecial,
+      specialDescription: specialDescription,
+      selectedBuildingId: selectedBuildingId,
+      specialWeekDay: specialWeekDay,
+      isLoading: isLoading,
       spectialImage: spectialImage,
-      isSpectial: isSpectial,
     );
   }
 }
@@ -41,13 +38,11 @@ const $CollectingRequest = _$CollectingRequestTearOff();
 
 /// @nodoc
 mixin _$CollectingRequest {
-  String get comment => throw _privateConstructorUsedError;
-  int get selectedBuilding => throw _privateConstructorUsedError;
-  int get selectedReminder => throw _privateConstructorUsedError;
-  String get requestedTime => throw _privateConstructorUsedError;
-  String get commentOnSpecial => throw _privateConstructorUsedError;
+  String get specialDescription => throw _privateConstructorUsedError;
+  String? get selectedBuildingId => throw _privateConstructorUsedError;
+  int get specialWeekDay => throw _privateConstructorUsedError;
+  bool get isLoading => throw _privateConstructorUsedError;
   File? get spectialImage => throw _privateConstructorUsedError;
-  bool get isSpectial => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CollectingRequestCopyWith<CollectingRequest> get copyWith =>
@@ -60,13 +55,11 @@ abstract class $CollectingRequestCopyWith<$Res> {
           CollectingRequest value, $Res Function(CollectingRequest) then) =
       _$CollectingRequestCopyWithImpl<$Res>;
   $Res call(
-      {String comment,
-      int selectedBuilding,
-      int selectedReminder,
-      String requestedTime,
-      String commentOnSpecial,
-      File? spectialImage,
-      bool isSpectial});
+      {String specialDescription,
+      String? selectedBuildingId,
+      int specialWeekDay,
+      bool isLoading,
+      File? spectialImage});
 }
 
 /// @nodoc
@@ -80,43 +73,33 @@ class _$CollectingRequestCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? comment = freezed,
-    Object? selectedBuilding = freezed,
-    Object? selectedReminder = freezed,
-    Object? requestedTime = freezed,
-    Object? commentOnSpecial = freezed,
+    Object? specialDescription = freezed,
+    Object? selectedBuildingId = freezed,
+    Object? specialWeekDay = freezed,
+    Object? isLoading = freezed,
     Object? spectialImage = freezed,
-    Object? isSpectial = freezed,
   }) {
     return _then(_value.copyWith(
-      comment: comment == freezed
-          ? _value.comment
-          : comment // ignore: cast_nullable_to_non_nullable
+      specialDescription: specialDescription == freezed
+          ? _value.specialDescription
+          : specialDescription // ignore: cast_nullable_to_non_nullable
               as String,
-      selectedBuilding: selectedBuilding == freezed
-          ? _value.selectedBuilding
-          : selectedBuilding // ignore: cast_nullable_to_non_nullable
+      selectedBuildingId: selectedBuildingId == freezed
+          ? _value.selectedBuildingId
+          : selectedBuildingId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      specialWeekDay: specialWeekDay == freezed
+          ? _value.specialWeekDay
+          : specialWeekDay // ignore: cast_nullable_to_non_nullable
               as int,
-      selectedReminder: selectedReminder == freezed
-          ? _value.selectedReminder
-          : selectedReminder // ignore: cast_nullable_to_non_nullable
-              as int,
-      requestedTime: requestedTime == freezed
-          ? _value.requestedTime
-          : requestedTime // ignore: cast_nullable_to_non_nullable
-              as String,
-      commentOnSpecial: commentOnSpecial == freezed
-          ? _value.commentOnSpecial
-          : commentOnSpecial // ignore: cast_nullable_to_non_nullable
-              as String,
+      isLoading: isLoading == freezed
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
       spectialImage: spectialImage == freezed
           ? _value.spectialImage
           : spectialImage // ignore: cast_nullable_to_non_nullable
               as File?,
-      isSpectial: isSpectial == freezed
-          ? _value.isSpectial
-          : isSpectial // ignore: cast_nullable_to_non_nullable
-              as bool,
     ));
   }
 }
@@ -129,13 +112,11 @@ abstract class _$CollectingRequestCopyWith<$Res>
       __$CollectingRequestCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String comment,
-      int selectedBuilding,
-      int selectedReminder,
-      String requestedTime,
-      String commentOnSpecial,
-      File? spectialImage,
-      bool isSpectial});
+      {String specialDescription,
+      String? selectedBuildingId,
+      int specialWeekDay,
+      bool isLoading,
+      File? spectialImage});
 }
 
 /// @nodoc
@@ -151,43 +132,33 @@ class __$CollectingRequestCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? comment = freezed,
-    Object? selectedBuilding = freezed,
-    Object? selectedReminder = freezed,
-    Object? requestedTime = freezed,
-    Object? commentOnSpecial = freezed,
+    Object? specialDescription = freezed,
+    Object? selectedBuildingId = freezed,
+    Object? specialWeekDay = freezed,
+    Object? isLoading = freezed,
     Object? spectialImage = freezed,
-    Object? isSpectial = freezed,
   }) {
     return _then(_CollectingRequest(
-      comment: comment == freezed
-          ? _value.comment
-          : comment // ignore: cast_nullable_to_non_nullable
+      specialDescription: specialDescription == freezed
+          ? _value.specialDescription
+          : specialDescription // ignore: cast_nullable_to_non_nullable
               as String,
-      selectedBuilding: selectedBuilding == freezed
-          ? _value.selectedBuilding
-          : selectedBuilding // ignore: cast_nullable_to_non_nullable
+      selectedBuildingId: selectedBuildingId == freezed
+          ? _value.selectedBuildingId
+          : selectedBuildingId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      specialWeekDay: specialWeekDay == freezed
+          ? _value.specialWeekDay
+          : specialWeekDay // ignore: cast_nullable_to_non_nullable
               as int,
-      selectedReminder: selectedReminder == freezed
-          ? _value.selectedReminder
-          : selectedReminder // ignore: cast_nullable_to_non_nullable
-              as int,
-      requestedTime: requestedTime == freezed
-          ? _value.requestedTime
-          : requestedTime // ignore: cast_nullable_to_non_nullable
-              as String,
-      commentOnSpecial: commentOnSpecial == freezed
-          ? _value.commentOnSpecial
-          : commentOnSpecial // ignore: cast_nullable_to_non_nullable
-              as String,
+      isLoading: isLoading == freezed
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
       spectialImage: spectialImage == freezed
           ? _value.spectialImage
           : spectialImage // ignore: cast_nullable_to_non_nullable
               as File?,
-      isSpectial: isSpectial == freezed
-          ? _value.isSpectial
-          : isSpectial // ignore: cast_nullable_to_non_nullable
-              as bool,
     ));
   }
 }
@@ -196,77 +167,60 @@ class __$CollectingRequestCopyWithImpl<$Res>
 
 class _$_CollectingRequest implements _CollectingRequest {
   _$_CollectingRequest(
-      {this.comment = "",
-      this.selectedBuilding = 0,
-      this.selectedReminder = 0,
-      this.requestedTime = "1400/04/04",
-      this.commentOnSpecial = "",
-      this.spectialImage,
-      this.isSpectial = false});
+      {this.specialDescription = "",
+      this.selectedBuildingId,
+      this.specialWeekDay = 0,
+      this.isLoading = false,
+      this.spectialImage});
 
   @JsonKey(defaultValue: "")
   @override
-  final String comment;
+  final String specialDescription;
+  @override
+  final String? selectedBuildingId;
   @JsonKey(defaultValue: 0)
   @override
-  final int selectedBuilding;
-  @JsonKey(defaultValue: 0)
-  @override
-  final int selectedReminder;
-  @JsonKey(defaultValue: "1400/04/04")
-  @override
-  final String requestedTime;
-  @JsonKey(defaultValue: "")
-  @override
-  final String commentOnSpecial;
-  @override
-  final File? spectialImage;
+  final int specialWeekDay;
   @JsonKey(defaultValue: false)
   @override
-  final bool isSpectial;
+  final bool isLoading;
+  @override
+  final File? spectialImage;
 
   @override
   String toString() {
-    return 'CollectingRequest(comment: $comment, selectedBuilding: $selectedBuilding, selectedReminder: $selectedReminder, requestedTime: $requestedTime, commentOnSpecial: $commentOnSpecial, spectialImage: $spectialImage, isSpectial: $isSpectial)';
+    return 'CollectingRequest(specialDescription: $specialDescription, selectedBuildingId: $selectedBuildingId, specialWeekDay: $specialWeekDay, isLoading: $isLoading, spectialImage: $spectialImage)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _CollectingRequest &&
-            (identical(other.comment, comment) ||
+            (identical(other.specialDescription, specialDescription) ||
                 const DeepCollectionEquality()
-                    .equals(other.comment, comment)) &&
-            (identical(other.selectedBuilding, selectedBuilding) ||
+                    .equals(other.specialDescription, specialDescription)) &&
+            (identical(other.selectedBuildingId, selectedBuildingId) ||
                 const DeepCollectionEquality()
-                    .equals(other.selectedBuilding, selectedBuilding)) &&
-            (identical(other.selectedReminder, selectedReminder) ||
+                    .equals(other.selectedBuildingId, selectedBuildingId)) &&
+            (identical(other.specialWeekDay, specialWeekDay) ||
                 const DeepCollectionEquality()
-                    .equals(other.selectedReminder, selectedReminder)) &&
-            (identical(other.requestedTime, requestedTime) ||
+                    .equals(other.specialWeekDay, specialWeekDay)) &&
+            (identical(other.isLoading, isLoading) ||
                 const DeepCollectionEquality()
-                    .equals(other.requestedTime, requestedTime)) &&
-            (identical(other.commentOnSpecial, commentOnSpecial) ||
-                const DeepCollectionEquality()
-                    .equals(other.commentOnSpecial, commentOnSpecial)) &&
+                    .equals(other.isLoading, isLoading)) &&
             (identical(other.spectialImage, spectialImage) ||
                 const DeepCollectionEquality()
-                    .equals(other.spectialImage, spectialImage)) &&
-            (identical(other.isSpectial, isSpectial) ||
-                const DeepCollectionEquality()
-                    .equals(other.isSpectial, isSpectial)));
+                    .equals(other.spectialImage, spectialImage)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(comment) ^
-      const DeepCollectionEquality().hash(selectedBuilding) ^
-      const DeepCollectionEquality().hash(selectedReminder) ^
-      const DeepCollectionEquality().hash(requestedTime) ^
-      const DeepCollectionEquality().hash(commentOnSpecial) ^
-      const DeepCollectionEquality().hash(spectialImage) ^
-      const DeepCollectionEquality().hash(isSpectial);
+      const DeepCollectionEquality().hash(specialDescription) ^
+      const DeepCollectionEquality().hash(selectedBuildingId) ^
+      const DeepCollectionEquality().hash(specialWeekDay) ^
+      const DeepCollectionEquality().hash(isLoading) ^
+      const DeepCollectionEquality().hash(spectialImage);
 
   @JsonKey(ignore: true)
   @override
@@ -276,28 +230,22 @@ class _$_CollectingRequest implements _CollectingRequest {
 
 abstract class _CollectingRequest implements CollectingRequest {
   factory _CollectingRequest(
-      {String comment,
-      int selectedBuilding,
-      int selectedReminder,
-      String requestedTime,
-      String commentOnSpecial,
-      File? spectialImage,
-      bool isSpectial}) = _$_CollectingRequest;
+      {String specialDescription,
+      String? selectedBuildingId,
+      int specialWeekDay,
+      bool isLoading,
+      File? spectialImage}) = _$_CollectingRequest;
 
   @override
-  String get comment => throw _privateConstructorUsedError;
+  String get specialDescription => throw _privateConstructorUsedError;
   @override
-  int get selectedBuilding => throw _privateConstructorUsedError;
+  String? get selectedBuildingId => throw _privateConstructorUsedError;
   @override
-  int get selectedReminder => throw _privateConstructorUsedError;
+  int get specialWeekDay => throw _privateConstructorUsedError;
   @override
-  String get requestedTime => throw _privateConstructorUsedError;
-  @override
-  String get commentOnSpecial => throw _privateConstructorUsedError;
+  bool get isLoading => throw _privateConstructorUsedError;
   @override
   File? get spectialImage => throw _privateConstructorUsedError;
-  @override
-  bool get isSpectial => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$CollectingRequestCopyWith<_CollectingRequest> get copyWith =>

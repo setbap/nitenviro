@@ -2,14 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
+enum RoundRediusSide { top, bottom, all }
+
 class SimpleLocation extends StatelessWidget {
   final LatLng latLng;
   final double radius;
+  final RoundRediusSide side;
 
   const SimpleLocation({
     Key? key,
     required this.latLng,
     this.radius = 16,
+    this.side = RoundRediusSide.all,
   }) : super(key: key);
 
   @override
@@ -17,11 +21,14 @@ class SimpleLocation extends StatelessWidget {
     return AspectRatio(
       aspectRatio: 16 / 9,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(radius),
+        borderRadius: BorderRadius.vertical(
+          bottom: Radius.circular(side == RoundRediusSide.top ? 0 : radius),
+          top: Radius.circular(side == RoundRediusSide.bottom ? 0 : radius),
+        ),
         child: FlutterMap(
           options: MapOptions(
             center: latLng,
-            zoom: 13.0,
+            zoom: 16,
           ),
           layers: [
             TileLayerOptions(

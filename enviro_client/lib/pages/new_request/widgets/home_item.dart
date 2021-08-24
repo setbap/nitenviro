@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nitenviro/logic/logic.dart';
+import 'package:nitenviro/models/request_model.dart';
 import 'package:nitenviro/pages/new_request/widgets/building_button.dart';
 import 'package:nitenviro/utils/utils.dart';
 import 'package:rubbish_collectors/rubbish_collectors.dart';
@@ -29,16 +32,16 @@ class HomeItem extends StatefulWidget {
 }
 
 class _HomeItemState extends State<HomeItem> {
-  int selectedIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     if (widget.buildings.isEmpty) {
       return Container(
         height: 70,
         margin: const EdgeInsets.only(top: 4),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(16),
+          ),
           color: lightBorder,
         ),
         width: double.infinity,
@@ -52,26 +55,30 @@ class _HomeItemState extends State<HomeItem> {
         ),
       );
     }
-    return SizedBox(
-      height: 100,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        physics: const BouncingScrollPhysics(),
-        itemBuilder: (context, index) {
-          final building = widget.buildings[index];
-          return NEBuildingButton(
-            onPressed: () {
-              widget.onSelect(index);
-              selectedIndex = index;
-              setState(() {});
+    return BlocBuilder<NewRequestCubit, CollectingRequest>(
+      builder: (context, state) {
+        return SizedBox(
+          height: 100,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            physics: const BouncingScrollPhysics(),
+            itemBuilder: (context, index) {
+              final building = widget.buildings[index];
+              return NEBuildingButton(
+                onPressed: () {
+                  widget.onSelect(index);
+
+                  setState(() {});
+                },
+                colors: widget.getColorSteps(index),
+                isActive: building.id == state.selectedBuildingId,
+                title: building.name,
+              );
             },
-            colors: widget.getColorSteps(index),
-            isActive: index == selectedIndex,
-            title: building.name,
-          );
-        },
-        itemCount: widget.buildings.length,
-      ),
+            itemCount: widget.buildings.length,
+          ),
+        );
+      },
     );
   }
 }

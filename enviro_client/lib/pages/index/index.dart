@@ -24,21 +24,23 @@ const List<Tuple3<String, Widget, BottomNavigationBarItem>> pageList =
         tooltip: 'شناسایی پسماند بازیافتی',
       )),
   Tuple3<String, Widget, BottomNavigationBarItem>(
-      "درخواست جمع آوری",
-      NewRequest(),
-      BottomNavigationBarItem(
-        icon: Icon(CupertinoIcons.plus),
-        label: 'اضافه کردن درخواست جدید',
-        tooltip: 'اضافه کردن درخواست جدید',
-      )),
+    "مدیریت ساختمان ها",
+    AddLocation(),
+    BottomNavigationBarItem(
+      icon: Icon(CupertinoIcons.house),
+      label: 'آموزش',
+      tooltip: 'آموزش',
+    ),
+  ),
   Tuple3<String, Widget, BottomNavigationBarItem>(
-      "مدیریت ساختمان ها",
-      AddLocation(),
-      BottomNavigationBarItem(
-        icon: Icon(CupertinoIcons.house),
-        label: 'آموزش',
-        tooltip: 'آموزش',
-      )),
+    "درخواست جمع آوری ویژه",
+    NewRequest(),
+    BottomNavigationBarItem(
+      icon: Icon(CupertinoIcons.plus),
+      label: 'درخواست جمع آوری ویژه',
+      tooltip: 'درخواست جمع آوری ویژه',
+    ),
+  ),
   Tuple3<String, Widget, BottomNavigationBarItem>(
     "پروفایل",
     Profile(),

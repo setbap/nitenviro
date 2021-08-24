@@ -1,33 +1,42 @@
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:nitenviro/models/request_model.dart';
 
 class NewRequestCubit extends Cubit<CollectingRequest> {
   NewRequestCubit() : super(CollectingRequest());
 
-  void changeComment(String comment) {
-    emit(state.copyWith(comment: comment));
+  void changeBuilding(String selectedBuildingId) {
+    emit(state.copyWith(selectedBuildingId: null));
+    Future.delayed(
+      const Duration(milliseconds: 300),
+    ).then((value) {
+      emit(state.copyWith(selectedBuildingId: selectedBuildingId));
+    });
   }
 
-  void changeBuilding(int selectedBuilding) {
-    emit(state.copyWith(selectedBuilding: selectedBuilding));
+  void clearIfSelected(String selectedBuildingId) {
+    if (state.selectedBuildingId == selectedBuildingId) {
+      emit(state.copyWith(selectedBuildingId: null));
+    }
   }
 
-  void changeTime(String requestedTime) {
-    emit(state.copyWith(requestedTime: requestedTime));
+  void sendData(VoidCallback onSubmited) {
+    emit(state.copyWith(isLoading: true));
+    Future.delayed(
+      const Duration(milliseconds: 300),
+    ).then((value) {
+      emit(state.copyWith(isLoading: false));
+    });
   }
 
-  void changeReminer(int selectedReminder) {
-    emit(state.copyWith(selectedReminder: selectedReminder));
+  void changeDay(int specialWeekDay) {
+    emit(state.copyWith(specialWeekDay: specialWeekDay));
   }
 
-  void changeIsSpectial() {
-    emit(state.copyWith(isSpectial: !state.isSpectial));
-  }
-
-  void changeSpectialComment(String comment) {
-    emit(state.copyWith(commentOnSpecial: comment));
+  void changeSpectialDescription(String specialDescription) {
+    emit(state.copyWith(specialDescription: specialDescription));
   }
 
   void changeImage(File image) {
