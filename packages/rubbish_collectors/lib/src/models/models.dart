@@ -6,3 +6,4 @@ export 'send_code_result.dart';
 export 'user_result.dart';
 export 'user_with_token.dart';
 export 'building.dart';
+export 'spacial_request.dart';

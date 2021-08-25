@@ -6,12 +6,12 @@ class RequestCardDetailModal extends StatelessWidget {
   final String desc;
   final int plak;
   final String postalCode;
-  final int time;
+  final String time;
   final String address;
   final double lat;
   final double lng;
   final String imageUrl;
-  final String specialDesc;
+
   final bool isSpecial;
 
   const RequestCardDetailModal({
@@ -24,33 +24,53 @@ class RequestCardDetailModal extends StatelessWidget {
     required this.lat,
     required this.lng,
     this.imageUrl = "",
-    this.specialDesc = "",
-  })  : isSpecial = imageUrl != "" || specialDesc != "",
-        super(key: key);
+    this.isSpecial = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListView(
       physics: const BouncingScrollPhysics(),
       children: [
-        const NERequestTitle(
-          imagePath: "assets/alert.png",
-          title: "توضیحات",
-        ),
-        const SizedBox(
-          height: 4,
-        ),
-        Container(
-          padding: const EdgeInsets.all(8),
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(16),
-            ),
-            color: lightBorder,
+        // start Special request data
+        if (isSpecial)
+          const NERequestTitle(
+            imagePath: "assets/building.png",
+            title: "اطلاعات درخواست ویژه",
           ),
-          child: Text(desc),
-        ),
-        const SizedBox(height: 16),
+        if (isSpecial) const SizedBox(height: 4),
+        if (isSpecial)
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(16),
+              ),
+              color: lightBorder,
+            ),
+            child: Center(
+              child: Text(
+                desc.isNotEmpty ? desc : "توضیحاتی درج نشده است",
+              ),
+            ),
+          ),
+        if (isSpecial) const SizedBox(height: 4),
+        if (isSpecial && imageUrl != "")
+          ClipRRect(
+            borderRadius: const BorderRadius.vertical(
+              bottom: Radius.circular(16),
+            ),
+            child: AbsorbPointer(
+              child: Hero(
+                tag: "main_simple_image_hero",
+                child: Image.network(
+                  imageUrl,
+                ),
+              ),
+            ),
+          ),
+        if (isSpecial) const SizedBox(height: 16),
+        // end Special request data
         const NERequestTitle(
           imagePath: "assets/cal.png",
           title: "زمان دریافت",
@@ -64,7 +84,7 @@ class RequestCardDetailModal extends StatelessWidget {
             ),
             color: lightBorder,
           ),
-          child: Center(child: Text(timeOfDayDataTuple[time].item1)),
+          child: Center(child: Text(time)),
         ),
         const SizedBox(height: 16),
         const NERequestTitle(
@@ -131,45 +151,7 @@ class RequestCardDetailModal extends StatelessWidget {
         ),
         // end loaction request data
         const SizedBox(height: 16),
-        // start Special request data
-        if (isSpecial)
-          const NERequestTitle(
-            imagePath: "assets/building.png",
-            title: "اطلاعات درخواست ویژه",
-          ),
-        if (isSpecial) const SizedBox(height: 4),
-        if (isSpecial)
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.vertical(
-                top: Radius.circular(16),
-              ),
-              color: lightBorder,
-            ),
-            child: Center(
-              child: Text(
-                specialDesc.isNotEmpty ? specialDesc : "توضیحاتی درج نشده است",
-              ),
-            ),
-          ),
-        if (isSpecial) const SizedBox(height: 4),
-        if (isSpecial && imageUrl != "")
-          ClipRRect(
-            borderRadius: const BorderRadius.vertical(
-              bottom: Radius.circular(16),
-            ),
-            child: AbsorbPointer(
-              child: Hero(
-                tag: "main_simple_image_hero",
-                child: Image.network(
-                  imageUrl,
-                ),
-              ),
-            ),
-          ),
-        if (isSpecial) const SizedBox(height: 16),
-        // end Special request data
+
         OutlinedButton(
           style: OutlinedButton.styleFrom(
             backgroundColor: darkGreen.withOpacity(0.1),

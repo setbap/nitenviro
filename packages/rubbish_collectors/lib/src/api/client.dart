@@ -5,6 +5,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:rubbish_collectors/rubbish_collectors.dart';
 import 'package:rubbish_collectors/src/api/interceptors/dio_connectivity_request_retrier.dart';
+import 'package:rubbish_collectors/src/models/spacial_request.dart';
 
 class RubbishCollectorsClient {
   final Dio dio;
@@ -273,8 +274,100 @@ class RubbishCollectorsClient {
           return Building.fromMap(b);
         }).toList(),
       );
+      return todayBuildingResults;
+    } catch (e) {
+      log(e.toString());
+      throw ServerException();
+    }
+  }
+
+  Future<GenericResult<List<SpacialRequest>>> todaySpacialBuilding({
+    required double? sourceLatitude,
+    required double? sourceLongitude,
+  }) async {
+    try {
+      var spacialRawResponse = await dio.get(
+        Endpoints.todaySpacialBuildingsPath(),
+        queryParameters: {
+          "SourceLatitude": sourceLatitude,
+          "SourceLongitude": sourceLongitude,
+          "Status": 0,
+        },
+      );
+      final todayBuildingResults = GenericResult<List<SpacialRequest>>.fromJson(
+        spacialRawResponse.data,
+        (dynamic json) =>
+            (json['data'] as List<dynamic>).map<SpacialRequest>((b) {
+          return SpacialRequest.fromMap(b);
+        }).toList(),
+      );
+      return todayBuildingResults;
+    } catch (e) {
+      log(e.toString());
+      throw ServerException();
+    }
+  }
+
+  Future<GenericResult<SpacialRequest>> acceptBuilding({
+    required String id,
+    required bool isSpacial,
+    required String? driverMessage,
+  }) async {
+    final endpoint = isSpacial
+        ? Endpoints.acceptSpacialBuildingPath()
+        : Endpoints.acceptBuildingPath();
+
+    final idName = isSpacial ? "pickUpId" : "buildingId";
+    try {
+      var spacialAcceptRawResponse = await dio.post(
+        endpoint,
+        data: {
+          idName: id,
+          "driverMessage": driverMessage,
+        },
+      );
+      final todayBuildingResults = GenericResult<SpacialRequest>.fromJson(
+        spacialAcceptRawResponse.data,
+        (dynamic json) => SpacialRequest.fromMap(json),
+      );
 
       return todayBuildingResults;
+    } catch (e) {
+      log(e.toString());
+      throw ServerException();
+    }
+  }
+
+  Future<GenericResult<SpacialRequest>> recevieRequest({
+    required String id,
+    double? glassWeight,
+    double? metalWeight,
+    double? paperWeight,
+    double? plasticWeight,
+    double? mixedWeight,
+    required String? driverDescription,
+    required File? image,
+  }) async {
+    final formData = FormData.fromMap({
+      "id": id,
+      "GlassWeight": glassWeight,
+      "MetalWeight": metalWeight,
+      "PaperWeight": paperWeight,
+      "PlasticWeight": plasticWeight,
+      "MixedWeight": mixedWeight,
+      "DriverDescription": driverDescription,
+      "ImageUrl": image,
+    });
+    try {
+      var recevieRawResponse = await dio.post(
+        Endpoints.completeRequestPath(),
+        data: formData,
+      );
+      final recevieResponse = GenericResult<SpacialRequest>.fromJson(
+        recevieRawResponse.data,
+        (dynamic json) => SpacialRequest.fromMap(json),
+      );
+      return recevieResponse;
     } catch (e) {
       log(e.toString());
       throw ServerException();

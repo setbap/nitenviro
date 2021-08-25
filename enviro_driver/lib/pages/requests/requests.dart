@@ -17,7 +17,7 @@ class _RequestsState extends State<Requests>
   Widget build(BuildContext context) {
     super.build(context);
     return DefaultTabController(
-      length: 2,
+      length: 3,
       initialIndex: 0,
       child: Column(
         children: [
@@ -39,10 +39,18 @@ class _RequestsState extends State<Requests>
               tabs: const [
                 Padding(
                   padding: EdgeInsets.symmetric(
-                    horizontal: 12,
+                    horizontal: 20,
                   ),
                   child: Tab(
-                    text: "همه درخواست ها",
+                    text: "ویژه",
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 20,
+                  ),
+                  child: Tab(
+                    text: "عادی",
                   ),
                 ),
                 Padding(
@@ -59,6 +67,7 @@ class _RequestsState extends State<Requests>
           const Expanded(
             child: TabBarView(
               children: [
+                SpacialRequest(),
                 AllReuqest(),
                 IngoinRequest(),
               ],

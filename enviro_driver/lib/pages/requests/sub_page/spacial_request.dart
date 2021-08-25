@@ -1,26 +1,25 @@
 // import 'package:enviro_driver/logic/logic.dart';
 import 'package:enviro_driver/logic/logic.dart';
 import 'package:enviro_driver/pages/requests/widgets/widgets.dart';
-import 'package:enviro_driver/repo/repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-const String imageUrl =
-    "https://www.royalmobl.ir/wp-content/uploads/2019/11/04.jpg";
+// const String imageUrl =
+//     "https://www.royalmobl.ir/wp-content/uploads/2019/11/04.jpg";
 
-class AllReuqest extends StatefulWidget {
-  const AllReuqest({Key? key}) : super(key: key);
+class SpacialRequest extends StatefulWidget {
+  const SpacialRequest({Key? key}) : super(key: key);
 
   @override
-  State<AllReuqest> createState() => _AllReuqestState();
+  State<SpacialRequest> createState() => _SpacialRequestState();
 }
 
-class _AllReuqestState extends State<AllReuqest>
-    with AutomaticKeepAliveClientMixin<AllReuqest> {
+class _SpacialRequestState extends State<SpacialRequest>
+    with AutomaticKeepAliveClientMixin<SpacialRequest> {
   @override
   void initState() {
     super.initState();
-    context.read<TodayBuildingCubit>().getTodayBuilding();
+    context.read<TodaySpacialRequestCubit>().getTodaySpacialRequest();
   }
 
   @override
@@ -28,12 +27,12 @@ class _AllReuqestState extends State<AllReuqest>
     super.build(context);
     return RefreshIndicator(
       onRefresh: () async {
-        await context.read<TodayBuildingCubit>().getTodayBuilding();
+        await context.read<TodaySpacialRequestCubit>().getTodaySpacialRequest();
       },
-      child: BlocConsumer<TodayBuildingCubit, TodayBuildingState>(
+      child: BlocConsumer<TodaySpacialRequestCubit, TodaySpacialRequestState>(
         listener: (context, state) {
-          if (state.buildings.isNotEmpty) {
-            if (state is TodayBuildingError) {
+          if (state.spacialRequest.isNotEmpty) {
+            if (state is TodaySpacialRequestError) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(state.message),
@@ -42,7 +41,7 @@ class _AllReuqestState extends State<AllReuqest>
             }
           }
 
-          if (state is TodayBuildingLoading && state.message != null) {
+          if (state is TodaySpacialRequestLoading && state.message != null) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(state.message!),
@@ -52,7 +51,8 @@ class _AllReuqestState extends State<AllReuqest>
         },
         builder: (context, state) {
           // when first request goes wrong or loading state
-          if (state.buildings.isEmpty && state is! TodayBuildingSuccess) {
+          if (state.spacialRequest.isEmpty &&
+              state is! TodaySpacialRequestLoading) {
             if (state is TodayBuildingLoading) {
               return Center(
                 child: Column(
@@ -67,7 +67,7 @@ class _AllReuqestState extends State<AllReuqest>
                 ),
               );
             }
-            if (state is TodayBuildingError) {
+            if (state is TodaySpacialRequestError) {
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -84,7 +84,9 @@ class _AllReuqestState extends State<AllReuqest>
                     const SizedBox(height: 32),
                     OutlinedButton(
                       onPressed: () {
-                        context.read<TodayBuildingCubit>().getTodayBuilding();
+                        context
+                            .read<TodaySpacialRequestCubit>()
+                            .getTodaySpacialRequest();
                       },
                       child: Text(
                         "تلاش دوباره",
@@ -103,27 +105,28 @@ class _AllReuqestState extends State<AllReuqest>
                 const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 72),
             // physics: const BouncingScrollPhysics(),
             itemBuilder: (context, index) {
-              final building = state.buildings[index];
+              final spacialReq = state.spacialRequest[index];
+              final building = spacialReq.building;
               return RequestItemCard(
                 detailBTNText: "مشاهده جزییات",
                 acceptBTNText: "آغاز فرآیند دریافت",
-                time: timeOfDayDataTuple[building.timeOfDay % 3].item1,
+                time: "کل روز",
                 address: building.address,
                 onDetailPress: () {
                   showAvatarModalBottomSheet(
                     builder: (context) {
                       return RequestCardDetailModal(
                         lat: building.latitude,
+                        isSpecial: true,
                         plak: building.plaque,
                         postalCode: building.postalCode,
                         lng: building.longitude,
                         address: building.address,
-                        desc: (building.description == null ||
-                                building.description!.isEmpty)
+                        desc: (spacialReq.specialDescription.isEmpty)
                             ? "توضیحاتی درج نشده است"
-                            : building.description!,
-                        time: timeOfDayDataTuple[building.timeOfDay].item1,
-                        imageUrl: "",
+                            : spacialReq.specialDescription,
+                        time: "کل روز",
+                        imageUrl: spacialReq.specialImageUrl ?? "",
                       );
                     },
                     name: building.user?.name ?? "",
@@ -131,18 +134,29 @@ class _AllReuqestState extends State<AllReuqest>
                     avatarUrl: building.user?.avatar,
                   );
                 },
-                onAcceptPress: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("درخواست به لیست در حال اجرا اضافه شد"),
-                      behavior: SnackBarBehavior.floating,
-                    ),
-                  );
-                },
-                isSpectial: index % 2 == 0,
+                onAcceptPress: state is TodaySpacialRequestLoading
+                    ? null
+                    : () async {
+                        final isSuccess = await context
+                            .read<TodaySpacialRequestCubit>()
+                            .setRequestToOngoing(
+                              id: spacialReq.id,
+                              driverMessage: "",
+                            );
+                        if (isSuccess != null && isSuccess) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content:
+                                  Text("درخواست به لیست در حال اجرا اضافه شد"),
+                              behavior: SnackBarBehavior.floating,
+                            ),
+                          );
+                        }
+                      },
+                isSpectial: state.spacialRequest[index].isSpecial,
               );
             },
-            itemCount: state.buildings.length,
+            itemCount: state.spacialRequest.length,
           );
         },
       ),

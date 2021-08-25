@@ -88,6 +88,11 @@ class MyApp extends StatelessWidget {
               rubbishCollectorsApi: context.read<RubbishCollectorsApi>(),
             ),
           ),
+          BlocProvider<TodaySpacialRequestCubit>(
+            create: (context) => TodaySpacialRequestCubit(
+              rubbishCollectorsApi: context.read<RubbishCollectorsApi>(),
+            ),
+          ),
         ],
         child: MaterialApp(
           navigatorKey: navigatorKey,

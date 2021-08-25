@@ -97,7 +97,8 @@ class RequestItemCard extends StatelessWidget {
                     Expanded(
                       child: OutlinedButton(
                         style: OutlinedButton.styleFrom(
-                          backgroundColor: mediumGreen,
+                          backgroundColor:
+                              onAcceptPress == null ? Colors.grey : mediumGreen,
                           shape: const StadiumBorder(
                             side: BorderSide(
                               color: darkGreen,

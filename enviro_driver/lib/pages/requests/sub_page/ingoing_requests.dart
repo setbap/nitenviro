@@ -109,8 +109,7 @@ class _IngoinRequestState extends State<IngoinRequest>
                         postalCode: building.postalCode,
                         address: building.address,
                         desc: building.description ?? "",
-                        time: building.timeOfDay,
-                        specialDesc: "توضیحات ویژه",
+                        time: "building.timeOfDay",
                       );
                     },
                     name: building.user?.name,

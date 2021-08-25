@@ -10,4 +10,8 @@ class Endpoints {
   static String pickUpCreateSpecial() => '/PickUp/CreateSpecial';
   static String buildingCreatePath() => '/Building';
   static String todayBuildingsPath() => '/Driver/Building/TodayBuildings';
+  static String todaySpacialBuildingsPath() => '/Driver/PickUp/Special';
+  static String acceptBuildingPath() => '/Driver/PickUp/Accept';
+  static String acceptSpacialBuildingPath() => '/Driver/PickUp/AcceptSpecial';
+  static String completeRequestPath() => '/Driver/PickUp/AcceptSpecial';
 }

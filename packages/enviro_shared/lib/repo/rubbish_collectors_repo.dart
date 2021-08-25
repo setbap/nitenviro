@@ -58,7 +58,53 @@ class RubbishCollectorsApi {
       sourceLatitude: sourceLatitude,
       sourceLongitude: sourceLongitude,
     );
+    return items;
+  }
 
+  Future<GenericResult<List<SpacialRequest>>> getTodaySpacialBuilding({
+    required double? sourceLatitude,
+    required double? sourceLongitude,
+  }) async {
+    final items = await _rubbishCollectorsClient.todaySpacialBuilding(
+      sourceLatitude: sourceLatitude,
+      sourceLongitude: sourceLongitude,
+    );
+    return items;
+  }
+
+  Future<GenericResult<SpacialRequest>> acceptTodayBuilding({
+    required String id,
+    required bool isSpacial,
+    String? driverMessage,
+  }) async {
+    final items = await _rubbishCollectorsClient.acceptBuilding(
+      id: id,
+      isSpacial: isSpacial,
+      driverMessage: "",
+    );
+    return items;
+  }
+
+  Future<GenericResult<SpacialRequest>> receiveRequest({
+    required String id,
+    double? glassWeight,
+    double? metalWeight,
+    double? paperWeight,
+    double? plasticWeight,
+    double? mixedWeight,
+    required String? driverDescription,
+    required File? image,
+  }) async {
+    final items = await _rubbishCollectorsClient.recevieRequest(
+      id: id,
+      glassWeight: glassWeight,
+      metalWeight: metalWeight,
+      paperWeight: paperWeight,
+      plasticWeight: plasticWeight,
+      mixedWeight: mixedWeight,
+      driverDescription: driverDescription,
+      image: image,
+    );
     return items;
   }
 
