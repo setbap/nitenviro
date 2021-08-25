@@ -122,7 +122,7 @@ class _SpacialRequestState extends State<SpacialRequest>
                         postalCode: building.postalCode,
                         lng: building.longitude,
                         address: building.address,
-                        desc: (spacialReq.specialDescription.isEmpty)
+                        desc: ((spacialReq.specialDescription ?? "").isEmpty)
                             ? "توضیحاتی درج نشده است"
                             : spacialReq.specialDescription,
                         time: "کل روز",

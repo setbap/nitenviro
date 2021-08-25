@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 
 class RequestCardDetailModal extends StatelessWidget {
-  final String desc;
+  final String? desc;
   final int plak;
   final String postalCode;
   final String time;
@@ -16,7 +16,7 @@ class RequestCardDetailModal extends StatelessWidget {
 
   const RequestCardDetailModal({
     Key? key,
-    required this.desc,
+    this.desc,
     required this.time,
     required this.plak,
     required this.postalCode,
@@ -50,7 +50,7 @@ class RequestCardDetailModal extends StatelessWidget {
             ),
             child: Center(
               child: Text(
-                desc.isNotEmpty ? desc : "توضیحاتی درج نشده است",
+                desc ?? "توضیحاتی درج نشده است",
               ),
             ),
           ),

@@ -5,9 +5,6 @@ import 'package:enviro_driver/repo/repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-const String imageUrl =
-    "https://www.royalmobl.ir/wp-content/uploads/2019/11/04.jpg";
-
 class AllReuqest extends StatefulWidget {
   const AllReuqest({Key? key}) : super(key: key);
 
@@ -118,12 +115,7 @@ class _AllReuqestState extends State<AllReuqest>
                         postalCode: building.postalCode,
                         lng: building.longitude,
                         address: building.address,
-                        desc: (building.description == null ||
-                                building.description!.isEmpty)
-                            ? "توضیحاتی درج نشده است"
-                            : building.description!,
                         time: timeOfDayDataTuple[building.timeOfDay].item1,
-                        imageUrl: "",
                       );
                     },
                     name: building.user?.name ?? "",
@@ -131,15 +123,26 @@ class _AllReuqestState extends State<AllReuqest>
                     avatarUrl: building.user?.avatar,
                   );
                 },
-                onAcceptPress: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("درخواست به لیست در حال اجرا اضافه شد"),
-                      behavior: SnackBarBehavior.floating,
-                    ),
-                  );
-                },
-                isSpectial: index % 2 == 0,
+                onAcceptPress: (state is TodayBuildingLoading)
+                    ? null
+                    : () async {
+                        final isSuccess = await context
+                            .read<TodayBuildingCubit>()
+                            .setRequestToOngoing(
+                              id: building.id,
+                              driverMessage: "",
+                            );
+                        if (isSuccess != null && isSuccess) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content:
+                                  Text("درخواست به لیست در حال اجرا اضافه شد"),
+                              behavior: SnackBarBehavior.floating,
+                            ),
+                          );
+                        }
+                      },
+                isSpectial: false,
               );
             },
             itemCount: state.buildings.length,

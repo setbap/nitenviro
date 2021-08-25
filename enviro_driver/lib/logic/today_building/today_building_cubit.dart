@@ -51,6 +51,46 @@ class TodayBuildingCubit extends Cubit<TodayBuildingState> {
     }
   }
 
+  Future<bool?> setRequestToOngoing({
+    required String id,
+    String? driverMessage,
+  }) async {
+    emit(TodayBuildingLoading(buildings: state.buildings));
+
+    try {
+      final spacialRequest = await _rubbishCollectorsApi.acceptTodayBuilding(
+        id: id,
+        isSpacial: false,
+        driverMessage: driverMessage,
+      );
+
+      if (spacialRequest.isSuccess) {
+        emit(
+          TodayBuildingSuccess(
+            buildings: state.buildings.where((el) => el.id != id).toList(),
+          ),
+        );
+        return true;
+      } else {
+        // agar error dar dataye bargashti bashad
+        emit(
+          TodayBuildingError(
+            buildings: state.buildings,
+            message: spacialRequest.errors[0].message ?? "",
+          ),
+        );
+      }
+    } catch (e) {
+      // agar error dar hengam ijad darkhast etefaq bioftad
+      emit(
+        TodayBuildingError(
+          buildings: state.buildings,
+          message: "ثبت انجام نشد مشکل در برقراری ارتباط با سرور",
+        ),
+      );
+    }
+  }
+
   Future<LocationData?> getCurrentLocation() async {
     bool _serviceEnabled;
     PermissionStatus _permissionGranted;

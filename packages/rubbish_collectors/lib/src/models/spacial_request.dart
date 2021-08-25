@@ -21,9 +21,9 @@ class SpacialRequest {
   final String? driverDescription;
   final String? imageUrl;
   final bool isSpecial;
-  final String specialDescription;
+  final String? specialDescription;
   final String? specialImageUrl;
-  final int specialWeekDay;
+  final int? specialWeekDay;
 
   const SpacialRequest({
     required this.id,
