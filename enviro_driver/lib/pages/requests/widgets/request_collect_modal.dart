@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:enviro_driver/logic/logic.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:enviro_driver/logic/receive_form/receive_form_cubit.dart';
 import 'package:enviro_driver/repo/repo.dart';
@@ -57,7 +58,10 @@ class _RequestCollectModalState extends State<RequestCollectModal> {
             SnackBar(
               content: Text(
                 state.message,
-                style: Theme.of(context).textTheme.subtitle2,
+                style: Theme.of(context)
+                    .textTheme
+                    .subtitle2
+                    ?.copyWith(color: Colors.white),
               ),
               backgroundColor: Colors.red,
               shape: RoundedRectangleBorder(
@@ -215,7 +219,9 @@ class _RequestCollectModalState extends State<RequestCollectModal> {
               builder: (context, state) {
                 return OutlinedButton(
                   style: OutlinedButton.styleFrom(
-                    backgroundColor: darkGreen.withOpacity(0.1),
+                    backgroundColor:
+                        (state is ReceiveFormLoading ? Colors.grey : darkGreen)
+                            .withOpacity(0.1),
                     shape: RoundedRectangleBorder(
                       side: const BorderSide(
                         color: darkGreen,
@@ -229,15 +235,26 @@ class _RequestCollectModalState extends State<RequestCollectModal> {
                       : () {
                           context
                               .read<ReceiveFormCubit>()
-                              .submitRecord(widget.id);
+                              .submitRecord(widget.id)
+                              .then((isSuccessfull) => {
+                                    if (isSuccessfull)
+                                      {
+                                        context
+                                            .read<AcceptedRequestCubit>()
+                                            .removeCompeletedRequest(
+                                                id: widget.id)
+                                      }
+                                  });
                         },
-                  child: const Padding(
-                    padding: EdgeInsets.all(8.0),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
                     child: Text(
                       "ثبت نهایی",
                       style: TextStyle(
                         fontSize: 20,
-                        color: darkGreen,
+                        color: (state is ReceiveFormLoading
+                            ? Colors.grey
+                            : darkGreen),
                       ),
                     ),
                   ),

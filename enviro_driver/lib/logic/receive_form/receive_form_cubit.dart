@@ -21,7 +21,7 @@ class ReceiveFormCubit extends Cubit<ReceiveFormState> {
     );
   }
 
-  void submitRecord(String id) async {
+  Future<bool> submitRecord(String id) async {
     emit(ReceiveFormLoading(receiveFromModel: state.receiveFromModel));
     final info = state.receiveFromModel;
     if (info.metal == null &&
@@ -36,7 +36,7 @@ class ReceiveFormCubit extends Cubit<ReceiveFormState> {
               "وارد کردن یکی از موارد مخلوط, شیشه, فلز, کاغذ یا پلاستیک ضروریست.",
         ),
       );
-      return;
+      return false;
     }
     try {
       final response = await _rubbishCollectorsApi.receiveRequest(
@@ -51,12 +51,14 @@ class ReceiveFormCubit extends Cubit<ReceiveFormState> {
       );
       if (response.isSuccess) {
         emit(ReceiveFormSuccess(receiveFromModel: state.receiveFromModel));
+        return true;
       } else {
         emit(
           ReceiveFormError(
               receiveFromModel: state.receiveFromModel,
               message: response.errors[0].message ?? ""),
         );
+        return false;
       }
     } catch (e) {
       emit(
@@ -65,6 +67,7 @@ class ReceiveFormCubit extends Cubit<ReceiveFormState> {
           message: "خطا در ارسال یا ثبت",
         ),
       );
+      return false;
     }
   }
 

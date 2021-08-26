@@ -53,6 +53,15 @@ class AcceptedRequestCubit extends Cubit<AcceptedRequestState> {
     }
   }
 
+  void removeCompeletedRequest({required String id}) {
+    emit(
+      AcceptedRequestSuccess(
+        acceptedRequest:
+            state.acceptedRequest.where((el) => el.id != id).toList(),
+      ),
+    );
+  }
+
   Future<LocationData?> getCurrentLocation() async {
     bool _serviceEnabled;
     PermissionStatus _permissionGranted;
