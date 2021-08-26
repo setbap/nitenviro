@@ -1,34 +1,33 @@
 part of 'ongoing_request_cubit.dart';
 
 @immutable
-abstract class TodaySpacialRequestState {
-  final List<SpacialRequest> spacialRequest;
+abstract class AcceptedRequestState {
+  final List<SpacialRequest> acceptedRequest;
 
-  const TodaySpacialRequestState({required this.spacialRequest});
+  const AcceptedRequestState({required this.acceptedRequest});
 }
 
-class TodaySpacialRequestInitial extends TodaySpacialRequestState {
-  const TodaySpacialRequestInitial() : super(spacialRequest: const []);
+class AcceptedRequestInitial extends AcceptedRequestState {
+  const AcceptedRequestInitial() : super(acceptedRequest: const []);
 }
 
-class TodaySpacialRequestLoading extends TodaySpacialRequestState {
+class AcceptedRequestLoading extends AcceptedRequestState {
   final String? message;
-  const TodaySpacialRequestLoading({
+  const AcceptedRequestLoading({
     this.message,
-    required List<SpacialRequest> spacialRequest,
-  }) : super(spacialRequest: spacialRequest);
+    required List<SpacialRequest> acceptedRequest,
+  }) : super(acceptedRequest: acceptedRequest);
 }
 
-class TodaySpacialRequestSuccess extends TodaySpacialRequestState {
-  const TodaySpacialRequestSuccess(
-      {required List<SpacialRequest> spacialRequest})
-      : super(spacialRequest: spacialRequest);
+class AcceptedRequestSuccess extends AcceptedRequestState {
+  const AcceptedRequestSuccess({required List<SpacialRequest> acceptedRequest})
+      : super(acceptedRequest: acceptedRequest);
 }
 
-class TodaySpacialRequestError extends TodaySpacialRequestState {
+class AcceptedRequestError extends AcceptedRequestState {
   final String message;
-  const TodaySpacialRequestError({
+  const AcceptedRequestError({
     required this.message,
-    required List<SpacialRequest> spacialRequest,
-  }) : super(spacialRequest: spacialRequest);
+    required List<SpacialRequest> acceptedRequest,
+  }) : super(acceptedRequest: acceptedRequest);
 }

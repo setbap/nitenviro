@@ -8,45 +8,45 @@ import 'package:rubbish_collectors/rubbish_collectors.dart';
 
 part 'ongoing_request_state.dart';
 
-class TodaySpacialRequestCubit extends Cubit<TodaySpacialRequestState> {
+class AcceptedRequestCubit extends Cubit<AcceptedRequestState> {
   final RubbishCollectorsApi _rubbishCollectorsApi;
   final Location location;
 
-  TodaySpacialRequestCubit({required RubbishCollectorsApi rubbishCollectorsApi})
+  AcceptedRequestCubit({required RubbishCollectorsApi rubbishCollectorsApi})
       : _rubbishCollectorsApi = rubbishCollectorsApi,
         location = Location(),
-        super(const TodaySpacialRequestInitial());
+        super(const AcceptedRequestInitial());
 
-  Future<void> getTodaySpacialRequest() async {
-    emit(TodaySpacialRequestLoading(spacialRequest: state.spacialRequest));
+  Future<void> getAcceptedRequest() async {
+    emit(AcceptedRequestLoading(acceptedRequest: state.acceptedRequest));
     final locationData = await getCurrentLocation();
 
     try {
-      final spacialRequest =
-          await _rubbishCollectorsApi.getTodaySpacialBuilding(
+      final acceptedRequest =
+          await _rubbishCollectorsApi.getTodayOngoingRequests(
         sourceLatitude: locationData?.latitude,
         sourceLongitude: locationData?.longitude,
       );
-      if (spacialRequest.isSuccess) {
+      if (acceptedRequest.isSuccess) {
         emit(
-          TodaySpacialRequestSuccess(
-            spacialRequest: spacialRequest.value ?? [],
+          AcceptedRequestSuccess(
+            acceptedRequest: acceptedRequest.value ?? [],
           ),
         );
       } else {
         // agar error dar dataye bargashti bashad
         emit(
-          TodaySpacialRequestError(
-            spacialRequest: state.spacialRequest,
-            message: spacialRequest.errors[0].message ?? "",
+          AcceptedRequestError(
+            acceptedRequest: state.acceptedRequest,
+            message: acceptedRequest.errors[0].message ?? "",
           ),
         );
       }
     } catch (e) {
       // agar error dar hengam ijad darkhast etefaq bioftad
       emit(
-        TodaySpacialRequestError(
-          spacialRequest: state.spacialRequest,
+        AcceptedRequestError(
+          acceptedRequest: state.acceptedRequest,
           message: "مشکل در برقراری ارتباط با سرور",
         ),
       );
@@ -64,8 +64,8 @@ class TodaySpacialRequestCubit extends Cubit<TodaySpacialRequestState> {
         _serviceEnabled = await location.requestService();
         if (!_serviceEnabled) {
           emit(
-            TodaySpacialRequestLoading(
-              spacialRequest: state.spacialRequest,
+            AcceptedRequestLoading(
+              acceptedRequest: state.acceptedRequest,
               message:
                   "سرویس موقعیت مکانی شما فعال نیست. لطفا از بخش تنظیمات فعال کنید",
             ),
@@ -80,8 +80,8 @@ class TodaySpacialRequestCubit extends Cubit<TodaySpacialRequestState> {
         _permissionGranted = await location.requestPermission();
         if (_permissionGranted != PermissionStatus.granted) {
           emit(
-            TodaySpacialRequestLoading(
-              spacialRequest: state.spacialRequest,
+            AcceptedRequestLoading(
+              acceptedRequest: state.acceptedRequest,
               message:
                   "اجازه دسترسی به موقعیت مکانی داده نشده است. لطفا از بخش تنظیمات به برنامه اجازه دسترسی به موقعیت مکانی دهید",
             ),
@@ -92,8 +92,8 @@ class TodaySpacialRequestCubit extends Cubit<TodaySpacialRequestState> {
       log("ejze dard dar hal gereftan makan");
       _locationData = await location.getLocation();
       emit(
-        TodaySpacialRequestLoading(
-          spacialRequest: state.spacialRequest,
+        AcceptedRequestLoading(
+          acceptedRequest: state.acceptedRequest,
           message: "موقعیت مکانی با موفقیت دریافت شد.",
         ),
       );
@@ -101,8 +101,8 @@ class TodaySpacialRequestCubit extends Cubit<TodaySpacialRequestState> {
       return _locationData;
     } catch (e) {
       emit(
-        TodaySpacialRequestLoading(
-          spacialRequest: state.spacialRequest,
+        AcceptedRequestLoading(
+          acceptedRequest: state.acceptedRequest,
           message: "خطا در دریافت اطلاعات موقعیت مکانی.",
         ),
       );

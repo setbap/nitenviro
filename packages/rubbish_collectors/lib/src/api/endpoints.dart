@@ -14,4 +14,5 @@ class Endpoints {
   static String acceptBuildingPath() => '/Driver/PickUp/Accept';
   static String acceptSpacialBuildingPath() => '/Driver/PickUp/AcceptSpecial';
   static String completeRequestPath() => '/Driver/PickUp/AcceptSpecial';
+  static String todayAcceptedPath() => '/Driver/PickUp';
 }

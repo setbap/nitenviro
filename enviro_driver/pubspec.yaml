@@ -36,6 +36,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   modal_bottom_sheet: ^2.0.0
+  freezed: ^0.14.5
 
   enviro_shared:
     path: ../packages/enviro_shared
@@ -50,6 +51,8 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^1.0.3
+  freezed_annotation: ^0.14.3
+  build_runner: ^2.1.1
   flutter_native_splash: ^1.2.0
   # flutter_launcher_icons: ^0.9.0
 

@@ -17,7 +17,7 @@ class _IngoinRequestState extends State<IngoinRequest>
   @override
   void initState() {
     super.initState();
-    context.read<TodayBuildingCubit>().getTodayBuilding();
+    context.read<AcceptedRequestCubit>().getAcceptedRequest();
   }
 
   @override
@@ -25,12 +25,12 @@ class _IngoinRequestState extends State<IngoinRequest>
     super.build(context);
     return RefreshIndicator(
       onRefresh: () async {
-        await context.read<TodayBuildingCubit>().getTodayBuilding();
+        await context.read<AcceptedRequestCubit>().getAcceptedRequest();
       },
-      child: BlocConsumer<TodayBuildingCubit, TodayBuildingState>(
+      child: BlocConsumer<AcceptedRequestCubit, AcceptedRequestState>(
         listener: (context, state) {
-          if (state.buildings.isNotEmpty) {
-            if (state is TodayBuildingError) {
+          if (state.acceptedRequest.isNotEmpty) {
+            if (state is AcceptedRequestError) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(state.message),
@@ -39,7 +39,7 @@ class _IngoinRequestState extends State<IngoinRequest>
             }
           }
 
-          if (state is TodayBuildingLoading && state.message != null) {
+          if (state is AcceptedRequestLoading && state.message != null) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(state.message!),
@@ -49,8 +49,9 @@ class _IngoinRequestState extends State<IngoinRequest>
         },
         builder: (context, state) {
           // when first request goes wrong or loading state
-          if (state.buildings.isEmpty && state is! TodayBuildingSuccess) {
-            if (state is TodayBuildingLoading) {
+          if (state.acceptedRequest.isEmpty &&
+              state is! AcceptedRequestSuccess) {
+            if (state is AcceptedRequestLoading) {
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -64,7 +65,7 @@ class _IngoinRequestState extends State<IngoinRequest>
                 ),
               );
             }
-            if (state is TodayBuildingError) {
+            if (state is AcceptedRequestError) {
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -90,12 +91,17 @@ class _IngoinRequestState extends State<IngoinRequest>
                 const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 72),
             // physics: const BouncingScrollPhysics(),
             itemBuilder: (context, index) {
-              final building = state.buildings[index];
+              final req = state.acceptedRequest[index];
+              final building = req.building;
+
               return RequestItemCard(
+                isOngoning: true,
                 detailBTNText: "جزییات",
                 acceptBTNText: "تایید دریافت",
-                time: timeOfDayDataTuple[building.timeOfDay % 3].item1,
-                phoneNumber: building.user?.phone,
+                time: req.isSpecial
+                    ? "کل روز"
+                    : timeOfDayDataTuple[building.timeOfDay % 3].item1,
+                phoneNumber: req.user?.phone,
                 address: building.address,
                 lat: building.latitude,
                 lng: building.longitude,
@@ -104,32 +110,42 @@ class _IngoinRequestState extends State<IngoinRequest>
                     builder: (context) {
                       return RequestCardDetailModal(
                         lat: building.latitude,
-                        lng: building.longitude,
+                        isSpecial: req.isSpecial,
                         plak: building.plaque,
                         postalCode: building.postalCode,
+                        lng: building.longitude,
                         address: building.address,
-                        desc: building.description ?? "",
-                        time: "building.timeOfDay",
+                        desc: ((req.specialDescription ?? "").isEmpty)
+                            ? "توضیحاتی درج نشده است"
+                            : req.specialDescription,
+                        time: req.isSpecial
+                            ? "کل روز"
+                            : timeOfDayDataTuple[building.timeOfDay % 3].item1,
+                        imageUrl: req.specialImageUrl ?? "",
                       );
                     },
-                    name: building.user?.name,
-                    avatarUrl: building.user?.avatar,
+                    name: req.user?.name ?? "",
                     context: context,
+                    avatarUrl: req.user?.avatar,
                   );
                 },
                 onAcceptPress: () {
                   showAvatarModalBottomSheet(
-                    builder: (context) {
-                      return const RequestCollectModal();
+                    builder: (ctx) {
+                      return RequestCollectModal(
+                        id: req.id,
+                      );
                     },
-                    name: "سینا ابراهیمی",
+                    name: req.user?.name ?? "",
+                    avatarUrl: req.user?.avatar ?? "",
+                    useRootNavigator: false,
                     context: context,
                   );
                 },
-                isSpectial: index % 2 == 0,
+                isSpectial: req.isSpecial,
               );
             },
-            itemCount: state.buildings.length,
+            itemCount: state.acceptedRequest.length,
           );
         },
       ),

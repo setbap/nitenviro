@@ -284,14 +284,19 @@ class RubbishCollectorsClient {
   Future<GenericResult<List<SpacialRequest>>> todaySpacialBuilding({
     required double? sourceLatitude,
     required double? sourceLongitude,
+    // false for spacial request
+    // true for all accepted request
+    bool isAccepted = false,
   }) async {
+    final endpoint = isAccepted
+        ? Endpoints.todayAcceptedPath()
+        : Endpoints.todaySpacialBuildingsPath();
     try {
       var spacialRawResponse = await dio.get(
-        Endpoints.todaySpacialBuildingsPath(),
+        endpoint,
         queryParameters: {
           "SourceLatitude": sourceLatitude,
           "SourceLongitude": sourceLongitude,
-          "Status": 0,
         },
       );
       final todayBuildingResults = GenericResult<List<SpacialRequest>>.fromJson(

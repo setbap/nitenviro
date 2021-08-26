@@ -30,7 +30,7 @@ class SpacialRequest {
     required this.buildingId,
     required this.building,
     required this.userId,
-    this.user,
+    required this.user,
     this.driverId,
     this.driver,
     this.driverMessage,
@@ -105,7 +105,7 @@ class SpacialRequest {
       userId: map['userId'],
       user: map['user'] == null ? null : BuildingUser.fromMap(map['user']),
       driverId: map['driverId'],
-      driver: map['user'] == null || map['phone'] == null
+      driver: map['driver'] == null || map['driver']['phone'] == null
           ? null
           : BuildingUser.fromMap(map['driver']),
       driverMessage: map['driverMessage'],

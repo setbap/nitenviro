@@ -51,9 +51,8 @@ class _SpacialRequestState extends State<SpacialRequest>
         },
         builder: (context, state) {
           // when first request goes wrong or loading state
-          if (state.spacialRequest.isEmpty &&
-              state is! TodaySpacialRequestLoading) {
-            if (state is TodayBuildingLoading) {
+          if (state.spacialRequest.isEmpty) {
+            if (state is TodaySpacialRequestLoading) {
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -62,7 +61,7 @@ class _SpacialRequestState extends State<SpacialRequest>
                     SizedBox(
                       height: 32,
                     ),
-                    Text("درحال دریافت اطلاعات مکان و ساختمان های امروز")
+                    Text("درحال دریافت درخواست های ویژه امروز")
                   ],
                 ),
               );

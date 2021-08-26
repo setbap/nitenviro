@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:enviro_shared/enviro_shared.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:url_launcher/url_launcher.dart' as url_launcher;
@@ -14,6 +16,7 @@ class RequestItemCard extends StatelessWidget {
   final String? phoneNumber;
   final VoidCallback? onDetailPress;
   final VoidCallback? onAcceptPress;
+  final bool isOngoning;
 
   const RequestItemCard({
     Key? key,
@@ -22,6 +25,7 @@ class RequestItemCard extends StatelessWidget {
     required this.detailBTNText,
     required this.acceptBTNText,
     required this.isSpectial,
+    this.isOngoning = false,
     this.onDetailPress,
     this.onAcceptPress,
     this.phoneNumber,
@@ -32,7 +36,7 @@ class RequestItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: phoneNumber != null ? 200 : 160,
+      height: isOngoning ? 190 : 160,
       margin: const EdgeInsets.only(bottom: 16),
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
@@ -120,7 +124,7 @@ class RequestItemCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                if (phoneNumber != null && lng != null && lat != null)
+                if (isOngoning)
                   Row(
                     children: [
                       Expanded(
@@ -134,6 +138,7 @@ class RequestItemCard extends StatelessWidget {
                             ),
                           ),
                           onPressed: () {
+                            log(phoneNumber ?? "heeloooo");
                             url_launcher.launch('tel:$phoneNumber');
                           },
                           icon: const Icon(

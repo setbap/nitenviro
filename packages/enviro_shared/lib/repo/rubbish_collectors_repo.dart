@@ -72,6 +72,18 @@ class RubbishCollectorsApi {
     return items;
   }
 
+  Future<GenericResult<List<SpacialRequest>>> getTodayOngoingRequests({
+    required double? sourceLatitude,
+    required double? sourceLongitude,
+  }) async {
+    final items = await _rubbishCollectorsClient.todaySpacialBuilding(
+      sourceLatitude: sourceLatitude,
+      sourceLongitude: sourceLongitude,
+      isAccepted: true,
+    );
+    return items;
+  }
+
   Future<GenericResult<SpacialRequest>> acceptTodayBuilding({
     required String id,
     required bool isSpacial,
