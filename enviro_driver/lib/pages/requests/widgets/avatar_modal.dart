@@ -64,13 +64,16 @@ class AvatarBottomSheet extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 8),
-                        CircleAvatar(
-                          child: avatarUrl == null
-                              ? const Icon(
-                                  CupertinoIcons.person,
-                                )
-                              : Image.network(avatarUrl!),
-                          radius: 24,
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(24),
+                          child: CircleAvatar(
+                            child: avatarUrl == null
+                                ? const Icon(
+                                    CupertinoIcons.person,
+                                  )
+                                : Image.network(avatarUrl!),
+                            radius: 24,
+                          ),
                         ),
                       ],
                     ),

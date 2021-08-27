@@ -84,6 +84,17 @@ class RubbishCollectorsApi {
     return items;
   }
 
+  Future<GenericResult<List<SpacialRequest>>> getHistoryWithDay({
+    required int days,
+    required bool isDriver,
+  }) async {
+    final items = await _rubbishCollectorsClient.getHistory(
+      days: days,
+      isDriver: isDriver,
+    );
+    return items;
+  }
+
   Future<GenericResult<SpacialRequest>> acceptTodayBuilding({
     required String id,
     required bool isSpacial,

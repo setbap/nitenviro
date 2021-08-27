@@ -49,8 +49,7 @@ class _IngoinRequestState extends State<IngoinRequest>
         },
         builder: (context, state) {
           // when first request goes wrong or loading state
-          if (state.acceptedRequest.isEmpty &&
-              state is! AcceptedRequestSuccess) {
+          if (state.acceptedRequest.isEmpty) {
             if (state is AcceptedRequestLoading) {
               return Center(
                 child: Column(
@@ -64,20 +63,35 @@ class _IngoinRequestState extends State<IngoinRequest>
                   ],
                 ),
               );
-            }
-            if (state is AcceptedRequestError) {
+            } else {
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "خطا در دریافت",
+                      (state is AcceptedRequestError)
+                          ? "خطا در دریافت"
+                          : "درخواست در حال اجرایی وجود ندارد",
                       style: Theme.of(context).textTheme.headline6,
                     ),
-                    const SizedBox(height: 32),
-                    Text(
-                      state.message,
-                      style: Theme.of(context).textTheme.headline6,
+                    if (state is AcceptedRequestError)
+                      const SizedBox(height: 32),
+                    if (state is AcceptedRequestError)
+                      Text(
+                        state.message,
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
+                    const SizedBox(height: 16),
+                    OutlinedButton(
+                      onPressed: () {
+                        context
+                            .read<AcceptedRequestCubit>()
+                            .getAcceptedRequest();
+                      },
+                      child: Text(
+                        "تلاش دوباره",
+                        style: Theme.of(context).textTheme.subtitle2,
+                      ),
                     ),
                   ],
                 ),

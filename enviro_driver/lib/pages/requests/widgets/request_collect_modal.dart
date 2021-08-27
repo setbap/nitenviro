@@ -34,6 +34,9 @@ class _RequestCollectModalState extends State<RequestCollectModal> {
   Future getImage() async {
     final pickedFile = await picker.pickImage(
       source: ImageSource.camera,
+      // maxHeight: 900 * 2,
+      // maxWidth: 1600 * 2,
+      // imageQuality: 50,
     );
 
     setState(() {
@@ -44,9 +47,18 @@ class _RequestCollectModalState extends State<RequestCollectModal> {
     });
   }
 
+  late final TextEditingController descEditingController;
   @override
   void initState() {
+    descEditingController = TextEditingController();
+    context.read<ReceiveFormCubit>().resetData();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    descEditingController.dispose();
+    super.dispose();
   }
 
   @override
@@ -86,7 +98,6 @@ class _RequestCollectModalState extends State<RequestCollectModal> {
             ),
             WeightItem(
               hint: widget.hint,
-              initialValue: ((state.receiveFromModel.glass ?? "").toString()),
               onChnage: context.read<ReceiveFormCubit>().changeGlass,
             ),
             NERequestTitle(
@@ -94,7 +105,6 @@ class _RequestCollectModalState extends State<RequestCollectModal> {
             ),
             WeightItem(
               hint: widget.hint,
-              initialValue: ((state.receiveFromModel.metal ?? "").toString()),
               onChnage: context.read<ReceiveFormCubit>().changeMetal,
             ),
             NERequestTitle(
@@ -102,7 +112,6 @@ class _RequestCollectModalState extends State<RequestCollectModal> {
             ),
             WeightItem(
               hint: widget.hint,
-              initialValue: ((state.receiveFromModel.paper ?? "").toString()),
               onChnage: context.read<ReceiveFormCubit>().changePaper,
             ),
             NERequestTitle(
@@ -110,7 +119,6 @@ class _RequestCollectModalState extends State<RequestCollectModal> {
             ),
             WeightItem(
               hint: widget.hint,
-              initialValue: ((state.receiveFromModel.plastic ?? "").toString()),
               onChnage: context.read<ReceiveFormCubit>().changePlastic,
             ),
             NERequestTitle(
@@ -118,7 +126,6 @@ class _RequestCollectModalState extends State<RequestCollectModal> {
             ),
             WeightItem(
               hint: widget.hint,
-              initialValue: ((state.receiveFromModel.mixed ?? "").toString()),
               onChnage: context.read<ReceiveFormCubit>().changeMix,
             ),
 
@@ -134,7 +141,28 @@ class _RequestCollectModalState extends State<RequestCollectModal> {
               child: NETextField(
                 hint: "توضیحات اضافی",
                 error: null,
-                textEditingController: TextEditingController(),
+                textEditingController: descEditingController,
+              ),
+            ),
+
+            AnimatedCrossFade(
+              duration: const Duration(milliseconds: 300),
+              crossFadeState: state.receiveFromModel.spectialImage != null
+                  ? CrossFadeState.showFirst
+                  : CrossFadeState.showSecond,
+              secondChild: const SizedBox(),
+              firstChild: Container(
+                width: double.infinity,
+                margin: const EdgeInsets.only(bottom: 8),
+                child: OutlinedButton(
+                  onPressed: () {
+                    context.read<ReceiveFormCubit>().removeImage();
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.all(12.0),
+                    child: Text("پاک کردن تصویر"),
+                  ),
+                ),
               ),
             ),
             Container(
@@ -233,6 +261,9 @@ class _RequestCollectModalState extends State<RequestCollectModal> {
                   onPressed: (state is ReceiveFormLoading)
                       ? null
                       : () {
+                          context
+                              .read<ReceiveFormCubit>()
+                              .changeDesc(descEditingController.text);
                           context
                               .read<ReceiveFormCubit>()
                               .submitRecord(widget.id)

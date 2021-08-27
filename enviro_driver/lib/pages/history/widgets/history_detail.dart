@@ -1,15 +1,15 @@
+import 'package:rubbish_collectors/rubbish_collectors.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
-import 'package:enviro_driver/models/collected_rubbish.dart';
 import 'package:enviro_driver/repo/repo.dart';
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class HistoryDetail extends StatelessWidget {
-  final CollectedRubish rubish;
+  final SpacialRequest spacialRequest;
   const HistoryDetail({
     Key? key,
-    required this.rubish,
+    required this.spacialRequest,
   }) : super(key: key);
 
   @override
@@ -18,18 +18,20 @@ class HistoryDetail extends StatelessWidget {
       physics: const BouncingScrollPhysics(),
       children: [
         const NERequestTitle(
-          title: "توضیحات",
+          title: "توضیحات راننده",
         ),
         const SizedBox(
           height: 4,
         ),
         DetailItemBox(
-          child: Text(rubish.driverDesc),
+          child: Text(
+            spacialRequest.driverDescription ?? "توضیحاتی درج نشده است",
+          ),
         ),
         const SizedBox(
           height: 4,
         ),
-        if (rubish.imageUrl.isNotEmpty)
+        if (spacialRequest.imageUrl != null)
           ClipRRect(
             borderRadius: const BorderRadius.vertical(
               bottom: Radius.circular(16),
@@ -45,7 +47,7 @@ class HistoryDetail extends StatelessWidget {
                   ),
                 ),
                 child: CachedNetworkImage(
-                  imageUrl: rubish.imageUrl,
+                  imageUrl: spacialRequest.imageUrl ?? "",
                   placeholder: (context, url) => const Center(),
                   fit: BoxFit.contain,
                 ),
@@ -60,7 +62,7 @@ class HistoryDetail extends StatelessWidget {
         DetailItemBox(
           child: Center(
               child: Text(
-                  "${rubish.collectedAt.toPersianDateStr(showDayStr: true)}  ${rubish.collectedAt.hour}:${rubish.collectedAt.minute}")),
+                  "${spacialRequest.receivedTime!.toPersianDateStr(showDayStr: true)}  ${spacialRequest.receivedTime!.hour}:${spacialRequest.receivedTime!.minute}")),
         ),
         const SizedBox(height: 16),
         const NERequestTitle(
@@ -69,28 +71,28 @@ class HistoryDetail extends StatelessWidget {
         const SizedBox(height: 4),
         DetailItemBox(
           child: Center(
-            child: Text("شیشه  :  ${rubish.glass ?? 0} kg"),
+            child: Text("شیشه  :  ${spacialRequest.glassWeight} kg"),
           ),
         ),
         const SizedBox(height: 4),
         DetailItemBox(
           radiusTop: 0,
           child: Center(
-            child: Text("فلر  :  ${rubish.metal ?? 0} kg"),
+            child: Text("فلر  :  ${spacialRequest.metalWeight} kg"),
           ),
         ),
         const SizedBox(height: 4),
         DetailItemBox(
           radiusTop: 0,
           child: Center(
-            child: Text("پلاستیک  :  ${rubish.plastic ?? 0} kg"),
+            child: Text("پلاستیک  :  ${spacialRequest.plasticWeight} kg"),
           ),
         ),
         const SizedBox(height: 4),
         DetailItemBox(
           radiusTop: 0,
           child: Center(
-            child: Text("کاغذ  :  ${rubish.paper ?? 0} kg"),
+            child: Text("کاغذ  :  ${spacialRequest.paperWeight} kg"),
           ),
         ),
         const SizedBox(height: 4),
@@ -98,7 +100,7 @@ class HistoryDetail extends StatelessWidget {
           radiusBottom: 16,
           radiusTop: 0,
           child: Center(
-            child: Text("مخلوط  :  ${rubish.mix ?? 0} kg"),
+            child: Text("مخلوط  :  ${spacialRequest.mixedWeight} kg"),
           ),
         ),
         const SizedBox(height: 16),
@@ -108,7 +110,7 @@ class HistoryDetail extends StatelessWidget {
         const SizedBox(height: 4),
         DetailItemBox(
           child: Center(
-            child: Text(rubish.address),
+            child: Text(spacialRequest.building.address),
           ),
         ),
         const SizedBox(height: 4),
@@ -120,8 +122,8 @@ class HistoryDetail extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text("پلاک : ${rubish.plak}"),
-              Text("کد پستی : ${rubish.postalCode}"),
+              Text("پلاک : ${spacialRequest.building.plaque}"),
+              Text("کد پستی : ${spacialRequest.building.postalCode}"),
             ],
           ),
         ),
@@ -137,8 +139,8 @@ class HistoryDetail extends StatelessWidget {
                 HeroLocationRoute(
                   builder: (context, animation) {
                     return BluredSimpleMap(
-                      lat: rubish.lat,
-                      lng: rubish.lng,
+                      lat: spacialRequest.building.latitude,
+                      lng: spacialRequest.building.longitude,
                     );
                   },
                 ),
@@ -149,7 +151,8 @@ class HistoryDetail extends StatelessWidget {
                 tag: "main_simple_map_hero",
                 child: SimpleLocation(
                   key: const ValueKey("locationKey"),
-                  latLng: LatLng(rubish.lat, rubish.lng),
+                  latLng: LatLng(spacialRequest.building.latitude,
+                      spacialRequest.building.longitude),
                   radius: 0,
                 ),
               ),

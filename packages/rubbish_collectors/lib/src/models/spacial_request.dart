@@ -24,6 +24,7 @@ class SpacialRequest {
   final String? specialDescription;
   final String? specialImageUrl;
   final int? specialWeekDay;
+  final DateTime? receivedTime;
 
   const SpacialRequest({
     required this.id,
@@ -34,6 +35,7 @@ class SpacialRequest {
     this.driverId,
     this.driver,
     this.driverMessage,
+    this.receivedTime,
     required this.status,
     required this.glassWeight,
     required this.metalWeight,
@@ -49,31 +51,32 @@ class SpacialRequest {
     required this.specialWeekDay,
   });
 
-  SpacialRequest copyWith({
-    String? id,
-    String? buildingId,
-    Building? building,
-    String? userId,
-    BuildingUser? user,
-    String? driverId,
-    BuildingUser? driver,
-    String? driverMessage,
-    int? status,
-    double? glassWeight,
-    double? metalWeight,
-    double? paperWeight,
-    double? plasticWeight,
-    double? mixedWeight,
-    double? allWeight,
-    String? driverDescription,
-    String? imageUrl,
-    bool? isSpecial,
-    String? specialDescription,
-    String? specialImageUrl,
-    int? specialWeekDay,
-  }) {
+  SpacialRequest copyWith(
+      {String? id,
+      String? buildingId,
+      Building? building,
+      String? userId,
+      BuildingUser? user,
+      String? driverId,
+      BuildingUser? driver,
+      String? driverMessage,
+      int? status,
+      double? glassWeight,
+      double? metalWeight,
+      double? paperWeight,
+      double? plasticWeight,
+      double? mixedWeight,
+      double? allWeight,
+      String? driverDescription,
+      String? imageUrl,
+      bool? isSpecial,
+      String? specialDescription,
+      String? specialImageUrl,
+      int? specialWeekDay,
+      DateTime? receivedTime}) {
     return SpacialRequest(
       id: id ?? this.id,
+      receivedTime: receivedTime ?? this.receivedTime,
       buildingId: buildingId ?? this.buildingId,
       building: building ?? this.building,
       userId: userId ?? this.userId,
@@ -101,6 +104,9 @@ class SpacialRequest {
     return SpacialRequest(
       id: map['id'],
       buildingId: map['buildingId'],
+      receivedTime: map['receivedTime'] == null
+          ? null
+          : DateTime.parse(map['receivedTime']),
       building: Building.fromMap(map['building']),
       userId: map['userId'],
       user: map['user'] == null ? null : BuildingUser.fromMap(map['user']),

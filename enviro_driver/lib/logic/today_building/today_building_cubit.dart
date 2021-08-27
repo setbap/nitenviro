@@ -129,12 +129,12 @@ class TodayBuildingCubit extends Cubit<TodayBuildingState> {
       }
       log("ejze dard dar hal gereftan makan");
       _locationData = await location.getLocation();
-      emit(
-        TodayBuildingLoading(
-          buildings: state.buildings,
-          message: "موقعیت مکانی با موفقیت دریافت شد.",
-        ),
-      );
+      // emit(
+      //   TodayBuildingLoading(
+      //     buildings: state.buildings,
+      //     message: "موقعیت مکانی با موفقیت دریافت شد.",
+      //   ),
+      // );
       log("lat:${_locationData.latitude},lng:${_locationData.longitude}");
       return _locationData;
     } catch (e) {

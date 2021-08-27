@@ -1,16 +1,16 @@
-import 'package:enviro_driver/models/collected_rubbish.dart';
 import 'package:enviro_driver/pages/history/widgets/widgets.dart';
 import 'package:enviro_driver/pages/requests/widgets/avatar_modal.dart';
 import 'package:enviro_driver/pages/requests/widgets/request_item_card.dart';
 import 'package:enviro_driver/repo/repo.dart';
 import 'package:enviro_driver/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:rubbish_collectors/rubbish_collectors.dart';
 
 class HistoryButton extends StatelessWidget {
-  final CollectedRubish collectedRubish;
+  final SpacialRequest spacialRequest;
   const HistoryButton({
     Key? key,
-    required this.collectedRubish,
+    required this.spacialRequest,
   }) : super(key: key);
 
   @override
@@ -34,7 +34,7 @@ class HistoryButton extends StatelessWidget {
             showAvatarModalBottomSheet(
               context: context,
               builder: (context) {
-                return HistoryDetail(rubish: collectedRubish);
+                return HistoryDetail(spacialRequest: spacialRequest);
               },
             );
           },
@@ -42,7 +42,7 @@ class HistoryButton extends StatelessWidget {
           child: Stack(
             fit: StackFit.expand,
             children: [
-              if (collectedRubish.isSpectial)
+              if (spacialRequest.isSpecial)
                 const SpacialRoban(
                   robanColor: yellowSemiDarken,
                 ),
@@ -52,20 +52,20 @@ class HistoryButton extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     RequestItemDataRow(
-                        name: "مکان", value: collectedRubish.address),
+                        name: "مکان", value: spacialRequest.building.address),
                     RequestItemDataRow(
                       name: "ساعت",
                       value:
-                          "${collectedRubish.collectedAt.hour}:${collectedRubish.collectedAt.minute}",
+                          "${spacialRequest.receivedTime!.hour}:${spacialRequest.receivedTime!.minute}",
                     ),
                     RequestItemDataRow(
                       name: "حجم (کیلوگرم)",
                       value: weightToText(
-                        glass: collectedRubish.glass,
-                        mix: collectedRubish.mix,
-                        metal: collectedRubish.metal,
-                        paper: collectedRubish.paper,
-                        plastic: collectedRubish.plastic,
+                        glass: spacialRequest.glassWeight,
+                        mix: spacialRequest.mixedWeight,
+                        metal: spacialRequest.metalWeight,
+                        paper: spacialRequest.paperWeight,
+                        plastic: spacialRequest.plasticWeight,
                       ),
                     ),
                   ],

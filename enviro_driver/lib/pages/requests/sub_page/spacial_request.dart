@@ -4,9 +4,6 @@ import 'package:enviro_driver/pages/requests/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-// const String imageUrl =
-//     "https://www.royalmobl.ir/wp-content/uploads/2019/11/04.jpg";
-
 class SpacialRequest extends StatefulWidget {
   const SpacialRequest({Key? key}) : super(key: key);
 
@@ -65,21 +62,24 @@ class _SpacialRequestState extends State<SpacialRequest>
                   ],
                 ),
               );
-            }
-            if (state is TodaySpacialRequestError) {
+            } else {
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "خطا در دریافت",
+                      (state is TodaySpacialRequestError)
+                          ? "خطا در دریافت"
+                          : "درخواست ویژه ای موجود نیست",
                       style: Theme.of(context).textTheme.headline6,
                     ),
-                    const SizedBox(height: 32),
-                    Text(
-                      state.message,
-                      style: Theme.of(context).textTheme.headline6,
-                    ),
+                    if (state is TodaySpacialRequestError)
+                      const SizedBox(height: 32),
+                    if (state is TodaySpacialRequestError)
+                      Text(
+                        state.message,
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
                     const SizedBox(height: 32),
                     OutlinedButton(
                       onPressed: () {
@@ -143,6 +143,9 @@ class _SpacialRequestState extends State<SpacialRequest>
                               driverMessage: "",
                             );
                         if (isSuccess != null && isSuccess) {
+                          context
+                              .read<AcceptedRequestCubit>()
+                              .getAcceptedRequest();
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content:

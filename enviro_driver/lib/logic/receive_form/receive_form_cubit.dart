@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
@@ -39,6 +40,9 @@ class ReceiveFormCubit extends Cubit<ReceiveFormState> {
       return false;
     }
     try {
+      log("-----------");
+      log(state.receiveFromModel.spectialImage.toString());
+      log("-----------");
       final response = await _rubbishCollectorsApi.receiveRequest(
         id: id,
         driverDescription: info.desc,
@@ -69,6 +73,14 @@ class ReceiveFormCubit extends Cubit<ReceiveFormState> {
       );
       return false;
     }
+  }
+
+  void resetData() {
+    emit(
+      ReceiveFormChanging(
+        receiveFromModel: ReceiveFromModel(),
+      ),
+    );
   }
 
   void changeMetal(double? metal) {
@@ -107,6 +119,14 @@ class ReceiveFormCubit extends Cubit<ReceiveFormState> {
     emit(
       ReceiveFormChanging(
         receiveFromModel: state.receiveFromModel.copyWith(spectialImage: image),
+      ),
+    );
+  }
+
+  void removeImage() {
+    emit(
+      ReceiveFormChanging(
+        receiveFromModel: state.receiveFromModel.copyWith(spectialImage: null),
       ),
     );
   }

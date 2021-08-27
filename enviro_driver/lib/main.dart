@@ -103,6 +103,12 @@ class MyApp extends StatelessWidget {
               rubbishCollectorsApi: context.read<RubbishCollectorsApi>(),
             ),
           ),
+          BlocProvider<HistoryListCubit>(
+            create: (context) => HistoryListCubit(
+              isDriver: true,
+              rubbishCollectorsApi: context.read<RubbishCollectorsApi>(),
+            ),
+          ),
         ],
         child: MaterialApp(
           navigatorKey: navigatorKey,

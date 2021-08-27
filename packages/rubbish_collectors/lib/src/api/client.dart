@@ -281,6 +281,34 @@ class RubbishCollectorsClient {
     }
   }
 
+  Future<GenericResult<List<SpacialRequest>>> getHistory({
+    required int days,
+    required bool isDriver,
+  }) async {
+    try {
+      final endpoinst = isDriver
+          ? Endpoints.driverPickUpHistory()
+          : Endpoints.userPickUpHistory();
+      var pickedUpRawHistory = await dio.get(
+        endpoinst,
+        queryParameters: {
+          "Days": days,
+        },
+      );
+      final historyResults = GenericResult<List<SpacialRequest>>.fromJson(
+        pickedUpRawHistory.data,
+        (dynamic json) =>
+            (json['data'] as List<dynamic>).map<SpacialRequest>((b) {
+          return SpacialRequest.fromMap(b);
+        }).toList(),
+      );
+      return historyResults;
+    } catch (e) {
+      log(e.toString());
+      throw ServerException();
+    }
+  }
+
   Future<GenericResult<List<SpacialRequest>>> todaySpacialBuilding({
     required double? sourceLatitude,
     required double? sourceLongitude,

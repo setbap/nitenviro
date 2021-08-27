@@ -49,7 +49,7 @@ class _AllReuqestState extends State<AllReuqest>
         },
         builder: (context, state) {
           // when first request goes wrong or loading state
-          if (state.buildings.isEmpty && state is! TodayBuildingSuccess) {
+          if (state.buildings.isEmpty) {
             if (state is TodayBuildingLoading) {
               return Center(
                 child: Column(
@@ -63,21 +63,23 @@ class _AllReuqestState extends State<AllReuqest>
                   ],
                 ),
               );
-            }
-            if (state is TodayBuildingError) {
+            } else {
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "خطا در دریافت",
+                      (state is TodayBuildingError)
+                          ? "خطا در دریافت"
+                          : "درخواست عادی موجود نیست",
                       style: Theme.of(context).textTheme.headline6,
                     ),
                     const SizedBox(height: 32),
-                    Text(
-                      state.message,
-                      style: Theme.of(context).textTheme.headline6,
-                    ),
+                    if (state is TodayBuildingError)
+                      Text(
+                        state.message,
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
                     const SizedBox(height: 32),
                     OutlinedButton(
                       onPressed: () {
@@ -133,6 +135,9 @@ class _AllReuqestState extends State<AllReuqest>
                               driverMessage: "",
                             );
                         if (isSuccess != null && isSuccess) {
+                          context
+                              .read<AcceptedRequestCubit>()
+                              .getAcceptedRequest();
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content:
