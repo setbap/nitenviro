@@ -1,8 +1,6 @@
-import 'package:enviro_driver/pages/history/widgets/widgets.dart';
-import 'package:enviro_driver/pages/requests/widgets/avatar_modal.dart';
-import 'package:enviro_driver/pages/requests/widgets/request_item_card.dart';
-import 'package:enviro_driver/repo/repo.dart';
-import 'package:enviro_driver/utils/utils.dart';
+import 'package:enviro_shared/enviro_shared.dart';
+
+import './widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:rubbish_collectors/rubbish_collectors.dart';
 
@@ -77,4 +75,20 @@ class HistoryButton extends StatelessWidget {
       ),
     );
   }
+}
+
+String weightToText(
+    {required double metal,
+    required double glass,
+    required double mix,
+    required double plastic,
+    required double paper}) {
+  var text = "";
+  if (metal != 0.0) text += "فلز:$metal   ";
+  if (glass != 0.0) text += "شیشه:$glass   ";
+  if (plastic != 0.0) text += "پلاستیک:$plastic   ";
+  if (paper != 0.0) text += "کاغذ:$paper   ";
+  if (mix != 0.0) text += "مخلوط:$mix   ";
+
+  return text;
 }

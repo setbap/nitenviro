@@ -59,6 +59,17 @@ class Index extends StatelessWidget {
   Widget build(BuildContext context) {
     return IndexPage(
       pages: pageList,
+      laeding: IconButton(
+        onPressed: () {
+          Navigator.pushNamed(context, History.path);
+        },
+        visualDensity: VisualDensity.compact,
+        tooltip: "تاریخچه",
+        icon: const Icon(
+          Icons.history,
+        ),
+        color: Colors.white,
+      ),
       goSettingPage: () => Navigator.pushNamed(context, Settings.path),
     );
   }

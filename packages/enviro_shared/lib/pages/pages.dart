@@ -8,3 +8,4 @@ export 'package:enviro_shared/pages/second_splash/second_splash.dart';
 export 'package:enviro_shared/pages/settings/settings.dart';
 export 'package:enviro_shared/pages/tutorial/tutorials.dart';
 export 'package:enviro_shared/pages/index/index.dart';
+export 'package:enviro_shared/pages/history/history.dart';

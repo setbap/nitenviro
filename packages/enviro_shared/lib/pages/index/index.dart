@@ -8,10 +8,12 @@ import 'package:tuple/tuple.dart';
 class IndexPage extends StatefulWidget {
   final List<Tuple3<String, Widget, BottomNavigationBarItem>> pages;
   final VoidCallback goSettingPage;
+  final Widget? laeding;
 
   const IndexPage({
     Key? key,
     required this.pages,
+    this.laeding,
     required this.goSettingPage,
   }) : super(key: key);
 
@@ -84,7 +86,7 @@ class _IndexPageState extends State<IndexPage>
               ),
             ),
           ),
-          leading: Container(),
+          leading: widget.laeding ?? Container(),
           actions: [
             IconButton(
               onPressed: () {

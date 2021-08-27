@@ -1,5 +1,6 @@
-import 'package:enviro_driver/pages/history/widgets/widgets.dart';
-import 'package:enviro_driver/repo/repo.dart';
+import './widgets.dart';
+import 'package:enviro_shared/enviro_shared.dart';
+
 import 'package:flutter/material.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:grouped_list/grouped_list.dart';

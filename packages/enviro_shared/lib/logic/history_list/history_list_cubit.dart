@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:enviro_driver/models/models.dart';
-import 'package:enviro_driver/repo/repo.dart';
+import 'package:enviro_shared/enviro_shared.dart';
+import './history_list_state.dart';
+export './history_list_state.dart';
 
 class HistoryListCubit extends Cubit<HistoryListState> {
   final RubbishCollectorsApi _rubbishCollectorsApi;

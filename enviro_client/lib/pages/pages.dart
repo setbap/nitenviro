@@ -10,3 +10,4 @@ export 'package:nitenviro/pages/second_splash/second_splash.dart';
 export 'package:nitenviro/pages/settings/settings.dart';
 export 'package:nitenviro/pages/tutorial/tutorials.dart';
 export 'package:nitenviro/pages/index/index.dart';
+export 'package:nitenviro/pages/history/history.dart';

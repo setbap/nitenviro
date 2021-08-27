@@ -89,6 +89,12 @@ class MyApp extends StatelessWidget {
               rubbishCollectorsApi: context.read<RubbishCollectorsApi>(),
             ),
           ),
+          BlocProvider<HistoryListCubit>(
+            create: (context) => HistoryListCubit(
+              isDriver: false,
+              rubbishCollectorsApi: context.read<RubbishCollectorsApi>(),
+            ),
+          ),
         ],
         child: MaterialApp(
           navigatorKey: navigatorKey,
@@ -170,6 +176,10 @@ class MyApp extends StatelessWidget {
               case Intro.path:
                 return MaterialPageRoute(
                   builder: (context) => const Intro(),
+                );
+              case History.path:
+                return MaterialPageRoute(
+                  builder: (context) => const History(),
                 );
             }
           },
