@@ -7,12 +7,12 @@ class BTNWithLoading extends StatelessWidget {
     required this.title,
     required this.loadingTitle,
     required this.isLoading,
-    required this.onSubmit,
+    this.onSubmit,
   }) : super(key: key);
   final String title;
   final String loadingTitle;
   final bool isLoading;
-  final VoidCallback onSubmit;
+  final VoidCallback? onSubmit;
 
   @override
   Widget build(BuildContext context) {

@@ -138,11 +138,11 @@ class ProfilePage extends StatelessWidget {
                           : state.user.email,
                     ),
                     ProfileBoxInfo(
-                      title: "دریافت های تمام شده",
+                      title: "امتیاز های دریافت شده",
                       icon: Icons.circle,
                       value: state.user.credit == 0
                           ? "دریافتی تا کنون نداشتید"
-                          : "${state.user.credit} بار",
+                          : "${state.user.credit} امتیاز",
                     ),
                   ],
                 ),

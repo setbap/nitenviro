@@ -38,13 +38,10 @@ class _RequestCollectModalState extends State<RequestCollectModal> {
       // maxWidth: 1600 * 2,
       // imageQuality: 50,
     );
-
-    setState(() {
-      if (pickedFile != null) {
-        context.read<ReceiveFormCubit>().changeImage(File(pickedFile.path));
-      }
-      // else {}
-    });
+    if (pickedFile != null) {
+      final _image = File(pickedFile.path);
+      context.read<ReceiveFormCubit>().changeImage(_image);
+    }
   }
 
   late final TextEditingController descEditingController;

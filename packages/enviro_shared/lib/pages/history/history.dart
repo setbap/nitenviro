@@ -132,6 +132,31 @@ class _HistoryPageState extends State<HistoryPage> {
                       ),
                     );
                   }
+                  if (state.historyItems.isEmpty) {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "تاریخچه برای شما ثبت نشده است",
+                            style: Theme.of(context).textTheme.headline6,
+                          ),
+                          const SizedBox(height: 16),
+                          OutlinedButton(
+                            onPressed: () {
+                              context
+                                  .read<HistoryListCubit>()
+                                  .showHistoryList();
+                            },
+                            child: Text(
+                              "جست و جو مجدد",
+                              style: Theme.of(context).textTheme.subtitle2,
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  }
                   return HistoryList(historyList: state.historyItems);
                 },
               ),

@@ -33,9 +33,8 @@ class _LoginPhoneNumberStateValidate
     });
   }
 
-  void submit() async {
-    _formKey.currentState?.save();
-    if (_formKey.currentState?.validate() ?? false) {
+  void submit(String loginCode) async {
+    if (loginCode.length == 5) {
       debugPrint("$loginCode ${widget.phoneNumber}");
       context.read<AuthLoginInputCubit>().login(
             widget.phoneNumber,
@@ -149,10 +148,14 @@ class _LoginPhoneNumberStateValidate
                                     eachFieldHeight: 50,
                                     fieldsCount: 5,
                                     onChanged: (value) {
-                                      loginCode = value;
+                                      setState(() {
+                                        loginCode = value;
+                                      });
                                     },
                                     onSubmit: (String pin) async {
-                                      submit();
+                                      if (pin.length == 5) {
+                                        submit(pin);
+                                      }
                                     },
                                     focusNode: _pinPutFocusNode,
                                     controller: _pinPutController,
@@ -186,7 +189,9 @@ class _LoginPhoneNumberStateValidate
                                 AuthLoginInputState>(
                               builder: (context, state) {
                                 return BTNWithLoading(
-                                  onSubmit: submit,
+                                  onSubmit: loginCode.length == 5
+                                      ? () => submit(loginCode)
+                                      : null,
                                   isLoading: state is AuthLoginInputLoading,
                                   loadingTitle: "در حال ارسال",
                                   title: "ورود",
